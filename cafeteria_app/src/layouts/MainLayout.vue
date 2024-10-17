@@ -11,23 +11,13 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>
-          App Cafeteria
-        </q-toolbar-title>
+        <q-toolbar-title> App Cafeteria </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label
-          header
-        >
-          Menú
-        </q-item-label>
+        <q-item-label header> Menú </q-item-label>
 
         <EssentialLink
           v-for="link in essentialLinks"
@@ -44,53 +34,53 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import { defineComponent, ref } from "vue";
+import EssentialLink from "components/EssentialLink.vue";
 
 const linksList = [
   {
-    title: 'Home',
-    caption: 'Pantalla de espera',
-    icon: 'home',
-    link: 'home'
+    title: "Home",
+    caption: "Pantalla de espera",
+    icon: "home",
+    link: "home",
   },
   {
-    title: 'Personal',
-    caption: 'Cambio de camarero',
-    icon: 'groups',
-    link: 'workers'
+    title: "Personal",
+    caption: "Cambio de camarero",
+    icon: "groups",
+    link: "workers",
   },
   {
-    title: 'Escanear bono',
-    caption: 'Consumir bono de alumno',
-    icon: 'photo_camera',
-    link: 'scanBonus'
+    title: "Escanear bono",
+    caption: "Consumir bono de alumno",
+    icon: "photo_camera",
+    link: { name: "typeBonus", query: { action: "scan" } },
   },
   {
-    title: 'Generar bono',
-    caption: 'Crear un bono a alumno',
-    icon: 'qr_code',
-    link: 'createBonus'
-  }
-]
+    title: "Generar bono",
+    caption: "Crear un bono a alumno",
+    icon: "qr_code",
+    link: { name: "typeBonus", query: { action: "create" } },
+  },
+];
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: "MainLayout",
 
   components: {
-    EssentialLink
+    EssentialLink,
   },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
-  
+  setup() {
+    const leftDrawerOpen = ref(false);
+
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
-})
+      toggleLeftDrawer() {
+        leftDrawerOpen.value = !leftDrawerOpen.value;
+      },
+    };
+  },
+});
 </script>

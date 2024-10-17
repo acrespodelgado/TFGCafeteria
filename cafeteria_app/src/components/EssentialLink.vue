@@ -1,13 +1,6 @@
 <template>
-  <q-item
-    clickable
-    tag="a"
-    @click="navigateTo"
-  >
-    <q-item-section
-      v-if="icon"
-      avatar
-    >
+  <q-item clickable tag="a" @click="navigateTo">
+    <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />
     </q-item-section>
 
@@ -19,42 +12,50 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import { useRouter } from 'vue-router';
+import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: 'EssentialLink',
+  name: "EssentialLink",
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
 
     caption: {
       type: String,
-      default: ''
+      default: "",
     },
 
     link: {
-      type: String,
-      default: '#'
+      type: [String, Object], // Permite tanto String como Object
+      required: true,
     },
 
     icon: {
       type: String,
-      default: ''
-    }
+      default: "",
+    },
   },
-  setup ( props ) {
-    const router = useRouter()
+  setup(props) {
+    const router = useRouter();
+
+    const navigateTo = () => {
+      if (typeof props.link === "string") {
+        // Si es una cadena, redirigir como antes
+        props.link.toString().startsWith("http")
+          ? window.open(props.link, "_blank")
+          : router.push({ name: props.link });
+      } else {
+        // Si es un objeto, navegar usando el router
+        router.push(props.link);
+      }
+    };
 
     return {
-      navigateTo() {
-        props.link.toString().startsWith('http')
-        ? window.open(props.link, '_blank') 
-        : router.push({ name: props.link })
-      }
-    }
-  }
-})
+      navigateTo,
+    };
+  },
+});
 </script>

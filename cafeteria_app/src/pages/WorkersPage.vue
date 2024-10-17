@@ -25,7 +25,8 @@ import { defineComponent, onMounted } from "vue";
 import { useWorkers } from "src/components/workers";
 import { useSelectedWorker } from "src/composables/useSelectedWorker";
 import { db } from "src/boot/firebase";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
+import { Notify } from "quasar";
 
 export default defineComponent({
   name: "WorkersPage",
@@ -33,9 +34,20 @@ export default defineComponent({
     const { workers, fetchWorkers } = useWorkers(db);
     const { setSelectedWorker } = useSelectedWorker(); // Obtiene la función para setear el trabajador seleccionado
     const router = useRouter();
+    const route = useRoute();
 
     onMounted(() => {
       fetchWorkers();
+
+      // Verificar si hay un mensaje en la URL
+      const message = route.query.message;
+      if (message) {
+        Notify.create({
+          message: message,
+          color: "negative",
+          timeout: 3000,
+        });
+      }
     });
 
     const selectWorker = (worker) => {

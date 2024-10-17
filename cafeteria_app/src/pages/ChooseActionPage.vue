@@ -34,11 +34,8 @@ export default defineComponent({
     const router = useRouter(); // Crea una instancia del router
 
     const redirect = (action) => {
-      if (action === "scan") {
-        router.push({ path: "/scanBonus" }); // Redirige a la ruta de scanBonus
-      } else if (action === "create") {
-        router.push({ path: "/createBonus" }); // Redirige a la ruta de createBonus
-      }
+      // Redirige según la acción y pasa el parámetro
+      router.push({ name: "typeBonus", query: { action } });
     };
 
     return {
