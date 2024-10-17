@@ -1,12 +1,20 @@
 <template>
   <q-page class="flex flex-center">
     <div v-if="selectedCoffeeShop != null && selectedCoffeeShop.value">
-      <h1>{{ selectedCoffeeShop.label }}</h1>
-      <q-img
-        :alt="selectedCoffeeShop.label"
-        :src="selectedCoffeeShop.url"
-        style="width: 300px; height: auto"
-      />
+      <h1 class="text-center">{{ selectedCoffeeShop.label }}</h1>
+      <q-card-section>
+        <transition
+          appear
+          enter-active-class="animated fadeIn"
+          leave-active-class="animated fadeOut"
+        >
+          <q-img
+            :alt="selectedCoffeeShop.label"
+            :src="selectedCoffeeShop.url"
+            style="width: 300px; height: auto"
+          />
+        </transition>
+      </q-card-section>
     </div>
   </q-page>
 </template>
@@ -21,8 +29,6 @@ export default defineComponent({
   setup() {
     const { selectedCoffeeShop } = useSelectedCoffeeShop();
 
-    // En template uso : o v-bind para mostrar los datos
-    console.log(selectedCoffeeShop);
     return {
       selectedCoffeeShop,
     };
