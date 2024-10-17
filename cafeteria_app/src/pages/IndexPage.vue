@@ -3,15 +3,15 @@
     <img
       alt="UCA logo"
       src="~assets/uca_logo.png"
-      style="width: 200px; height: auto;"
-    >
+      style="width: 200px; height: auto"
+    />
   </q-page>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'IndexPage'
-})
+  name: "IndexPage",
+});
 </script>
