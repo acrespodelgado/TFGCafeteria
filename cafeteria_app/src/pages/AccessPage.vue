@@ -1,6 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <div class="q-pa-md">
+      <h1 class="q-mb-lg">Acceso a la cafetería</h1>
       <form
         @submit.prevent.stop="onSubmit"
         @reset.prevent.stop="onReset"
@@ -9,8 +10,11 @@
         <q-select
           v-model="selectedCoffeeShop"
           :options="coffeeShops"
+          transition-show="flip-up"
+          transition-hide="flip-down"
           label="Seleccione la cafetería"
           outlined
+          clearable="false"
           :rules="[(val) => !!val || '* Obligatorio']"
         />
         <q-input
@@ -19,6 +23,7 @@
           type="number"
           label="Pin de acceso"
           outlined
+          clearable="false"
           :rules="pinRules"
           lazy-rules
         />
@@ -42,6 +47,7 @@ import { db } from "src/boot/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useRouter } from "vue-router";
 import { useCoffeeShop } from "src/components/coffeeShop";
+import { useSelectedCoffeeShop } from "src/composables/useSelectedCoffeeShop";
 
 export default defineComponent({
   name: "AccessPage",
@@ -52,6 +58,7 @@ export default defineComponent({
     const pinRef = ref(null);
     const selectedCoffeeShop = ref(null);
     const { coffeeShops, fetchCoffeeShops } = useCoffeeShop(db);
+    const { setSelectedCoffeeShop } = useSelectedCoffeeShop();
 
     const pinRules = [
       (val) => !!val || "* Obligatorio",
@@ -85,22 +92,30 @@ export default defineComponent({
       }
 
       try {
-        console.log(selectedCoffeeShop);
         const isValidPin = await checkPin(
           selectedCoffeeShop.value.label,
           pin.value
         );
         if (isValidPin) {
+          setSelectedCoffeeShop(selectedCoffeeShop.value);
+
           const currentTime = Date.now();
           localStorage.setItem("isAuthenticated", "true");
           localStorage.setItem("authTime", currentTime);
+
+          // Estado de carga
+          const loadingDuration = 2000; // 2 segundos
 
           $q.notify({
             icon: "done",
             color: "positive",
             message: "Acceso concedido",
           });
-          router.push("/workers"); // Redirige a workers
+
+          // Espera 2 segundos antes de redirigir
+          setTimeout(() => {
+            router.push("/workers");
+          }, loadingDuration);
         } else {
           $q.notify({
             icon: "error",

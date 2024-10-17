@@ -1,17 +1,35 @@
 <template>
   <q-page class="flex flex-center">
-    <img
-      alt="UCA logo"
-      src="~assets/uca_logo.png"
-      style="width: 200px; height: auto"
-    />
+    <div v-if="!selectedCoffeeShop">
+      <AccessPage />
+    </div>
+    <div v-else>
+      <ChargingPage />
+    </div>
   </q-page>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import { useSelectedCoffeeShop } from "src/composables/useSelectedCoffeeShop";
+import AccessPage from "./AccessPage.vue";
+import ChargingPage from "./ChargingPage.vue";
 
 export default defineComponent({
   name: "IndexPage",
+  components: {
+    AccessPage,
+    ChargingPage,
+  },
+
+  setup() {
+    const { selectedCoffeeShop } = useSelectedCoffeeShop();
+    const loading = ref(false); // Estado de carga
+
+    return {
+      selectedCoffeeShop,
+      loading,
+    };
+  },
 });
 </script>

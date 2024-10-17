@@ -30,9 +30,10 @@ import { Notify } from "quasar";
 
 export default defineComponent({
   name: "WorkersPage",
+
   setup() {
     const { workers, fetchWorkers } = useWorkers(db);
-    const { setSelectedWorker } = useSelectedWorker(); // Obtiene la función para setear el trabajador seleccionado
+    const { setSelectedWorker } = useSelectedWorker(); // Función para guardar el trabajador seleccionado
     const router = useRouter();
     const route = useRoute();
 

@@ -28,6 +28,7 @@
       </div>
     </div>
   </div>
+  <BackButton />
 </template>
 
 <script>
@@ -37,9 +38,13 @@ import { db } from "src/boot/firebase";
 import { useRouter, useRoute } from "vue-router";
 import { useRedirectIfNoWorker } from "src/composables/redirectNotSelectedWorker";
 import { useSelectedWorker } from "src/composables/useSelectedWorker";
+import BackButton from "src/layouts/BackButton.vue";
 
 export default defineComponent({
   name: "BonusTypeLayout",
+  components: {
+    BackButton,
+  },
 
   setup() {
     const router = useRouter();

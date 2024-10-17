@@ -6,7 +6,7 @@ import {
   createWebHashHistory,
 } from "vue-router";
 import routes from "./routes";
-import { isAuthenticated } from "src/composables/coffeeAuth";
+import { isAuthenticated } from "src/composables/auth";
 
 /*
  * If not building with SSR mode, you can

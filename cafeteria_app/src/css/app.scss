@@ -16,6 +16,19 @@ h2 {
   margin: 1rem 0.5rem;
 }
 
+.back-button {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  color: $secondary;
+  .q-btn {
+    &:before {
+      box-shadow: none !important;
+    }
+  }
+}
+
 #workers {
   button {
     padding: 1rem;
