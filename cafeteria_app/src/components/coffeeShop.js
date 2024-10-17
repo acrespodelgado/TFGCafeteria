@@ -10,6 +10,7 @@ export const useCoffeeShop = (db) => {
       const coffeeShopSnapshot = await getDocs(coffeeShopCol);
       coffeeShops.value = coffeeShopSnapshot.docs.map((doc) => ({
         label: doc.data().Nombre,
+        url: doc.data().Url_Logo,
         value: doc.id,
       }));
     } catch (error) {

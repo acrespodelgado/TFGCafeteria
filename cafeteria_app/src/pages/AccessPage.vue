@@ -14,7 +14,6 @@
           transition-hide="flip-down"
           label="Seleccione la cafetería"
           outlined
-          clearable="false"
           :rules="[(val) => !!val || '* Obligatorio']"
         />
         <q-input
@@ -23,7 +22,6 @@
           type="number"
           label="Pin de acceso"
           outlined
-          clearable="false"
           :rules="pinRules"
           lazy-rules
         />

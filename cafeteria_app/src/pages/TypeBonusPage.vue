@@ -72,7 +72,7 @@ export default defineComponent({
     return {
       bonusType,
       navigateToCamera,
-      selectedWorker, //Para que esté disponible en template
+      selectedWorker, // Para que esté disponible en template
       action, // Recupera el parámetro de la consulta
     };
   },

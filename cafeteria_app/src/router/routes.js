@@ -26,7 +26,7 @@ const routes = [
         meta: { requiresAuth: true },
       },
       {
-        path: "cameraScan/cameraScan/:action?/:mode?", // Parámetro para tipo bono
+        path: "cameraScan/:action?/:mode?", // Parámetro para tipo bono
         name: "cameraScan",
         component: () => import("pages/CameraScanPage.vue"),
         meta: { requiresAuth: true },
@@ -35,6 +35,12 @@ const routes = [
         path: "chooseAction",
         name: "chooseAction",
         component: () => import("pages/ChooseActionPage.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "confirmation",
+        name: "confirmation",
+        component: () => import("pages/ConfirmationPage.vue"),
         meta: { requiresAuth: true },
       },
     ],
