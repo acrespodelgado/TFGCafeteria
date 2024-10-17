@@ -1,0 +1,30 @@
+// app global css in SCSS form
+h1 {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  letter-spacing: 0;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+.big-button {
+  height: 6rem;
+  width: 100%;
+  margin: 1rem 0.5rem;
+}
+
+.back-button {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  color: $secondary;
+  .q-btn {
+    &:before {
+      box-shadow: none !important;
+    }
+  }
+}
