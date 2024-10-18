@@ -1,9 +1,10 @@
 import { ref } from "vue";
 import { collection, getDocs, addDoc } from "firebase/firestore";
+import { db } from "src/boot/firebase";
 
 const bonusType = ref([]);
 
-export const useBonusType = (db) => {
+export const useBonusType = () => {
   const fetchBonusType = async () => {
     try {
       const bonusCol = collection(db, "Tipo_Bono");

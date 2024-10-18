@@ -1,9 +1,10 @@
 import { ref } from "vue";
 import { collection, getDocs } from "firebase/firestore";
+import { db } from "src/boot/firebase";
 
 const coffeeShops = ref([]);
 
-export const useCoffeeShop = (db) => {
+export const useCoffeeShop = () => {
   const fetchCoffeeShops = async () => {
     try {
       const coffeeShopCol = collection(db, "Cafeteria");

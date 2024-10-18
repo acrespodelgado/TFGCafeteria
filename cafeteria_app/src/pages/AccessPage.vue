@@ -10,12 +10,16 @@
         <q-select
           v-model="selectedCoffeeShop"
           :options="coffeeShops"
-          transition-show="flip-up"
-          transition-hide="flip-down"
+          transition-show="jump-up"
+          transition-hide="jump-up"
           label="Seleccione la cafetería"
           outlined
           :rules="[(val) => !!val || '* Obligatorio']"
-        />
+        >
+          <template v-slot:append>
+            <q-icon name="coffee" />
+          </template>
+        </q-select>
         <q-input
           ref="pinRef"
           v-model.number="pin"
@@ -56,7 +60,7 @@ export default defineComponent({
     const pin = ref(null);
     const pinRef = ref(null);
     const selectedCoffeeShop = ref(null);
-    const { coffeeShops, fetchCoffeeShops } = useCoffeeShop(db);
+    const { coffeeShops, fetchCoffeeShops } = useCoffeeShop();
     const { setSelectedCoffeeShop } = useSelectedCoffeeShop();
 
     // Función para comprobar el PIN y la cafetería

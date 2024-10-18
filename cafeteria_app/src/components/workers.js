@@ -1,9 +1,10 @@
 import { ref } from "vue";
 import { collection, getDocs, addDoc } from "firebase/firestore";
+import { db } from "src/boot/firebase";
 
 const workers = ref([]);
 
-export const useWorkers = (db) => {
+export const useWorkers = () => {
   const fetchWorkers = async () => {
     try {
       const workersCol = collection(db, "Camarero");

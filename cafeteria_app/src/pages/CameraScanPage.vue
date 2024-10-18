@@ -14,7 +14,7 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { useRoute } from "vue-router";
-import BackButton from "src/layouts/BackButton";
+import BackButton from "src/layouts/BackButton.vue";
 import { QrcodeStream } from "vue-qrcode-reader";
 
 export default defineComponent({

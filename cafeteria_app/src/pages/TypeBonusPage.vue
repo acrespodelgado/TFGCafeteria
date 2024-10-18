@@ -5,12 +5,12 @@
         <h1>
           {{
             selectedWorker
-              ? "Eres " + selectedWorker.Nombre
+              ? selectedWorker.Nombre
               : "No se ha seleccionado un camarero"
           }}
         </h1>
         <h2>
-          Elija el tipo de bono a
+          Tipo de bono a
           {{ action === "scan" ? "escanear" : "generar" }}
         </h2>
       </div>
@@ -34,11 +34,10 @@
 <script>
 import { defineComponent, onMounted } from "vue";
 import { useBonusType } from "src/components/bonusType";
-import { db } from "src/boot/firebase";
 import { useRouter, useRoute } from "vue-router";
 import { useRedirectIfNoWorker } from "src/composables/redirectNotSelectedWorker";
 import { useSelectedWorker } from "src/composables/useSelectedWorker";
-import BackButton from "src/layouts/BackButton";
+import BackButton from "src/layouts/BackButton.vue";
 
 export default defineComponent({
   name: "BonusTypeLayout",
@@ -50,7 +49,7 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const action = route.query.action;
-    const { bonusType, fetchBonusType } = useBonusType(db);
+    const { bonusType, fetchBonusType } = useBonusType();
     const { redirectIfNoWorker } = useRedirectIfNoWorker();
     const { selectedWorker } = useSelectedWorker(); // Obtiene el trabajador seleccionado
 

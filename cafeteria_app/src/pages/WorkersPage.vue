@@ -24,7 +24,6 @@
 import { defineComponent, onMounted } from "vue";
 import { useWorkers } from "src/components/workers";
 import { useSelectedWorker } from "src/composables/useSelectedWorker";
-import { db } from "src/boot/firebase";
 import { useRouter, useRoute } from "vue-router";
 import { Notify } from "quasar";
 
@@ -32,7 +31,7 @@ export default defineComponent({
   name: "WorkersPage",
 
   setup() {
-    const { workers, fetchWorkers } = useWorkers(db);
+    const { workers, fetchWorkers } = useWorkers();
     const { setSelectedWorker } = useSelectedWorker(); // Función para guardar el trabajador seleccionado
     const router = useRouter();
     const route = useRoute();
