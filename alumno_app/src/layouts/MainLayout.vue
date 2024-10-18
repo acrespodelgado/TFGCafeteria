@@ -40,7 +40,7 @@ import EssentialLink from "components/EssentialLink.vue";
 const linksList = [
   {
     title: "Home",
-    caption: "Pantalla de espera",
+    caption: "",
     icon: "home",
     link: "home",
   },
@@ -60,7 +60,7 @@ const linksList = [
     title: "Tarjetero",
     caption: "Qr a escanear por la cafetería",
     icon: "qr_code",
-    link: "qrBonus",
+    link: { name: "qrBonus", query: { action: "coffeeShopSelected" } },
   },
 ];
 

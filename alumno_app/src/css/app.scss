@@ -28,3 +28,11 @@ h2 {
     }
   }
 }
+
+.q-carousel {
+  .q-carousel__slide {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

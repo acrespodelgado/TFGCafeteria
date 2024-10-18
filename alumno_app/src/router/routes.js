@@ -21,25 +21,25 @@ const routes = [
       {
         path: "chooseCoffeeShop",
         name: "chooseCoffeeShop",
-        component: () => import("pages/ChooseCoffeeShop.vue"),
+        component: () => import("pages/ChooseCoffeeShopPage.vue"),
         meta: { requiresAuth: true },
       },
       {
         path: "coffeeShopList",
         name: "coffeeShopList",
-        component: () => import("pages/CoffeeShopList.vue"),
+        component: () => import("pages/CoffeeShopListPage.vue"),
         meta: { requiresAuth: true },
       },
       {
         path: "myBonuses/:action?",
         name: "myBonuses",
-        component: () => import("pages/myBonusesPage.vue"),
+        component: () => import("pages/MyBonusesPage.vue"),
         meta: { requiresAuth: true },
       },
       {
-        path: "qrBonus/:action?/:mode?", // Parámetro para tipo bono y accion
+        path: "qrBonus/:action?", // Parámetro para accion
         name: "qrBonus",
-        component: () => import("pages/qrBonusPage.vue"),
+        component: () => import("pages/QrBonusPage.vue"),
         meta: { requiresAuth: true },
       },
       {

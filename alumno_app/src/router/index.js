@@ -35,6 +35,7 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
   // Guardia de navegación
+  /*
   Router.beforeEach((to, from, next) => {
     const authenticated = isAuthenticated(); // Verifica el estado de autenticación
 
@@ -44,6 +45,6 @@ export default route(function (/* { store, ssrContext } */) {
       next(); // Continúa a la ruta solicitada
     }
   });
-
+  */
   return Router;
 });

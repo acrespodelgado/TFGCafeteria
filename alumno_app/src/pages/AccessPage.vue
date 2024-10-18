@@ -63,15 +63,56 @@ export default defineComponent({
         "Debe contener al menos 1 carácter especial", // Verifica al menos 1 carácter especial
     ];
 
+    // Cargar datos de 'Recordarme' si existen
+    onMounted(() => {
+      const storedEmail =
+        localStorage.getItem("email") || sessionStorage.getItem("email");
+      const storedPassword =
+        localStorage.getItem("password") || sessionStorage.getItem("password");
+
+      if (storedEmail && storedPassword) {
+        email.value = storedEmail;
+        password.value = storedPassword;
+        remember.value = true; // Marca el toggle
+      }
+    });
+
     async function onSubmit() {
       try {
-        // Login auth firebase
+        // Consulta a Firestore para verificar el email y la contraseña
+        // Cambiar por firebase auth
+        const alumnoCol = collection(db, "alumno");
+        const q = query(
+          alumnoCol,
+          where("email", "==", email.value),
+          where("password", "==", password.value)
+        );
+        const querySnapshot = await getDocs(q);
 
-        $q.notify({
-          icon: "error",
-          color: "negative",
-          message: "PIN o cafetería incorrectos.",
-        });
+        if (!querySnapshot.empty) {
+          // Inicio de sesión exitoso
+          if (remember.value) {
+            localStorage.setItem("email", email.value);
+            localStorage.setItem("password", password.value);
+          } else {
+            sessionStorage.setItem("email", email.value);
+            sessionStorage.setItem("password", password.value);
+          }
+
+          $q.notify({
+            icon: "check_circle",
+            color: "positive",
+            message: "Inicio de sesión exitoso",
+          });
+          // Redirección al selector de cafeterías
+          router.push("/chooseCoffeeShop");
+        } else {
+          $q.notify({
+            icon: "error",
+            color: "negative",
+            message: "Email o contraseña incorrectos.",
+          });
+        }
       } catch (error) {
         console.error("Error al iniciar sesión:", error);
         $q.notify({
@@ -81,7 +122,11 @@ export default defineComponent({
         });
       }
     }
+
     return {
+      email,
+      password,
+      remember,
       passwordRules,
       emailRules,
       onSubmit,
