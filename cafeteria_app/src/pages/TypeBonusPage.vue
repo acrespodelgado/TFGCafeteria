@@ -38,7 +38,7 @@ import { db } from "src/boot/firebase";
 import { useRouter, useRoute } from "vue-router";
 import { useRedirectIfNoWorker } from "src/composables/redirectNotSelectedWorker";
 import { useSelectedWorker } from "src/composables/useSelectedWorker";
-import BackButton from "src/layouts/BackButton.vue";
+import BackButton from "src/layouts/BackButton";
 
 export default defineComponent({
   name: "BonusTypeLayout",

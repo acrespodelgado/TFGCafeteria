@@ -28,7 +28,7 @@
 <script>
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
-import BackButton from "src/layouts/BackButton.vue";
+import BackButton from "src/layouts/BackButton";
 
 export default defineComponent({
   name: "ChooseActionPage",

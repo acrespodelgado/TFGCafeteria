@@ -138,7 +138,9 @@ export default defineComponent({
     }
 
     // Cargar las cafeterías al montar el componente
-    onMounted(fetchCoffeeShops);
+    onMounted(() => {
+      fetchCoffeeShops();
+    });
 
     return {
       pin,
