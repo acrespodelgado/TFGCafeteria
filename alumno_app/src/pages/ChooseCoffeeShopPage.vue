@@ -1,9 +1,8 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="flex flex-center" v-if="!isLoading" id="chooseCoffeeShop">
     <h1>Elige tu cafetería</h1>
 
     <q-carousel
-      v-if="!isLoading"
       v-model="currentCoffeeShop"
       vertical
       swipeable
@@ -13,7 +12,7 @@
       control-color="black"
       transition-prev="scale"
       transition-next="scale"
-      height="200px"
+      height="400px"
       :control-type="controlType"
     >
       <q-carousel-slide
@@ -22,8 +21,15 @@
         :name="coffeeShop.nombre"
         class="flex flex-center"
       >
-        <div class="q-mt-md text-center">
+        <div class="text-center">
+          <img :alt="coffeeShop.nombre" :src="coffeeShop.url" width="100px" />
           <h2>{{ coffeeShop.nombre }}</h2>
+          <h3>
+            Universidad
+            {{
+              coffeeShop.universidad ? coffeeShop.universidad : "por definir"
+            }}
+          </h3>
         </div>
       </q-carousel-slide>
     </q-carousel>
@@ -46,16 +52,21 @@ export default defineComponent({
 
   setup() {
     const router = useRouter();
-    const { setSelectedCoffeeShop } = useSelectedCoffeeShop(); // Usamos setSelectedCoffeeShop para guardar la selección
+    const { setSelectedCoffeeShop } = useSelectedCoffeeShop();
     const { coffeeShops, fetchCoffeeShops } = useCoffeeShop(); // Obtener las cafeterías de Firebase
     const currentCoffeeShop = ref(null); // Mantiene la cafetería seleccionada
     const isLoading = ref(true);
 
     // Llamar a la función para cargar las cafeterías cuando el componente se monte
-    onMounted(() => {
-      fetchCoffeeShops();
+    onMounted(async () => {
+      await fetchCoffeeShops();
       // Evitar la carga del carousel hasta que esté listo
       isLoading.value = false;
+
+      // Inicializar currentCoffeeShop con la primera cafetería
+      if (coffeeShops.value && coffeeShops.value.length > 0) {
+        currentCoffeeShop.value = coffeeShops.value[0].nombre;
+      }
     });
 
     const chooseCoffeeShop = () => {

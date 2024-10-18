@@ -10,6 +10,19 @@ h2 {
   font-size: 1.5rem;
 }
 
+#chooseCoffeeShop {
+  h2 {
+    margin-bottom: 10px;
+    line-height: 1.5rem;
+  }
+  h3 {
+    margin-bottom: 10px;
+    font-size: 1.15rem;
+    font-weight: 300;
+    line-height: 1.5rem;
+  }
+}
+
 .big-button {
   height: 6rem;
   width: 100%;
@@ -27,6 +40,10 @@ h2 {
       box-shadow: none !important;
     }
   }
+}
+
+.q-field--with-bottom {
+  padding: 0;
 }
 
 .q-carousel {

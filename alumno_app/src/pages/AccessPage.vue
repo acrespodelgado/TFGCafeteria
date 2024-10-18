@@ -4,10 +4,10 @@
       <h1 class="q-mb-lg">Inicio de sesión</h1>
       <q-img
         alt="logo UCA"
-        src="~/src/assets/uca_logo.png"
-        style="width: 100px; height: auto"
+        src="~/src/assets/uca_logo_horizontal.png"
+        style="max-width: 300px; height: auto"
       />
-      <form @submit.prevent.stop="onSubmit" class="q-gutter-md">
+      <form @submit.prevent.stop="onSubmit" class="q-gutter-md q-my-md">
         <q-input
           v-model="email"
           label="Email"
@@ -18,13 +18,23 @@
         <q-input
           v-model="password"
           label="Contraseña"
+          :type="isPwd ? 'password' : 'text'"
           outlined
-          :rules="passwordRules"
-          lazy-rules
-        />
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
+
         <q-toggle v-model="remember" label="Recordarme" />
-        <q-btn label="Registrarse" to="/register" type="a" />
-        <q-btn label="Acceder" type="submit" color="primary" />
+        <div class="q-gutter-md column q-mx-xs">
+          <q-btn label="Registrarse" to="/register" type="a" />
+          <q-btn label="Acceder" type="submit" color="primary" />
+        </div>
       </form>
     </div>
   </q-page>
@@ -34,8 +44,10 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
 import { db } from "src/boot/firebase";
+import { login } from "src/boot/firebaseFunctions";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useRouter } from "vue-router";
+import { emailRules } from "src/composables/rules";
 
 export default defineComponent({
   name: "AccessPage",
@@ -46,22 +58,6 @@ export default defineComponent({
     const email = ref(null);
     const password = ref(null);
     const remember = ref(false);
-
-    const emailRules = [
-      (val) => !!val || "* Obligatorio",
-      (val) =>
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) ||
-        "Por favor introduzca un correo electrónico válido", // Validación de formato de correo
-    ];
-
-    const passwordRules = [
-      (val) => !!val || "* Obligatorio", // Verifica que el campo no esté vacío
-      (val) => /[A-Z]/.test(val) || "Debe contener al menos 1 mayúscula", // Verifica al menos 1 letra mayúscula
-      (val) => /[0-9]/.test(val) || "Debe contener al menos 1 número", // Verifica al menos 1 dígito
-      (val) =>
-        /[!@#$%^&*(),.?":{}|<>]/.test(val) ||
-        "Debe contener al menos 1 carácter especial", // Verifica al menos 1 carácter especial
-    ];
 
     // Cargar datos de 'Recordarme' si existen
     onMounted(() => {
@@ -79,8 +75,13 @@ export default defineComponent({
 
     async function onSubmit() {
       try {
-        // Consulta a Firestore para verificar el email y la contraseña
-        // Cambiar por firebase auth
+        await login(email.value, password.value);
+        $q.notify({ type: "positive", message: "Registro exitoso" });
+        router.push("/chooseCoffeeShop");
+      } catch (error) {
+        $q.notify({ type: "negative", message: error.message });
+      }
+      /*
         const alumnoCol = collection(db, "alumno");
         const q = query(
           alumnoCol,
@@ -99,6 +100,7 @@ export default defineComponent({
             sessionStorage.setItem("password", password.value);
           }
 
+
           $q.notify({
             icon: "check_circle",
             color: "positive",
@@ -113,6 +115,7 @@ export default defineComponent({
             message: "Email o contraseña incorrectos.",
           });
         }
+
       } catch (error) {
         console.error("Error al iniciar sesión:", error);
         $q.notify({
@@ -121,13 +124,14 @@ export default defineComponent({
           message: "Error al intentar acceder. Por favor, inténtelo de nuevo.",
         });
       }
+         */
     }
 
     return {
       email,
       password,
+      isPwd: ref(true),
       remember,
-      passwordRules,
       emailRules,
       onSubmit,
     };

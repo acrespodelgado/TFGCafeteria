@@ -14,18 +14,21 @@
               label: 'Universidad',
               align: 'left',
               field: 'universidad',
+              format: (val) => val || 'No disponible', // Valor por defecto
             },
             {
               name: 'telefono',
               label: 'Teléfono',
               align: 'left',
               field: 'telefono',
+              format: (val) => val || 'No disponible', // Valor por defecto
             },
             {
               name: 'horario',
               label: 'Horario',
               align: 'left',
               field: 'horario',
+              format: (val) => val || 'Por definir', // Valor por defecto
             },
           ]"
           row-key="value"

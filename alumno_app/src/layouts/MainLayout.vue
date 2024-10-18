@@ -51,6 +51,12 @@ const linksList = [
     link: "chooseCoffeeShop",
   },
   {
+    title: "Listado Cafeterías",
+    caption: "Información sobre las cafeterías",
+    icon: "store",
+    link: "coffeeShopList",
+  },
+  {
     title: "Mis bonos",
     caption: "Mis bonos de una cafetería",
     icon: "wallet",
