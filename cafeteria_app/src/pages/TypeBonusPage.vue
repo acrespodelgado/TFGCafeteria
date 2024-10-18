@@ -65,15 +65,15 @@ export default defineComponent({
     const navigateToCamera = (type) => {
       router.push({
         name: "cameraScan",
-        params: { action: type, mode: action }, // Asegúrate de que "action" sea el correcto
-      }); // Navega a la ruta con los parámetros
+        params: { action: type, mode: action },
+      });
     };
 
     return {
       bonusType,
       navigateToCamera,
-      selectedWorker, // Para que esté disponible en template
-      action, // Recupera el parámetro de la consulta
+      selectedWorker,
+      action,
     };
   },
 });

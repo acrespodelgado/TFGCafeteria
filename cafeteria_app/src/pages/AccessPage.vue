@@ -46,6 +46,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { useRouter } from "vue-router";
 import { useCoffeeShop } from "src/components/coffeeShop";
 import { useSelectedCoffeeShop } from "src/composables/useSelectedCoffeeShop";
+import { pinRules } from "src/composables/rules";
 
 export default defineComponent({
   name: "AccessPage",
@@ -57,11 +58,6 @@ export default defineComponent({
     const selectedCoffeeShop = ref(null);
     const { coffeeShops, fetchCoffeeShops } = useCoffeeShop(db);
     const { setSelectedCoffeeShop } = useSelectedCoffeeShop();
-
-    const pinRules = [
-      (val) => !!val || "* Obligatorio",
-      (val) => String(val).length === 4 || "Por favor introduzca 4 dígitos", // Validación de 4 dígitos
-    ];
 
     // Función para comprobar el PIN y la cafetería
     async function checkPin(name, pin) {

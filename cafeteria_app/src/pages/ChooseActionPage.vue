@@ -37,10 +37,9 @@ export default defineComponent({
   },
 
   setup() {
-    const router = useRouter(); // Crea una instancia del router
+    const router = useRouter();
 
     const redirect = (action) => {
-      // Redirige según la acción y pasa el parámetro
       router.push({ name: "typeBonus", query: { action } });
     };
 

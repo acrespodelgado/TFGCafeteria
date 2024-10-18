@@ -24,7 +24,7 @@ export default defineComponent({
 
   setup() {
     const { selectedCoffeeShop } = useSelectedCoffeeShop();
-    const loading = ref(false); // Estado de carga
+    const loading = ref(false);
 
     return {
       selectedCoffeeShop,
