@@ -84,7 +84,7 @@
 import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
 import { db } from "src/boot/firebase";
-import { register } from "src/boot/firebaseFunctions";
+import { register } from "src/composables/firebaseAuth";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useRouter } from "vue-router";
 import { emailRules, passwordRules, dniRules } from "src/composables/rules";
@@ -107,14 +107,41 @@ export default defineComponent({
     const dni = ref(null);
 
     async function onSubmit() {
-      await register(email.value, password.value);
-      $q.notify({
-        icon: "check_circle",
-        color: "positive",
-        message: "Registro exitoso",
-      });
-      // Redirección al selector de cafeterías
-      router.push("/access");
+      const inputs = [
+        email.value,
+        password.value,
+        repeat_password.value,
+        name.value,
+        surname.value,
+        dni.value,
+      ];
+
+      const valid = await validateForm(inputs);
+
+      if (valid) {
+        try {
+          await register(
+            email.value,
+            password.value,
+            name.value,
+            surname.value,
+            dni.value
+          );
+          $q.notify({
+            icon: "check_circle",
+            color: "positive",
+            message: "Registro exitoso",
+          });
+          // Redirección al selector de cafeterías
+          router.push("/access");
+        } catch (error) {
+          $q.notify({
+            icon: "error",
+            color: "negative",
+            message: "Error en el registro: " + error.message,
+          });
+        }
+      }
     }
 
     return {

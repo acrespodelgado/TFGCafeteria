@@ -13,7 +13,6 @@
 import { defineComponent, ref } from "vue";
 import AccessPage from "./AccessPage.vue";
 import ChooseCoffeeShopPage from "./ChooseCoffeeShopPage.vue";
-import { isAuthenticated } from "src/composables/auth";
 
 export default defineComponent({
   name: "IndexPage",
@@ -23,11 +22,7 @@ export default defineComponent({
   },
 
   setup() {
-    const authenticated = isAuthenticated();
-
-    return {
-      authenticated,
-    };
+    return {};
   },
 });
 </script>

@@ -7,7 +7,7 @@
         src="~/src/assets/uca_logo_horizontal.png"
         style="max-width: 300px; height: auto"
       />
-      <form @submit.prevent.stop="onSubmit" class="q-gutter-md q-my-md">
+      <div class="q-gutter-md q-my-md">
         <q-input
           v-model="email"
           label="Email"
@@ -33,9 +33,9 @@
         <q-toggle v-model="remember" label="Recordarme" />
         <div class="q-gutter-md column q-mx-xs">
           <q-btn label="Registrarse" to="/register" type="a" />
-          <q-btn label="Acceder" type="submit" color="primary" />
+          <q-btn label="Acceder" @click="login" color="primary" />
         </div>
-      </form>
+      </div>
     </div>
   </q-page>
 </template>
@@ -44,7 +44,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
 import { db } from "src/boot/firebase";
-import { login } from "src/boot/firebaseFunctions";
+import { login } from "src/composables/firebaseAuth";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useRouter } from "vue-router";
 import { emailRules } from "src/composables/rules";
@@ -134,6 +134,7 @@ export default defineComponent({
       remember,
       emailRules,
       onSubmit,
+      login,
     };
   },
 });

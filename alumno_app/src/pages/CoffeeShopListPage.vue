@@ -3,9 +3,10 @@
     <div class="q-pa-md">
       <h1>Listado de Cafeterías</h1>
       <div v-for="(coffeeShops, empresa) in groupedCoffeeShops" :key="empresa">
-        <h2>{{ empresa }}</h2>
-
         <q-table
+          class="q-mb-lg"
+          :dense="$q.screen.lt.md"
+          :title="empresa"
           :rows="coffeeShops"
           :columns="[
             { name: 'nombre', label: 'Nombre', align: 'left', field: 'nombre' },
@@ -32,6 +33,7 @@
             },
           ]"
           row-key="value"
+          flat
           bordered
           hide-bottom
           virtual-scroll
