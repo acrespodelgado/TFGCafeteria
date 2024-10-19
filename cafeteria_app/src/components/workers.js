@@ -25,9 +25,28 @@ export const useWorkers = () => {
     }
   };
 
+  // Agrupar camareros por empresa
+  const groupWorkersByEmpresa = () => {
+    return workers.value.reduce((acc, worker) => {
+      const empresa = worker.Empresa || "Sin Empresa"; // Si no tiene 'Empresa', asigna 'Sin Empresa'
+      if (!acc[empresa]) {
+        acc[empresa] = [];
+      }
+      acc[empresa].push(worker);
+      return acc;
+    }, {});
+  };
+
+  // Devuelvo un array con todos los camareros de una empresa
+  const getWorkersByEmpresa = (empresa) => {
+    return workers.value.filter((worker) => worker.Empresa === empresa);
+  };
+
   return {
     workers,
     fetchWorkers,
     addWorker,
+    groupWorkersByEmpresa,
+    getWorkersByEmpresa,
   };
 };
