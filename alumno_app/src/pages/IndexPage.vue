@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <div v-if="!auth">
+    <div v-if="!auth.currentUser">
       <AccessPage />
     </div>
     <div v-else>
@@ -23,7 +23,7 @@ export default defineComponent({
   },
 
   setup() {
-    return {};
+    return { auth };
   },
 });
 </script>

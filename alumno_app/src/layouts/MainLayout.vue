@@ -39,7 +39,6 @@ import EssentialLink from "components/EssentialLink.vue";
 import { logout } from "src/composables/firebaseAuth";
 import { useRouter } from "vue-router";
 
-const router = useRouter();
 const linksList = [
   {
     title: "Home",
@@ -77,7 +76,8 @@ const linksList = [
     icon: "logout",
     link: "",
     onClick: async () => {
-      logout();
+      await logout();
+      redirectLogin();
     },
   },
 ];
@@ -91,6 +91,11 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false);
+    const router = useRouter();
+
+    const redirectLogin = () => {
+      router.push("/access");
+    };
 
     return {
       essentialLinks: linksList,
@@ -98,6 +103,7 @@ export default defineComponent({
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
+      redirectLogin,
     };
   },
 });

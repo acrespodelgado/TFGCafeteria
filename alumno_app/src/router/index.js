@@ -36,7 +36,7 @@ export default route(function (/* { store, ssrContext } */) {
 
   // Guardia de navegación
   Router.beforeEach((to, from, next) => {
-    if (to.meta.requiresAuth && !auth) {
+    if (to.meta.requiresAuth && !auth.currentUser) {
       next("/access"); // Redirige a la página de acceso si no está autenticado
     } else {
       next(); // Continúa a la ruta solicitada
