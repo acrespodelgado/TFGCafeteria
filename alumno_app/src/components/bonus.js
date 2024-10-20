@@ -1,6 +1,7 @@
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "src/boot/firebase";
 import { auth } from "src/composables/firebaseAuth";
+import { useSelectedWallet } from "src/selected/useSelectedWallet";
 
 // Función para obtener los datos de la cafetería y los bonos
 export const fetchBonusesCoffeeShopData = async (selectedCoffeeShop) => {
@@ -25,6 +26,9 @@ export const fetchBonusesCoffeeShopData = async (selectedCoffeeShop) => {
       );
       const walletSnapshot = await getDocs(walletQuery);
       const walletData = walletSnapshot.docs[0].id;
+
+      const { setSelectedWallet } = useSelectedWallet();
+      setSelectedWallet(walletSnapshot.docs[0].data().Direccion);
 
       // Buscar los bonos en la colección disponibilidad_bono que coinciden con el id del tarjetero
       const bonusQuery = query(

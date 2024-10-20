@@ -1,4 +1,4 @@
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "src/boot/firebase";
 
 export const fetchCompanies = async () => {
@@ -10,5 +10,22 @@ export const fetchCompanies = async () => {
   } catch (error) {
     console.error("Error al obtener las empresas: ", error.message);
     throw error;
+  }
+};
+
+export const getCompanyByCoffeeShop = async (coffeeShop) => {
+  try {
+    const q = query(
+      collection(db, "Cafeteria"),
+      where("Nombre", "==", coffeeShop)
+    );
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const result = querySnapshot.docs[0];
+      return result.data().Empresa;
+    }
+  } catch (error) {
+    console.error("Error al obtener la empresa:", error);
   }
 };

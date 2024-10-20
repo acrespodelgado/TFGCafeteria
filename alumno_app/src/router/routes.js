@@ -31,13 +31,13 @@ const routes = [
         meta: { requiresAuth: true },
       },
       {
-        path: "myBonuses/:action?",
+        path: "myBonuses",
         name: "myBonuses",
         component: () => import("pages/MyBonusesPage.vue"),
         meta: { requiresAuth: true },
       },
       {
-        path: "qrBonus/:action?", // Parámetro para accion
+        path: "qrBonus/:bonusType?/:uses?", // Parámetro para accion
         name: "qrBonus",
         component: () => import("pages/QrBonusPage.vue"),
         meta: { requiresAuth: true },

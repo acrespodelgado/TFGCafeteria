@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="q-pa-md">
+    <div class="q-pa-md text-center">
       <h1>Listado de Cafeterías</h1>
       <div v-for="(coffeeShops, empresa) in groupedCoffeeShops" :key="empresa">
         <q-table
@@ -39,6 +39,12 @@
           virtual-scroll
         />
       </div>
+      <q-btn
+        label="Elegir cafetería"
+        to="/chooseCoffeeShop"
+        color="primary"
+        type="a"
+      />
     </div>
     <BackButton />
   </q-page>

@@ -62,13 +62,15 @@ const linksList = [
     title: "Mis bonos",
     caption: "Mis bonos de una cafetería",
     icon: "wallet",
-    link: { name: "myBonuses", query: { action: "coffeeShopSelected" } },
+    //link: { name: "myBonuses", query: { action: "coffeeShopSelected" } },
+    link: "myBonuses",
   },
   {
     title: "Tarjetero",
     caption: "Qr a escanear por la cafetería",
     icon: "qr_code",
-    link: { name: "qrBonus", query: { action: "coffeeShopSelected" } },
+    //link: { name: "qrBonus", query: { action: "coffeeShopSelected" } },
+    link: "qrBonus",
   },
   {
     title: "Cerrar sesión",

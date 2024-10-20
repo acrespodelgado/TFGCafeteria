@@ -53,3 +53,13 @@ h2 {
     }
   }
 }
+
+#bonusesPage {
+  table {
+    tr.q-tr {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -44,8 +44,10 @@
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useSelectedCoffeeShop } from "src/composables/useSelectedCoffeeShop";
+import { useSelectedCoffeeShop } from "src/selected/useSelectedCoffeeShop";
+import { useSelectedCompany } from "src/selected/useSelectedCompany";
 import { useCoffeeShop } from "src/components/coffeeShop";
+import { getCompanyByCoffeeShop } from "src/components/company";
 
 export default defineComponent({
   name: "ChooseCoffeeShopPage",
@@ -53,6 +55,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const { setSelectedCoffeeShop } = useSelectedCoffeeShop();
+    const { setSelectedCompany } = useSelectedCompany();
     const { coffeeShops, fetchCoffeeShops } = useCoffeeShop(); // Obtener las cafeterías de Firebase
     const currentCoffeeShop = ref(null); // Mantiene la cafetería seleccionada
     const isLoading = ref(true);
@@ -69,13 +72,20 @@ export default defineComponent({
       }
     });
 
-    const chooseCoffeeShop = () => {
+    const chooseCoffeeShop = async () => {
       if (currentCoffeeShop.value) {
         setSelectedCoffeeShop(currentCoffeeShop.value);
+        /*
         router.push({
           path: "/myBonuses",
           query: { coffeeShop: currentCoffeeShop.value },
         });
+        */
+        const selectedCompany = await getCompanyByCoffeeShop(
+          currentCoffeeShop.value
+        );
+        setSelectedCompany(selectedCompany);
+        router.push("/myBonuses");
       }
     };
 
