@@ -36,7 +36,10 @@
 <script>
 import { defineComponent, ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
+import { logout } from "src/composables/firebaseAuth";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const linksList = [
   {
     title: "Home",
@@ -67,6 +70,15 @@ const linksList = [
     caption: "Qr a escanear por la cafetería",
     icon: "qr_code",
     link: { name: "qrBonus", query: { action: "coffeeShopSelected" } },
+  },
+  {
+    title: "Cerrar sesión",
+    caption: "",
+    icon: "logout",
+    link: "",
+    onClick: async () => {
+      logout();
+    },
   },
 ];
 

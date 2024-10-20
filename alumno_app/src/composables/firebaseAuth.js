@@ -23,7 +23,6 @@ const logout = async () => {
 // Función para registrar un nuevo usuario
 const register = async (email, password, name, surname, dni) => {
   try {
-    // Registrar al usuario en Firebase Auth
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -32,7 +31,7 @@ const register = async (email, password, name, surname, dni) => {
     const user = userCredential.user;
     console.log("Usuario registrado: ", user);
 
-    // Guardar los datos del usuario en la colección "Alumno"
+    // Guardar los datos en Alumno
     await addDoc(collection(db, "Alumno"), {
       Uid: user.uid,
       Nombre: name,

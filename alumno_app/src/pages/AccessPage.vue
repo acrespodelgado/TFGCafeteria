@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="q-pa-md">
+    <form @submit.prevent.stop="onSubmit" class="q-pa-md">
       <h1 class="q-mb-lg">Inicio de sesión</h1>
       <q-img
         alt="logo UCA"
@@ -14,12 +14,14 @@
           outlined
           :rules="emailRules"
           lazy-rules
+          class="q-my-lg"
         />
         <q-input
           v-model="password"
           label="Contraseña"
           :type="isPwd ? 'password' : 'text'"
           outlined
+          class="q-mt-lg"
         >
           <template v-slot:append>
             <q-icon
@@ -33,19 +35,17 @@
         <q-toggle v-model="remember" label="Recordarme" />
         <div class="q-gutter-md column q-mx-xs">
           <q-btn label="Registrarse" to="/register" type="a" />
-          <q-btn label="Acceder" @click="login" color="primary" />
+          <q-btn label="Acceder" type="submit" color="primary" />
         </div>
       </div>
-    </div>
+    </form>
   </q-page>
 </template>
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
-import { db } from "src/boot/firebase";
 import { login } from "src/composables/firebaseAuth";
-import { collection, query, where, getDocs } from "firebase/firestore";
 import { useRouter } from "vue-router";
 import { emailRules } from "src/composables/rules";
 
@@ -69,62 +69,32 @@ export default defineComponent({
       if (storedEmail && storedPassword) {
         email.value = storedEmail;
         password.value = storedPassword;
-        remember.value = true; // Marca el toggle
+        remember.value = true;
       }
     });
 
     async function onSubmit() {
       try {
         await login(email.value, password.value);
+
+        // Almacenar credenciales
+        if (remember.value) {
+          localStorage.setItem("email", email.value);
+          localStorage.setItem("password", password.value);
+          sessionStorage.setItem("email", email.value);
+          sessionStorage.setItem("password", password.value);
+        } else {
+          localStorage.removeItem("email");
+          localStorage.removeItem("password");
+          sessionStorage.removeItem("email");
+          sessionStorage.removeItem("password");
+        }
+
         $q.notify({ type: "positive", message: "Registro exitoso" });
         router.push("/chooseCoffeeShop");
       } catch (error) {
         $q.notify({ type: "negative", message: error.message });
       }
-      /*
-        const alumnoCol = collection(db, "alumno");
-        const q = query(
-          alumnoCol,
-          where("email", "==", email.value),
-          where("password", "==", password.value)
-        );
-        const querySnapshot = await getDocs(q);
-
-        if (!querySnapshot.empty) {
-          // Inicio de sesión exitoso
-          if (remember.value) {
-            localStorage.setItem("email", email.value);
-            localStorage.setItem("password", password.value);
-          } else {
-            sessionStorage.setItem("email", email.value);
-            sessionStorage.setItem("password", password.value);
-          }
-
-
-          $q.notify({
-            icon: "check_circle",
-            color: "positive",
-            message: "Inicio de sesión exitoso",
-          });
-          // Redirección al selector de cafeterías
-          router.push("/chooseCoffeeShop");
-        } else {
-          $q.notify({
-            icon: "error",
-            color: "negative",
-            message: "Email o contraseña incorrectos.",
-          });
-        }
-
-      } catch (error) {
-        console.error("Error al iniciar sesión:", error);
-        $q.notify({
-          icon: "error",
-          color: "negative",
-          message: "Error al intentar acceder. Por favor, inténtelo de nuevo.",
-        });
-      }
-         */
     }
 
     return {

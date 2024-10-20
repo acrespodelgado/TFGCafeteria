@@ -6,6 +6,7 @@ import {
   createWebHashHistory,
 } from "vue-router";
 import routes from "./routes";
+import { auth } from "src/composables/firebaseAuth";
 
 /*
  * If not building with SSR mode, you can
@@ -34,16 +35,13 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
   // Guardia de navegación
-  /*
   Router.beforeEach((to, from, next) => {
-    const authenticated = isAuthenticated(); // Verifica el estado de autenticación
-
-    if (to.meta.requiresAuth && !authenticated) {
+    if (to.meta.requiresAuth && !auth) {
       next("/access"); // Redirige a la página de acceso si no está autenticado
     } else {
       next(); // Continúa a la ruta solicitada
     }
   });
-  */
+
   return Router;
 });

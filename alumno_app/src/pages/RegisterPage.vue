@@ -28,6 +28,8 @@
               label="Contraseña"
               :type="isPwd1 ? 'password' : 'text'"
               outlined
+              :rules="passwordRules"
+              lazy-rules
             >
               <template v-slot:append>
                 <q-icon
@@ -44,6 +46,8 @@
               label="Repita la Contraseña"
               :type="isPwd2 ? 'password' : 'text'"
               outlined
+              :rules="repeatPasswordRules"
+              lazy-rules
             >
               <template v-slot:append>
                 <q-icon
@@ -55,10 +59,22 @@
             </q-input>
           </div>
           <div class="col-6 q-my-md q-pr-xs">
-            <q-input v-model="name" label="Nombre" outlined />
+            <q-input
+              v-model="name"
+              label="Nombre"
+              outlined
+              :rules="inputRules"
+              lazy-rules
+            />
           </div>
           <div class="col-6 q-my-md q-pl-xs">
-            <q-input v-model="surname" label="Apellidos" outlined />
+            <q-input
+              v-model="surname"
+              label="Apellidos"
+              outlined
+              :rules="inputRules"
+              lazy-rules
+            />
           </div>
           <div class="col-12 q-my-md">
             <q-input
@@ -83,11 +99,16 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
-import { db } from "src/boot/firebase";
 import { register } from "src/composables/firebaseAuth";
-import { collection, query, where, getDocs } from "firebase/firestore";
 import { useRouter } from "vue-router";
-import { emailRules, passwordRules, dniRules } from "src/composables/rules";
+import {
+  emailRules,
+  passwordRules,
+  dniRules,
+  validateForm,
+  inputRules,
+  repeatPasswordRules,
+} from "src/composables/rules";
 import BackButton from "src/layouts/BackButton.vue";
 
 export default defineComponent({
@@ -141,6 +162,12 @@ export default defineComponent({
             message: "Error en el registro: " + error.message,
           });
         }
+      } else {
+        $q.notify({
+          icon: "error",
+          color: "negative",
+          message: "Error en el registro, revise el formulario",
+        });
       }
     }
 
@@ -155,6 +182,8 @@ export default defineComponent({
       isPwd2: ref(true),
       emailRules,
       passwordRules,
+      repeatPasswordRules,
+      inputRules,
       dniRules,
       onSubmit,
     };
