@@ -6,6 +6,9 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
+import { fetchCompanies } from "src/components/company";
+import { fetchBonusType } from "src/components/bonus";
+import { generateRandomString } from "src/composables/util";
 
 const auth = getAuth();
 
@@ -29,7 +32,8 @@ const register = async (email, password, name, surname, dni) => {
       password
     );
     const user = userCredential.user;
-    console.log("Usuario registrado: ", user);
+    const companies = await fetchCompanies();
+    const bonusType = await fetchBonusType();
 
     // Guardar los datos en Alumno
     await addDoc(collection(db, "Alumno"), {
@@ -37,6 +41,24 @@ const register = async (email, password, name, surname, dni) => {
       Nombre: name,
       Apellidos: surname,
       Dni: dni,
+    });
+
+    // Crear un Tarjetero por cada empresa
+    companies.forEach(async (companyName) => {
+      const walletRef = await addDoc(collection(db, "Tarjetero"), {
+        Direccion: generateRandomString(),
+        Id_Alumno: user.uid,
+        Id_Empresa: companyName,
+      });
+
+      // Crear una entrada en Disponibilidad_bono por cada tipo de bono
+      bonusType.forEach(async (bonus) => {
+        await addDoc(collection(db, "Disponibilidad_Bono"), {
+          Id_Tarjetero: walletRef.id,
+          Tipo_Bono: bonus,
+          Usos: 0,
+        });
+      });
     });
 
     return user;

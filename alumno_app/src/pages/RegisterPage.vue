@@ -153,7 +153,7 @@ export default defineComponent({
             color: "positive",
             message: "Registro exitoso",
           });
-          // Redirección al selector de cafeterías
+
           router.push("/access");
         } catch (error) {
           $q.notify({
