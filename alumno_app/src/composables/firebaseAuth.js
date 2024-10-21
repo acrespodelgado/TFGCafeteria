@@ -8,7 +8,7 @@ import {
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { fetchCompanies } from "src/components/company";
 import { fetchBonusType } from "src/components/bonus";
-import { generateRandomString } from "src/composables/util";
+import CryptoJS from "crypto-js";
 
 const auth = getAuth();
 
@@ -43,10 +43,10 @@ const register = async (email, password, name, surname, dni) => {
       Dni: dni,
     });
 
-    // Crear un Tarjetero por cada empresa
+    // Crear un Tarjetero por cada empresa y encripto el uid del usuario en sha256 con plugin cryptoJS
     companies.forEach(async (companyName) => {
       const walletRef = await addDoc(collection(db, "Tarjetero"), {
-        Direccion: generateRandomString(),
+        Direccion: CryptoJS.SHA256(user.uid).toString(CryptoJS.enc.Hex),
         Id_Alumno: user.uid,
         Id_Empresa: companyName,
       });
