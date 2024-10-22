@@ -3,11 +3,6 @@
     <div class="q-pa-md" id="bonusesPage">
       <div v-if="coffeeShopData" class="text-center">
         <h1>Bonos {{ coffeeShopData.Empresa }}</h1>
-        <img
-          :src="coffeeShopData.Url_Logo"
-          :alt="coffeeShopData.Empresa"
-          width="200px"
-        />
         <div v-if="bonuses" class="q-mb-md">
           <q-table
             :title="selectedCoffeeShop"
@@ -24,6 +19,12 @@
             hide-bottom
             virtual-scroll
           >
+            <template v-slot:top-right>
+              <img
+                style="width: 100px"
+                :alt="coffeeShopData.Empresa"
+                :src="coffeeShopData.Url_Logo"
+            /></template>
             <template v-slot:body="props">
               <q-tr
                 :props="props"
