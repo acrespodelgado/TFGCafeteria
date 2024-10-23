@@ -91,7 +91,7 @@ export default defineComponent({
         }
 
         $q.notify({ type: "positive", message: "Registro exitoso" });
-        router.push("/chooseCoffeeShop");
+        router.push("/adminPanel");
       } catch (error) {
         $q.notify({ type: "negative", message: error.message });
       }

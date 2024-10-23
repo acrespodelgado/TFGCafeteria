@@ -4,22 +4,22 @@
       <AccessPage />
     </div>
     <div v-else>
-      <ChooseCoffeeShopPage />
+      <AdminPanelPage />
     </div>
   </q-page>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import AccessPage from "./AccessPage.vue";
-import ChooseCoffeeShopPage from "./ChooseCoffeeShopPage.vue";
+import AdminPanelPage from "./AdminPanelPage.vue";
 import { auth } from "src/composables/firebaseAuth";
 
 export default defineComponent({
   name: "IndexPage",
   components: {
     AccessPage,
-    ChooseCoffeeShopPage,
+    AdminPanelPage,
   },
 
   setup() {

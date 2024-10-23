@@ -37,9 +37,8 @@ const validateForm = async (inputs) => {
     passwordRules.map((rule) => rule(inputs[1])), // Password
     //repeatPasswordRules(inputs[1]).map((rule) => rule(inputs[2])), // Passwords iguales
     inputRules.map((rule) => rule(inputs[3])), // Nombre
-    inputRules.map((rule) => rule(inputs[4])), // Apellidos
-    dniRules.map((rule) => rule(inputs[5])), // DNI
-    phoneRules.map((rule) => rule(inputs[6])), // Teléfono
+    inputRules.map((rule) => rule(inputs[4])), // Nombre Empresa
+    phoneRules.map((rule) => rule(inputs[5])), // Teléfono
   ];
 
   const results = validations.flat();

@@ -3,7 +3,7 @@
     <div class="q-pa-md">
       <div class="row">
         <div class="col-12 text-center">
-          <h1 class="q-mb-lg">Registro de usuario</h1>
+          <h1 class="q-mb-lg">Registro de administrador</h1>
           <q-img
             alt="logo UCA"
             src="~/src/assets/uca_logo_horizontal.png"
@@ -61,27 +61,9 @@
           <div class="col-6 q-my-md q-pr-xs">
             <q-input
               v-model="name"
-              label="Nombre"
+              label="Nombre del gestor"
               outlined
               :rules="inputRules"
-              lazy-rules
-            />
-          </div>
-          <div class="col-6 q-my-md q-pl-xs">
-            <q-input
-              v-model="surname"
-              label="Apellidos"
-              outlined
-              :rules="inputRules"
-              lazy-rules
-            />
-          </div>
-          <div class="col-6 q-my-md q-pr-xs">
-            <q-input
-              v-model="dni"
-              label="DNI"
-              outlined
-              :rules="dniRules"
               lazy-rules
             />
           </div>
@@ -95,10 +77,12 @@
             />
           </div>
           <div class="col-12 q-my-md">
-            <q-select
-              v-model="university"
-              :options="universities"
-              label="Seleccione una universidad"
+            <q-input
+              v-model="companyName"
+              label="Nombre de empresa"
+              outlined
+              :rules="inputRules"
+              lazy-rules
             />
           </div>
         </div>
@@ -115,9 +99,8 @@
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
-import { register } from "src/composables/firebaseAuth";
+import { registerCompany } from "src/composables/firebaseAuth";
 import { useRouter } from "vue-router";
-import { fetchUniversities } from "src/components/university";
 import {
   emailRules,
   passwordRules,
@@ -142,15 +125,8 @@ export default defineComponent({
     const password = ref(null);
     const repeat_password = ref(null);
     const name = ref(null);
-    const surname = ref(null);
-    const dni = ref(null);
+    const companyName = ref(null);
     const phone = ref(null);
-    const university = ref(null);
-    const universities = ref([]);
-
-    onMounted(async () => {
-      universities.value = await fetchUniversities();
-    });
 
     async function onSubmit() {
       const inputs = [
@@ -158,8 +134,7 @@ export default defineComponent({
         password.value,
         repeat_password.value,
         name.value,
-        surname.value,
-        dni.value,
+        companyName.value,
         phone.value,
       ];
 
@@ -167,14 +142,12 @@ export default defineComponent({
 
       if (valid) {
         try {
-          await register(
+          await registerCompany(
             email.value,
             password.value,
             name.value,
-            surname.value,
-            dni.value,
-            phone.value,
-            university.value.value
+            companyName.value,
+            phone.value
           );
           $q.notify({
             icon: "check_circle",
@@ -204,11 +177,8 @@ export default defineComponent({
       password,
       repeat_password,
       name,
-      surname,
-      dni,
+      companyName,
       phone,
-      universities,
-      university,
       isPwd1: ref(true),
       isPwd2: ref(true),
       emailRules,

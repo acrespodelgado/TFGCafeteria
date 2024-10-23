@@ -6,9 +6,6 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
-import { fetchCompanies } from "src/components/company";
-import { fetchBonusType } from "src/components/bonus";
-import CryptoJS from "crypto-js";
 
 const auth = getAuth();
 
@@ -23,55 +20,36 @@ const logout = async () => {
   }
 };
 
-// Función para registrar un nuevo usuario
-const register = async (
-  email,
-  password,
-  name,
-  surname,
-  dni,
-  phone,
-  university
-) => {
+// Función para registrar una nueva empresa
+const registerCompany = async (email, password, name, companyName, phone) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
-    const companies = await fetchCompanies();
-    const bonusType = await fetchBonusType();
+    const companiesRef = collection(db, "Empresa");
+    const q = query(companiesRef, where("Nombre", "==", companyName));
 
-    // Guardar los datos en Alumno
-    await addDoc(collection(db, "Alumno"), {
-      Uid: user.uid,
-      Nombre: name,
-      Apellidos: surname,
-      Dni: dni,
-      Telefono: phone,
-      Universidad: university,
-    });
+    const querySnapshot = await getDocs(q);
 
-    // Crear un Tarjetero por cada empresa y encripto el uid del usuario en sha256 con plugin cryptoJS
-    companies.forEach(async (companyName) => {
-      const walletRef = await addDoc(collection(db, "Tarjetero"), {
-        Direccion: CryptoJS.SHA256(user.uid).toString(CryptoJS.enc.Hex),
-        Id_Alumno: user.uid,
-        Id_Empresa: companyName,
+    if (!querySnapshot.empty) {
+      // Si existe una empresa con el mismo nombre, error
+      throw new Error("Ya existe una empresa con ese nombre.");
+    } else {
+      // Creo el admin
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      // Guardar los datos en Empresa
+      await addDoc(collection(db, "Empresa"), {
+        Uid: user.uid,
+        Propietario: name,
+        Nombre: companyName,
+        Telefono: phone,
+        Url: "",
       });
 
-      // Crear una entrada en Disponibilidad_bono por cada tipo de bono
-      bonusType.forEach(async (bonus) => {
-        await addDoc(collection(db, "Disponibilidad_Bono"), {
-          Id_Tarjetero: walletRef.id,
-          Tipo_Bono: bonus,
-          Usos: 0,
-        });
-      });
-    });
-
-    return user;
+      return user;
+    }
   } catch (error) {
     console.error("Error al registrar el usuario: ", error.message);
     throw error;
@@ -104,26 +82,26 @@ const getCurrentUserData = async () => {
     }
 
     // Consulta la colección Alumno utilizando el UID del usuario autenticado
-    const studentQuery = query(
-      collection(db, "Alumno"),
+    const adminQuery = query(
+      collection(db, "Empresa"),
       where("uid", "==", user.uid)
     );
-    const studentSnapshot = await getDocs(studentQuery);
+    const adminSnapshot = await getDocs(adminQuery);
 
-    if (studentSnapshot.empty) {
-      throw new Error("No se encontraron datos del alumno.");
+    if (adminSnapshot.empty) {
+      throw new Error("No se encontraron datos de la empresa.");
     }
 
-    let studentData = {};
-    studentSnapshot.forEach((doc) => {
-      studentData = doc.data();
+    let adminData = {};
+    adminSnapshot.forEach((doc) => {
+      adminData = doc.data();
     });
 
-    return studentData;
+    return adminData;
   } catch (error) {
-    console.error("Error obteniendo datos del usuario:", error);
+    console.error("Error obteniendo datos de la empresa:", error);
     throw error;
   }
 };
 
-export { auth, login, logout, register, getCurrentUserData };
+export { auth, login, logout, registerCompany, getCurrentUserData };
