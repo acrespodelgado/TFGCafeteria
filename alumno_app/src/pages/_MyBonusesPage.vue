@@ -3,65 +3,54 @@
     <div class="q-pa-md" id="bonusesPage">
       <div v-if="coffeeShopData" class="text-center">
         <h1>Bonos {{ coffeeShopData.Empresa }}</h1>
-        <qrcode-vue
-          v-if="selectedWallet"
-          :value="selectedWallet"
-          :size="300"
-          :margin="3"
-        />
+        <div v-if="bonuses" class="q-mb-md">
+          <q-table
+            :title="selectedCoffeeShop"
+            :rows="
+              bonuses.map((bonus) => ({
+                tipo_bono: bonus.Tipo_Bono,
+                usos: bonus.Usos,
+              }))
+            "
+            :columns="columns"
+            row-key="tipo_bono"
+            flat
+            bordered
+            hide-bottom
+            virtual-scroll
+          >
+            <template v-slot:top-right>
+              <img
+                style="width: 100px"
+                :alt="coffeeShopData.Empresa"
+                :src="coffeeShopData.Url_Logo"
+            /></template>
+            <template v-slot:body="props">
+              <q-tr
+                :props="props"
+                @click="goToQrBonus(props.row.tipo_bono, props.row.usos)"
+              >
+                <q-td v-for="col in columns" :key="col.name" :props="props">
+                  {{ props.row[col.field] }}
+                </q-td>
+              </q-tr>
+            </template>
 
-        <div class="q-mb-md">
-          <q-btn label="Ver bonos" color="primary" @click="toolbar = true" />
+            <template v-slot:body-cell-tipo_bono="props">
+              <q-td :props="props">
+                {{ props.row.tipo_bono }}
+              </q-td>
+            </template>
+
+            <template v-slot:body-cell-usos="props">
+              <q-td :props="props">
+                {{ props.row.usos }}
+              </q-td>
+            </template>
+          </q-table>
         </div>
-
-        <q-dialog v-model="toolbar">
-          <div v-if="bonuses" class="q-mb-md">
-            <q-card>
-              <q-toolbar>
-                <q-avatar>
-                  <img
-                    :src="coffeeShopData.Url_Logo"
-                    :alt="coffeeShopData.Empresa"
-                  />
-                </q-avatar>
-
-                <q-toolbar-title>{{ selectedCoffeeShop }}</q-toolbar-title>
-
-                <q-btn flat round dense icon="close" v-close-popup />
-              </q-toolbar>
-
-              <q-card-section>
-                <q-table
-                  :rows="
-                    bonuses.map((bonus) => ({
-                      tipo_bono: bonus.Tipo_Bono,
-                      usos: bonus.Usos,
-                    }))
-                  "
-                  :columns="columns"
-                  row-key="tipo_bono"
-                  flat
-                  bordered
-                  hide-bottom
-                  virtual-scroll
-                >
-                  <template v-slot:body-cell-tipo_bono="props">
-                    <q-td :props="props">
-                      {{ props.row.tipo_bono }}
-                    </q-td>
-                  </template>
-
-                  <template v-slot:body-cell-usos="props">
-                    <q-td :props="props">
-                      {{ props.row.usos }}
-                    </q-td>
-                  </template>
-                </q-table>
-              </q-card-section>
-            </q-card>
-          </div>
-        </q-dialog>
-        <div class="q-gutter-md column q-mx-0">
+        <div class="q-gutter-md column q-mx-xs">
+          <q-btn label="Comprar bono" to="/qrBonus" type="a" color="primary" />
           <q-btn
             label="Cambiar cafetería"
             to="/chooseCoffeeShop"
@@ -79,24 +68,20 @@
 import { useQuasar } from "quasar";
 import { defineComponent, onMounted, ref } from "vue";
 import { useSelectedCoffeeShop } from "src/selected/useSelectedCoffeeShop";
-import { useSelectedWallet } from "src/selected/useSelectedWallet";
+import BackButton from "src/layouts/BackButton.vue";
 import { useRouter } from "vue-router";
 import { fetchBonusesCoffeeShopData } from "src/components/bonus";
-import BackButton from "src/layouts/BackButton.vue";
-import QrcodeVue from "qrcode.vue";
 
 export default defineComponent({
   name: "MyBonusesPage",
   components: {
     BackButton,
-    QrcodeVue,
   },
 
   setup() {
     const $q = useQuasar();
     const router = useRouter();
     const { selectedCoffeeShop } = useSelectedCoffeeShop();
-    const { selectedWallet } = useSelectedWallet();
     const coffeeShopData = ref(null);
     const bonuses = ref([]);
 
@@ -131,10 +116,8 @@ export default defineComponent({
 
     return {
       selectedCoffeeShop,
-      selectedWallet,
       coffeeShopData,
       bonuses,
-      toolbar: ref(false),
       columns: [
         {
           name: "tipo_bono",

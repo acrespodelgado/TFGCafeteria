@@ -2,52 +2,42 @@
   <q-page class="flex flex-center">
     <div class="q-pa-md text-center">
       <h1>Listado de Cafeterías</h1>
-      <div v-for="(coffeeShops, company) in groupedCoffeeShops" :key="company">
+      <div v-for="(coffeeShops, empresa) in groupedCoffeeShops" :key="empresa">
         <q-table
           class="q-mb-lg"
           :dense="$q.screen.lt.md"
-          :title="company"
+          :title="empresa"
           :rows="coffeeShops"
           :columns="[
-            { name: 'name', label: 'Nombre', align: 'left', field: 'name' },
+            { name: 'nombre', label: 'Nombre', align: 'left', field: 'nombre' },
             {
-              name: 'university',
+              name: 'universidad',
               label: 'Universidad',
               align: 'left',
-              field: 'university',
+              field: 'universidad',
               format: (val) => val || 'No disponible', // Valor por defecto
             },
             {
-              name: 'phone',
+              name: 'telefono',
               label: 'Teléfono',
               align: 'left',
-              field: 'phone',
+              field: 'telefono',
               format: (val) => val || 'No disponible', // Valor por defecto
             },
             {
-              name: 'schedule',
+              name: 'horario',
               label: 'Horario',
               align: 'left',
-              field: 'schedule',
+              field: 'horario',
               format: (val) => val || 'Por definir', // Valor por defecto
             },
-            { name: 'menu', label: 'Menú', align: 'left', field: 'menu' },
           ]"
           row-key="value"
           flat
           bordered
           hide-bottom
           virtual-scroll
-        >
-          <template v-slot:body-cell-menu="props">
-            <q-td :props="props">
-              <span v-if="props.row.menu">
-                <a :href="props.row.menu" target="_blank">Ver menú</a>
-              </span>
-              <span v-else>Por definir</span>
-            </q-td>
-          </template>
-        </q-table>
+        />
       </div>
       <q-btn
         label="Elegir cafetería"
