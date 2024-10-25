@@ -4,8 +4,8 @@
     <h1 v-if="action && mode">Acción: {{ action }} y {{ mode }}</h1>
     <h1 v-else>No se recibió ninguna acción.</h1>
     <qrcode-stream @detect="onDetect"></qrcode-stream>
-    <q-card-section v-if="decodedText">
-      <p>Código QR escaneado: {{ decodedText }}</p>
+    <q-card-section v-if="decodedQr">
+      <p>Código QR escaneado: {{ decodedQr }}</p>
     </q-card-section>
     <BackButton />
   </q-page>
@@ -28,41 +28,17 @@ export default defineComponent({
     const route = useRoute();
     const action = route.params.action; // Recupera el parámetro de la ruta
     const mode = route.params.mode; // Recupera el modo (escanear o generar)
-    const scanning = ref(false);
-    const decodedText = ref("");
-    const detectedCodes = ref("");
-    /*
-    const startScanning = () => {
-      scanning.value = true;
-    };
-
-    const stopScanning = () => {
-      scanning.value = false;
-    };
-
-    const onDecode = (result) => {
-      decodedText.value = result;
-      stopScanning(); // Detiene el escaneo después de escanear
-    };
-
-    const onInit = (promise) => {
-      console.log("QR Scanner initialized");
-    };
-    */
+    const decodedQr = ref("");
 
     const onDetect = (detectedCodes) => {
-      console.log(detectedCodes);
+      window.alert(detectedCodes[0].rawValue);
+      decodedQr.value = detectedCodes[0].rawValue;
     };
 
     return {
       action,
       mode,
-      //scanning,
-      decodedText,
-      //startScanning,
-      //stopScanning,
-      //onDecode,
-      //onInit,
+      decodedQr,
       onDetect,
     };
   },
