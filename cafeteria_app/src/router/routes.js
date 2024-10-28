@@ -20,13 +20,13 @@ const routes = [
         meta: { requiresAuth: true },
       },
       {
-        path: "typeBonus/:action?",
-        name: "typeBonus",
-        component: () => import("pages/TypeBonusPage.vue"),
+        path: "bonusType/:action?",
+        name: "bonusType",
+        component: () => import("pages/BonusTypePage.vue"),
         meta: { requiresAuth: true },
       },
       {
-        path: "cameraScan/:action?/:mode?", // Parámetro para tipo bono
+        path: "cameraScan/:action?/:bonusType?",
         name: "cameraScan",
         component: () => import("pages/CameraScanPage.vue"),
         meta: { requiresAuth: true },

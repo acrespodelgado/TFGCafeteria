@@ -11,7 +11,7 @@
         </h1>
         <h2>
           Tipo de bono a
-          {{ action === "scan" ? "escanear" : "generar" }}
+          {{ action === "scan" ? "escanear" : "recargar" }}
         </h2>
       </div>
       <div
@@ -40,7 +40,7 @@ import { useSelectedWorker } from "src/composables/useSelectedWorker";
 import BackButton from "src/layouts/BackButton.vue";
 
 export default defineComponent({
-  name: "BonusTypeLayout",
+  name: "BonusTypePage",
   components: {
     BackButton,
   },
@@ -64,7 +64,7 @@ export default defineComponent({
     const navigateToCamera = (type) => {
       router.push({
         name: "cameraScan",
-        params: { action: type, mode: action },
+        params: { bonusType: type, action: action },
       });
     };
 

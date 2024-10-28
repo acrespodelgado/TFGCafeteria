@@ -24,7 +24,7 @@ export default defineComponent({
       message: "Operación realizada",
     });
 
-    //Redirigir a typebonus tras 3 segundos
+    //Redirigir a bonusType tras 3 segundos
   },
 });
 </script>

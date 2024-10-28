@@ -54,13 +54,13 @@ const linksList = [
     title: "Escanear bono",
     caption: "Consumir bono de alumno",
     icon: "photo_camera",
-    link: { name: "typeBonus", query: { action: "scan" } },
+    link: { name: "bonusType", query: { action: "scan" } },
   },
   {
-    title: "Generar bono",
-    caption: "Crear un bono a alumno",
+    title: "Recargar bono",
+    caption: "Recarga un bono a alumno",
     icon: "qr_code",
-    link: { name: "typeBonus", query: { action: "create" } },
+    link: { name: "bonusType", query: { action: "recharge" } },
   },
 ];
 

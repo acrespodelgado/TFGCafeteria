@@ -16,8 +16,8 @@
         <q-btn
           color="primary"
           class="big-button"
-          label="Generar Bono"
-          @click="redirect('create')"
+          label="Recargar Bono"
+          @click="redirect('recharge')"
         />
       </div>
     </div>
@@ -40,7 +40,7 @@ export default defineComponent({
     const router = useRouter();
 
     const redirect = (action) => {
-      router.push({ name: "typeBonus", query: { action } });
+      router.push({ name: "bonusType", query: { action } });
     };
 
     return {
