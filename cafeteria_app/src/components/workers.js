@@ -28,7 +28,7 @@ export const useWorkers = () => {
   // Agrupar camareros por empresa
   const groupWorkersByEmpresa = () => {
     return workers.value.reduce((acc, worker) => {
-      const empresa = worker.Empresa || "Sin Empresa"; // Si no tiene 'Empresa', asigna 'Sin Empresa'
+      const empresa = worker.Empresa || "Sin Empresa";
       if (!acc[empresa]) {
         acc[empresa] = [];
       }

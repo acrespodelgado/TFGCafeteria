@@ -13,7 +13,7 @@ import { defineComponent } from "vue";
 import { useQuasar } from "quasar";
 
 export default defineComponent({
-  name: "ChargingPage",
+  name: "LoadingPage",
 
   setup() {
     const $q = useQuasar();

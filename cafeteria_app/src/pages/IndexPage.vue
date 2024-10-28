@@ -4,7 +4,7 @@
       <AccessPage />
     </div>
     <div v-else>
-      <ChargingPage />
+      <LoadingPage />
     </div>
   </q-page>
 </template>
@@ -13,13 +13,13 @@
 import { defineComponent, ref } from "vue";
 import { useSelectedCoffeeShop } from "src/composables/useSelectedCoffeeShop";
 import AccessPage from "./AccessPage.vue";
-import ChargingPage from "./ChargingPage.vue";
+import LoadingPage from "./LoadingPage.vue";
 
 export default defineComponent({
   name: "IndexPage",
   components: {
     AccessPage,
-    ChargingPage,
+    LoadingPage,
   },
 
   setup() {

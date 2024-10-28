@@ -35,7 +35,7 @@
 import { defineComponent, onMounted } from "vue";
 import { useBonusType } from "src/components/bonusType";
 import { useRouter, useRoute } from "vue-router";
-import { useRedirectIfNoWorker } from "src/composables/redirectNotSelectedWorker";
+import { useRedirectIfNoWorker } from "src/composables/redirect";
 import { useSelectedWorker } from "src/composables/useSelectedWorker";
 import BackButton from "src/layouts/BackButton.vue";
 

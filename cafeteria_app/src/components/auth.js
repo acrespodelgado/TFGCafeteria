@@ -10,11 +10,10 @@ export function isAuthenticated() {
   const elapsedTime = currentTime - authTime;
 
   if (elapsedTime > expirationTime) {
-    // Si ha pasado más de una hora, elimina la autenticación
     localStorage.removeItem("isAuthenticated");
     localStorage.removeItem("authTime");
     return false; // Autenticación caducada
   }
 
-  return localStorage.getItem("isAuthenticated") === "true"; // Retorna el estado de autenticación
+  return localStorage.getItem("isAuthenticated") === "true";
 }

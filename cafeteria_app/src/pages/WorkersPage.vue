@@ -25,6 +25,7 @@ import { defineComponent, onMounted, computed } from "vue";
 import { useWorkers } from "src/components/workers";
 import { useSelectedWorker } from "src/composables/useSelectedWorker";
 import { useSelectedCoffeeShop } from "src/composables/useSelectedCoffeeShop";
+import { useRedirectIfNoCoffeeShop } from "src/composables/redirect";
 import { useRouter, useRoute } from "vue-router";
 import { Notify } from "quasar";
 
@@ -33,10 +34,15 @@ export default defineComponent({
 
   setup() {
     const { workers, fetchWorkers } = useWorkers();
-    const { setSelectedWorker } = useSelectedWorker(); // Función para guardar el trabajador seleccionado
+    const { setSelectedWorker } = useSelectedWorker();
     const { selectedCoffeeShop } = useSelectedCoffeeShop();
+    const { redirectIfNoCoffeeShop } = useRedirectIfNoCoffeeShop();
     const router = useRouter();
     const route = useRoute();
+
+    if (!redirectIfNoCoffeeShop()) {
+      return; // Redirijo para obligar a elegir cafeteria
+    }
 
     // Antes de cargar el componente se filtra por camareros de esa empresa
     const filteredWorkers = computed(() => {
@@ -60,8 +66,8 @@ export default defineComponent({
     });
 
     const selectWorker = (worker) => {
-      setSelectedWorker(worker); // Guarda el trabajador seleccionado en el estado global
-      router.push({ path: "/chooseAction" }); // Redirige a la ruta de ChooseActionPage
+      setSelectedWorker(worker);
+      router.push({ path: "/chooseAction" });
     };
 
     return {

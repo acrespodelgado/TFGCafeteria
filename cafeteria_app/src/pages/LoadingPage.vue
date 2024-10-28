@@ -24,7 +24,7 @@ import { defineComponent } from "vue";
 import { useSelectedCoffeeShop } from "src/composables/useSelectedCoffeeShop";
 
 export default defineComponent({
-  name: "ChargingPage",
+  name: "LoadingPage",
 
   setup() {
     const { selectedCoffeeShop } = useSelectedCoffeeShop();
