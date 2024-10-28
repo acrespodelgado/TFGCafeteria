@@ -18,17 +18,15 @@
       <q-carousel-slide
         v-for="coffeeShop in coffeeShops"
         :key="coffeeShop.id"
-        :name="coffeeShop.nombre"
+        :name="coffeeShop.Name"
         class="flex flex-center"
       >
         <div class="text-center">
-          <img :alt="coffeeShop.nombre" :src="coffeeShop.url" width="100px" />
-          <h2>{{ coffeeShop.nombre }}</h2>
+          <img :alt="coffeeShop.Name" :src="coffeeShop.Url" width="100px" />
+          <h2>{{ coffeeShop.Name }}</h2>
           <h3>
             Universidad
-            {{
-              coffeeShop.universidad ? coffeeShop.universidad : "por definir"
-            }}
+            {{ coffeeShop.University ? coffeeShop.University : "por definir" }}
           </h3>
         </div>
       </q-carousel-slide>
@@ -68,19 +66,13 @@ export default defineComponent({
 
       // Inicializar currentCoffeeShop con la primera cafetería
       if (coffeeShops.value && coffeeShops.value.length > 0) {
-        currentCoffeeShop.value = coffeeShops.value[0].nombre;
+        currentCoffeeShop.value = coffeeShops.value[0].Name;
       }
     });
 
     const chooseCoffeeShop = async () => {
       if (currentCoffeeShop.value) {
         setSelectedCoffeeShop(currentCoffeeShop.value);
-        /*
-        router.push({
-          path: "/myBonuses",
-          query: { coffeeShop: currentCoffeeShop.value },
-        });
-        */
         const selectedCompany = await getCompanyByCoffeeShop(
           currentCoffeeShop.value
         );

@@ -47,13 +47,13 @@
                 >
                   <template v-slot:body-cell-tipo_bono="props">
                     <q-td :props="props">
-                      {{ props.row.tipo_bono }}
+                      {{ props.row.Tipo_Bono }}
                     </q-td>
                   </template>
 
                   <template v-slot:body-cell-usos="props">
                     <q-td :props="props">
-                      {{ props.row.usos }}
+                      {{ props.row.Usos }}
                     </q-td>
                   </template>
                 </q-table>
@@ -137,13 +137,13 @@ export default defineComponent({
       toolbar: ref(false),
       columns: [
         {
-          name: "tipo_bono",
+          name: "Tipo_Bono",
           label: "Tipo de Bono",
           field: "tipo_bono",
           align: "left",
         },
         {
-          name: "usos",
+          name: "Usos",
           label: "Usos Restantes",
           field: "usos",
           align: "right",

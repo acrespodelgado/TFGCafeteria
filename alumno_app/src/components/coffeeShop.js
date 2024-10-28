@@ -11,14 +11,14 @@ export const useCoffeeShop = () => {
       const coffeeShopCol = collection(db, "Cafeteria");
       const coffeeShopSnapshot = await getDocs(coffeeShopCol);
       coffeeShops.value = coffeeShopSnapshot.docs.map((doc) => ({
-        name: doc.data().Nombre,
-        url: doc.data().Url_Logo,
+        Name: doc.data().Nombre,
+        Url: doc.data().Url_Logo,
         value: doc.id,
-        company: doc.data().Empresa,
-        schedule: doc.data().Horario,
-        phone: doc.data().Telefono,
-        university: doc.data().Universidad,
-        menu: doc.data().Menu,
+        Company: doc.data().Empresa,
+        Schedule: doc.data().Horario,
+        Phone: doc.data().Telefono,
+        University: doc.data().Universidad,
+        Menu: doc.data().Menu,
       }));
 
       groupByCompany();

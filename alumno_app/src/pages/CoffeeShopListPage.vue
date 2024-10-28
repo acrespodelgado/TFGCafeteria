@@ -2,36 +2,36 @@
   <q-page class="flex flex-center">
     <div class="q-pa-md text-center">
       <h1>Listado de Cafeterías</h1>
-      <div v-for="(coffeeShops, company) in groupedCoffeeShops" :key="company">
+      <div v-for="(coffeeShops, Company) in groupedCoffeeShops" :key="Company">
         <q-table
           class="q-mb-lg"
           :dense="$q.screen.lt.md"
-          :title="company"
+          :title="Company"
           :rows="coffeeShops"
           :columns="[
-            { name: 'name', label: 'Nombre', align: 'left', field: 'name' },
+            { name: 'name', label: 'Nombre', align: 'left', field: 'Name' },
             {
               name: 'university',
               label: 'Universidad',
               align: 'left',
-              field: 'university',
+              field: 'University',
               format: (val) => val || 'No disponible', // Valor por defecto
             },
             {
               name: 'phone',
               label: 'Teléfono',
               align: 'left',
-              field: 'phone',
+              field: 'Phone',
               format: (val) => val || 'No disponible', // Valor por defecto
             },
             {
               name: 'schedule',
               label: 'Horario',
               align: 'left',
-              field: 'schedule',
+              field: 'Schedule',
               format: (val) => val || 'Por definir', // Valor por defecto
             },
-            { name: 'menu', label: 'Menú', align: 'left', field: 'menu' },
+            { name: 'menu', label: 'Menú', align: 'left', field: 'Menu' },
           ]"
           row-key="value"
           flat
@@ -41,8 +41,8 @@
         >
           <template v-slot:body-cell-menu="props">
             <q-td :props="props">
-              <span v-if="props.row.menu">
-                <a :href="props.row.menu" target="_blank">Ver menú</a>
+              <span v-if="props.row.Menu">
+                <a :href="props.row.Menu" target="_blank">Ver menú</a>
               </span>
               <span v-else>Por definir</span>
             </q-td>
