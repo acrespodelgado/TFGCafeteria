@@ -53,7 +53,6 @@ export async function actionOnWallet(qrCode, action, bonusType) {
       where("Tipo_Bono", "==", bonusType)
     );
     const disponibilitySnapshot = await getDocs(q);
-    console.log(disponibilitySnapshot);
 
     if (disponibilitySnapshot.empty) {
       console.log("No se encontró disponibilidad para este bono");
@@ -83,6 +82,7 @@ export async function actionOnWallet(qrCode, action, bonusType) {
     registerTransaction(qrCode, action, bonusType);
 
     console.log(`Acción ${action} realizada. Nuevos usos: ${newUses}`);
+    return newUses;
   } catch (error) {
     console.error("Error procesando la acción:", error);
     throw error;

@@ -38,7 +38,7 @@ const routes = [
         meta: { requiresAuth: true },
       },
       {
-        path: "confirmation",
+        path: "confirmation/:action?/:bonusType?/:uses?",
         name: "confirmation",
         component: () => import("pages/ConfirmationPage.vue"),
         meta: { requiresAuth: true },

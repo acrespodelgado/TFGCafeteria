@@ -16,10 +16,11 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import BackButton from "src/layouts/BackButton.vue";
 import { QrcodeStream } from "vue-qrcode-reader";
 import { actionOnWallet } from "src/components/scan";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   name: "CameraScanPage",
@@ -29,18 +30,39 @@ export default defineComponent({
   },
 
   setup() {
+    const $q = useQuasar();
     const route = useRoute();
+    const router = useRouter();
     const bonusType = route.params.bonusType;
     const action = route.params.action;
     const decodedQr = ref("");
     const testCode =
       "854f5e5a9d6ce3c013f5654df07785bd1ea0760ae2293e93913aef0c3177880c";
 
-    const onDetect = (detectedCodes) => {
+    const onDetect = async (detectedCodes) => {
       decodedQr.value = detectedCodes[0].rawValue;
     };
 
-    actionOnWallet(testCode, action, bonusType);
+    const realizarOperacion = async () => {
+      try {
+        const uses = await actionOnWallet(testCode, action, bonusType);
+
+        $q.notify({
+          message: "Operación realizada con éxito",
+          color: "positive",
+          timeout: 5000,
+        });
+        router.push(`/confirmation/${action}/${bonusType}/${uses}`);
+      } catch (error) {
+        $q.notify({
+          message: "Error al realizar la operación",
+          color: "negative",
+          timeout: 3000,
+        });
+      }
+    };
+
+    realizarOperacion();
 
     return {
       bonusType,

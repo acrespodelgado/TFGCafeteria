@@ -90,7 +90,7 @@ export default defineComponent({
           sessionStorage.removeItem("password");
         }
 
-        $q.notify({ type: "positive", message: "Registro exitoso" });
+        $q.notify({ type: "positive", message: "Inicio de sesión exitoso" });
         router.push("/chooseCoffeeShop");
       } catch (error) {
         $q.notify({ type: "negative", message: error.message });

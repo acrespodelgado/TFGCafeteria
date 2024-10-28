@@ -1,30 +1,38 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="q-pa-md">
-      <p>Mensaje con datos y confirmacion</p>
-      <p>Tipo de bono</p>
-      <p>Cantidad de usos restantes:</p>
+    <div class="q-pa-md text-center">
+      <h1 v-if="action && bonusType">
+        Se ha {{ action === "scan" ? "escaneado" : "recargado" }}
+        {{ bonusType }} con éxito
+      </h1>
+      <h2>Cantidad de usos restantes: {{ uses ? uses : "No disponible" }}</h2>
     </div>
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { useQuasar } from "quasar";
+import { useRoute, useRouter } from "vue-router";
 
 export default defineComponent({
-  name: "LoadingPage",
+  name: "ConfirmationPage",
 
   setup() {
-    const $q = useQuasar();
+    const route = useRoute();
+    const router = useRouter();
+    const action = route.params.action;
+    const bonusType = route.params.bonusType;
+    const uses = route.params.uses;
+    const loadingDuration = 6000;
 
-    $q.notify({
-      icon: "done",
-      color: "positive",
-      message: "Operación realizada",
-    });
-
-    //Redirigir a bonusType tras 3 segundos
+    setTimeout(() => {
+      router.push("/workers");
+    }, loadingDuration);
+    return {
+      bonusType,
+      action,
+      uses,
+    };
   },
 });
 </script>
