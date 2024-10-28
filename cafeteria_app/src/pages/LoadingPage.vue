@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <div v-if="selectedCoffeeShop != null && selectedCoffeeShop.value">
-      <h1 class="text-center">{{ selectedCoffeeShop.label }}</h1>
+      <h1 class="text-center">{{ selectedCoffeeShop.Nombre }}</h1>
       <q-card-section>
         <transition
           appear
@@ -9,8 +9,8 @@
           leave-active-class="animated fadeOut"
         >
           <q-img
-            :alt="selectedCoffeeShop.label"
-            :src="selectedCoffeeShop.url"
+            :alt="selectedCoffeeShop.Nombre"
+            :src="selectedCoffeeShop.Url"
             style="width: 300px; height: auto"
           />
         </transition>

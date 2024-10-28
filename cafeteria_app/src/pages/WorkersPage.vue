@@ -47,7 +47,7 @@ export default defineComponent({
     // Antes de cargar el componente se filtra por camareros de esa empresa
     const filteredWorkers = computed(() => {
       return workers.value.filter(
-        (worker) => worker.Empresa === selectedCoffeeShop.value?.empresa
+        (worker) => worker.Empresa === selectedCoffeeShop.value?.Empresa
       );
     });
 

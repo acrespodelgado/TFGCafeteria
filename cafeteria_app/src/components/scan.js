@@ -2,16 +2,18 @@ import { db } from "src/boot/firebase";
 import {
   collection,
   getDocs,
+  addDoc,
   query,
   where,
   updateDoc,
 } from "firebase/firestore";
 import { useSelectedWorker } from "src/composables/useSelectedWorker";
 import { useSelectedCoffeeShop } from "src/composables/useSelectedCoffeeShop";
+import { registerRuntimeCompiler } from "vue";
 
 async function fetchWallet(qrCode) {
   const { selectedCoffeeShop } = useSelectedCoffeeShop();
-  const company = selectedCoffeeShop.value.empresa;
+  const company = selectedCoffeeShop.value.Empresa;
 
   try {
     const q = query(
@@ -79,6 +81,8 @@ export async function actionOnWallet(qrCode, action, bonusType) {
       Usos: newUses,
     });
 
+    registerTransaction(qrCode, action, bonusType);
+
     console.log(`Acción ${action} realizada. Nuevos usos: ${newUses}`);
   } catch (error) {
     console.error("Error procesando la acción:", error);
@@ -88,7 +92,7 @@ export async function actionOnWallet(qrCode, action, bonusType) {
 
 async function registerTransaction(qrCode, action, bonusType) {
   try {
-    const walletData = await fetchWallet(action, qrCode);
+    const walletData = await fetchWallet(qrCode);
     const { selectedWorker } = useSelectedWorker();
     const { selectedCoffeeShop } = useSelectedCoffeeShop();
     const dateTime = new Date();
@@ -98,7 +102,7 @@ async function registerTransaction(qrCode, action, bonusType) {
       return;
     }
 
-    const walletIdStudent = walletData[0].Id_Alumno;
+    const walletIdStudent = walletData.Id_Alumno;
 
     const q = query(
       collection(db, "Alumno"),
@@ -111,10 +115,10 @@ async function registerTransaction(qrCode, action, bonusType) {
 
     const transactionData = {
       Alumno: studentData.Nombre + " " + studentData.Apellidos,
-      Camarero: selectedWorker.value.nombre,
+      Camarero: selectedWorker.value.Nombre,
       Tipo_Bono: bonusType,
       Hora: dateTime,
-      Cafeteria: selectedCoffeeShop.value.nombre,
+      Cafeteria: selectedCoffeeShop.value.Nombre,
       Tipo: action === "scan" ? "Venta" : "Recarga",
     };
 

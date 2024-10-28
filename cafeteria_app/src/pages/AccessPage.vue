@@ -47,7 +47,7 @@ import { defineComponent, ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
 import { db } from "src/boot/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useCoffeeShop } from "src/components/coffeeShop";
 import { useSelectedCoffeeShop } from "src/composables/useSelectedCoffeeShop";
 import { pinRules } from "src/composables/rules";
@@ -57,6 +57,7 @@ export default defineComponent({
   setup() {
     const $q = useQuasar();
     const router = useRouter();
+    const route = useRoute();
     const pin = ref(null);
     const pinRef = ref(null);
     const selectedCoffeeShop = ref(null);
@@ -91,7 +92,7 @@ export default defineComponent({
 
       try {
         const isValidPin = await checkPin(
-          selectedCoffeeShop.value.label,
+          selectedCoffeeShop.value.Nombre,
           pin.value
         );
         if (isValidPin) {
@@ -141,6 +142,16 @@ export default defineComponent({
     onMounted(() => {
       fetchCoffeeShops();
     });
+
+    // Rescatar el mensaje de la URL y mostrarlo con notify
+    const message = route.query.message;
+    if (message) {
+      $q.notify({
+        icon: "warning",
+        color: "negative",
+        message: decodeURIComponent(message),
+      });
+    }
 
     return {
       pin,

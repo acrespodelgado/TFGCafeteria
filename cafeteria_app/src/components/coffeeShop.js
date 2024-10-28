@@ -10,10 +10,11 @@ export const useCoffeeShop = () => {
       const coffeeShopCol = collection(db, "Cafeteria");
       const coffeeShopSnapshot = await getDocs(coffeeShopCol);
       coffeeShops.value = coffeeShopSnapshot.docs.map((doc) => ({
-        label: doc.data().Nombre,
-        url: doc.data().Url_Logo,
         value: doc.id,
-        empresa: doc.data().Empresa,
+        label: doc.data().Nombre,
+        Nombre: doc.data().Nombre,
+        Url: doc.data().Url_Logo,
+        Empresa: doc.data().Empresa,
       }));
     } catch (error) {
       console.error("Error fetching coffeeShops: ", error);
