@@ -43,12 +43,10 @@ export default defineComponent({
 
     const navigateTo = () => {
       if (typeof props.link === "string") {
-        // Si es una cadena, redirigir como antes
         props.link.toString().startsWith("http")
           ? window.open(props.link, "_blank")
           : router.push({ name: props.link });
       } else {
-        // Si es un objeto, navegar usando el router
         router.push(props.link);
       }
     };

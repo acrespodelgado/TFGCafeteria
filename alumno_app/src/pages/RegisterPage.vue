@@ -46,7 +46,7 @@
               label="Repita la Contraseña"
               :type="isPwd2 ? 'password' : 'text'"
               outlined
-              :rules="repeatPasswordRules"
+              :rules="repeatPasswordRules(password)"
               lazy-rules
             >
               <template v-slot:append>

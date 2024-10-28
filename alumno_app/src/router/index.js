@@ -7,6 +7,7 @@ import {
 } from "vue-router";
 import routes from "./routes";
 import { auth } from "src/composables/firebaseAuth";
+import { Notify } from "quasar";
 
 /*
  * If not building with SSR mode, you can
@@ -38,6 +39,11 @@ export default route(function (/* { store, ssrContext } */) {
   Router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth && !auth.currentUser) {
       next("/access"); // Redirige a la página de acceso si no está autenticado
+      Notify.create({
+        type: "negative",
+        message: "Debe iniciar sesión primero.",
+        timeout: 1500,
+      });
     } else {
       next(); // Continúa a la ruta solicitada
     }

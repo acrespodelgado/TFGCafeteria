@@ -38,44 +38,7 @@ import { defineComponent, ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
 import { logout } from "src/composables/firebaseAuth";
 import { useRouter } from "vue-router";
-
-const linksList = [
-  {
-    title: "Home",
-    caption: "",
-    icon: "home",
-    link: "home",
-  },
-  {
-    title: "Elegir Cafetería",
-    caption: "",
-    icon: "local_cafe",
-    link: "chooseCoffeeShop",
-  },
-  {
-    title: "Listado Cafeterías",
-    caption: "Información sobre las cafeterías",
-    icon: "store",
-    link: "coffeeShopList",
-  },
-  {
-    title: "Mis bonos",
-    caption: "Listado de bonos y tarjetero",
-    icon: "wallet",
-    //link: { name: "myBonuses", query: { action: "coffeeShopSelected" } },
-    link: "myBonuses",
-  },
-  {
-    title: "Cerrar sesión",
-    caption: "",
-    icon: "logout",
-    link: "",
-    onClick: async () => {
-      await logout();
-      redirectLogin();
-    },
-  },
-];
+import { Notify } from "quasar";
 
 export default defineComponent({
   name: "MainLayout",
@@ -88,9 +51,55 @@ export default defineComponent({
     const leftDrawerOpen = ref(false);
     const router = useRouter();
 
-    const redirectLogin = () => {
-      router.push("/access");
-    };
+    const linksList = [
+      {
+        title: "Home",
+        caption: "",
+        icon: "home",
+        link: "home",
+      },
+      {
+        title: "Elegir Cafetería",
+        caption: "",
+        icon: "local_cafe",
+        link: "chooseCoffeeShop",
+      },
+      {
+        title: "Listado Cafeterías",
+        caption: "Información sobre las cafeterías",
+        icon: "store",
+        link: "coffeeShopList",
+      },
+      {
+        title: "Mis bonos",
+        caption: "Listado de bonos y tarjetero",
+        icon: "wallet",
+        link: "myBonuses",
+      },
+      {
+        title: "Cerrar sesión",
+        caption: "",
+        icon: "logout",
+        link: "",
+        onClick: async () => {
+          try {
+            await logout(router);
+            Notify.create({
+              type: "positive",
+              message: "Sesión cerrada con éxito.",
+              timeout: 1500,
+            });
+          } catch (error) {
+            console.error("Error al cerrar sesión:", error.message);
+            Notify.create({
+              type: "negative",
+              message: "Error al cerrar sesión. Inténtalo de nuevo.",
+              timeout: 1500,
+            });
+          }
+        },
+      },
+    ];
 
     return {
       essentialLinks: linksList,
@@ -98,7 +107,6 @@ export default defineComponent({
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
-      redirectLogin,
     };
   },
 });

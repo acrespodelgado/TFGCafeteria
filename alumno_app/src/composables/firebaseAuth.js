@@ -13,10 +13,11 @@ import CryptoJS from "crypto-js";
 const auth = getAuth();
 
 // Función para cerrar sesión
-const logout = async () => {
+const logout = async (router) => {
   try {
     await signOut(auth);
     console.log("Sesión cerrada con éxito.");
+    router.push("/access");
   } catch (error) {
     console.error("Error al cerrar sesión: ", error.message);
     throw error;
@@ -34,6 +35,14 @@ const register = async (
   university
 ) => {
   try {
+    // Verificar si el DNI no existe en la base de datos
+    const dniQuery = query(collection(db, "Alumno"), where("Dni", "==", dni));
+    const dniSnapshot = await getDocs(dniQuery);
+
+    if (!dniSnapshot.empty) {
+      throw new Error("El DNI ya está registrado.");
+    }
+
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -71,6 +80,7 @@ const register = async (
       });
     });
 
+    logout();
     return user;
   } catch (error) {
     console.error("Error al registrar el usuario: ", error.message);
@@ -98,12 +108,11 @@ const login = async (email, password) => {
 // Función para obtener datos del usuario actual
 const getCurrentUserData = async () => {
   try {
-    const user = auth.currentUser; // Obtiene el usuario autenticado actual
+    const user = auth.currentUser;
     if (!user) {
       throw new Error("No hay un usuario autenticado.");
     }
 
-    // Consulta la colección Alumno utilizando el UID del usuario autenticado
     const studentQuery = query(
       collection(db, "Alumno"),
       where("uid", "==", user.uid)
