@@ -9,7 +9,6 @@ import {
 } from "firebase/firestore";
 import { useSelectedWorker } from "src/composables/useSelectedWorker";
 import { useSelectedCoffeeShop } from "src/composables/useSelectedCoffeeShop";
-import { registerRuntimeCompiler } from "vue";
 
 async function fetchWallet(qrCode) {
   const { selectedCoffeeShop } = useSelectedCoffeeShop();

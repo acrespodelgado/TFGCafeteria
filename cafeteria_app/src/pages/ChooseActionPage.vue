@@ -6,7 +6,7 @@
       </div>
       <div class="col-6 flex justify-center">
         <q-btn
-          color="primary"
+          color="secondary"
           class="big-button"
           label="Escanear Bono"
           @click="redirect('scan')"
@@ -14,7 +14,7 @@
       </div>
       <div class="col-6 flex justify-center">
         <q-btn
-          color="primary"
+          color="secondary"
           class="big-button"
           label="Recargar Bono"
           @click="redirect('recharge')"

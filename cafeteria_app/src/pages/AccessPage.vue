@@ -2,11 +2,7 @@
   <q-page class="flex flex-center">
     <div class="q-pa-md">
       <h1 class="q-mb-lg">Acceso a la cafetería</h1>
-      <form
-        @submit.prevent.stop="onSubmit"
-        @reset.prevent.stop="onReset"
-        class="q-gutter-md"
-      >
+      <form @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset">
         <q-select
           v-model="selectedCoffeeShop"
           :options="coffeeShops"
@@ -33,7 +29,7 @@
         <q-btn
           label="Limpiar"
           type="reset"
-          color="primary"
+          color="secondary"
           flat
           class="q-ml-sm"
         />
@@ -103,7 +99,7 @@ export default defineComponent({
           localStorage.setItem("authTime", currentTime);
 
           // Estado de carga
-          const loadingDuration = 2000; // 2 segundos
+          const loadingDuration = 3000; // 3 segundos
 
           $q.notify({
             icon: "done",
@@ -111,7 +107,7 @@ export default defineComponent({
             message: "Acceso concedido",
           });
 
-          // Espera 2 segundos antes de redirigir
+          // Espera 3 segundos antes de redirigir
           setTimeout(() => {
             router.push("/workers");
           }, loadingDuration);

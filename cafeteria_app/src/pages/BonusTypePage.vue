@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md example-row-equal-width">
+  <div class="q-pa-md">
     <div class="row">
       <div class="col-12">
         <h1>
@@ -20,7 +20,7 @@
         class="col-6 flex justify-center"
       >
         <q-btn
-          color="primary"
+          color="secondary"
           class="big-button"
           :label="type.Nombre"
           @click="navigateToCamera(type.Nombre)"

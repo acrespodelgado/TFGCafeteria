@@ -1,13 +1,16 @@
 <template>
-  <q-page class="flex flex-center">
-    <h1>Escanear Código QR</h1>
-    <h1 v-if="bonusType && action">Acción: {{ bonusType }} y {{ action }}</h1>
-    <h1 v-else>No se recibió ninguna acción.</h1>
-    <qrcode-stream @detect="onDetect"></qrcode-stream>
-    <q-card-section v-if="decodedQr">
-      <p>Código QR escaneado: {{ decodedQr }}</p>
-    </q-card-section>
-    <BackButton />
+  <q-page class="flex-center cameraScan">
+    <div class="q-pa-md text-center">
+      <h1>{{ action === "scan" ? "Escanear" : "Recargar" }} {{ bonusType }}</h1>
+      <div class="scanContainer">
+        <qrcode-stream @detect="onDetect"></qrcode-stream>
+        <q-card-section v-if="decodedQr">
+          <p>Código QR escaneado: {{ decodedQr }}</p>
+        </q-card-section>
+      </div>
+      <h2>Escanee el código QR</h2>
+      <BackButton />
+    </div>
   </q-page>
 </template>
 

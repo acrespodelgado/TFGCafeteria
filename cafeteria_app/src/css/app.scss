@@ -1,13 +1,104 @@
 // app global css in SCSS form
+
+/* -- Global -- */
+body {
+  font-family: "Lato", sans-serif;
+}
+
+/* -- Menú -- */
+
+.q-drawer {
+  background: $secondary;
+  .q-list {
+    .q-item,
+    .q-item__label {
+      color: $light;
+    }
+  }
+}
+
+/* -- Textos -- */
+
 h1 {
-  font-size: 2rem;
-  font-weight: 400;
-  line-height: 2.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.5rem;
   letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+}
+
+/* -- Form -- */
+form {
+  .q-field__control {
+    border: 1px solid $secondary;
+    border-radius: 4px;
+  }
+  .q-field--highlighted {
+    .q-field__control {
+      border: 1px solid $primary;
+    }
+  }
+  .q-icon {
+    color: $primary;
+  }
+}
+
+.q-select__dialog {
+  max-width: 400px !important;
+  .q-select--single {
+    background: $secondary;
+  }
+  .q-field__label,
+  .q-field__control-container span,
+  .q-icon {
+    color: $light;
+  }
+}
+
+/* -- Error -- */
+
+.q-field--error {
+  .q-field__bottom {
+    padding-top: 3px;
+  }
+}
+
+/* -- Botones -- */
+
+.q-btn {
+  transition: all 0.2s ease-in;
+  box-shadow: none !important;
+  &.bg-primary {
+    border: 2px solid $primary;
+    &:hover {
+      background: $secondary !important;
+      border: 2px solid $secondary;
+      transition: all 0.2s ease-in-out;
+    }
+  }
+  &.bg-secondary {
+    border: 2px solid $secondary;
+    &:hover {
+      background: $primary !important;
+      border: 2px solid $primary;
+      transition: all 0.2s ease-in-out;
+    }
+  }
+  &:before {
+    box-shadow: none;
+  }
+}
+
+.button {
+  padding: 0.5rem 1.5rem;
 }
 
 .big-button {
@@ -22,6 +113,14 @@ h2 {
   right: 1rem;
   padding: 1rem;
   color: $secondary;
+  border: 2px solid $secondary;
+  transition: all 0.2s ease-in;
+  &:hover {
+    border: 2px solid $primary;
+    background: $primary;
+    transition: all 0.2s ease-in-out;
+    color: $light;
+  }
   .q-btn {
     &:before {
       box-shadow: none !important;
@@ -29,9 +128,31 @@ h2 {
   }
 }
 
+/* -- Camareros -- */
+
 #workers {
   button {
     padding: 1rem;
     margin: 1rem;
+  }
+}
+
+/* -- Escaner cámara -- */
+
+.cameraScan {
+  h1 {
+    margin-bottom: 5px;
+  }
+  h2 {
+    margin-top: 0px;
+    text-transform: uppercase;
+  }
+  h3 {
+    margin-top: 0px;
+  }
+  .scanContainer {
+    margin: 3rem 0 1.5rem 0;
+    min-height: 350px;
+    max-height: 450px;
   }
 }

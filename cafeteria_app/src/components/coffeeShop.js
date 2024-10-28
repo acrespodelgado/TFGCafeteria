@@ -15,6 +15,8 @@ export const useCoffeeShop = () => {
         Nombre: doc.data().Nombre,
         Url: doc.data().Url_Logo,
         Empresa: doc.data().Empresa,
+        Telefono: doc.data().Telefono,
+        Horario: doc.data().Horario,
       }));
     } catch (error) {
       console.error("Error fetching coffeeShops: ", error);
