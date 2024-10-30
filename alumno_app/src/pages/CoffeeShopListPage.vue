@@ -14,13 +14,20 @@
           :title="company"
           :rows="coffeeShops"
           :columns="[
-            { name: 'name', label: 'Nombre', align: 'left', field: 'Name' },
+            {
+              name: 'name',
+              label: 'Nombre',
+              align: 'left',
+              field: 'Name',
+              sortable: true,
+            },
             {
               name: 'university',
               label: 'Universidad',
               align: 'left',
               field: 'University',
               format: (val) => val || 'No disponible', // Valor por defecto
+              sortable: true,
             },
             {
               name: 'phone',

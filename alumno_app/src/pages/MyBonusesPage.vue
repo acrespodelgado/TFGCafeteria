@@ -154,6 +154,7 @@ export default defineComponent({
           label: "Usos Restantes",
           field: "usos",
           align: "right",
+          sortable: true,
         },
       ],
       goToQrBonus,

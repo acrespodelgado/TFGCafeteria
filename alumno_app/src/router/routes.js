@@ -36,14 +36,12 @@ const routes = [
         component: () => import("pages/MyBonusesPage.vue"),
         meta: { requiresAuth: true },
       },
-      /*
       {
-        path: "qrBonus/:bonusType?/:uses?", // Parámetro para accion
-        name: "qrBonus",
-        component: () => import("src/pages/_QrBonusPage.vue"),
+        path: "myTransactions",
+        name: "myTransactions",
+        component: () => import("pages/MyTransactionsPage.vue"),
         meta: { requiresAuth: true },
       },
-      */
       {
         path: "confirmation",
         name: "confirmation",

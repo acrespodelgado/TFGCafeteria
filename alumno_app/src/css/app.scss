@@ -13,6 +13,26 @@ body {
   background-position-y: -300px;
 }
 
+.circlePrimary {
+  background: $primary;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h3 {
+    color: $light;
+    font-weight: 600;
+    font-size: 1.15rem;
+  }
+  h4 {
+    color: $light;
+    font-size: 1rem;
+  }
+}
+
 /* -- Menú -- */
 
 .q-drawer {
@@ -203,25 +223,6 @@ form {
       cursor: pointer;
     }
   }
-  .circlePrimary {
-    background: $primary;
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    h3 {
-      color: $light;
-      font-weight: 600;
-      font-size: 1.15rem;
-    }
-    h4 {
-      color: $light;
-      font-size: 1rem;
-    }
-  }
 }
 
 /* -- Listado Cafeterias -- */
@@ -273,6 +274,24 @@ form {
     }
     .q-card__section {
       padding: 2px;
+    }
+  }
+}
+
+/* -- Transacciones -- */
+
+.transactionsTable {
+  .q-icon {
+    font-size: 18px;
+    padding: 0 5px;
+    &[icon="add_circle"] {
+      color: $primary;
+    }
+    &[icon="do_not_disturb_on"] {
+      color: $secondary;
+    }
+    &.q-table__sort-icon {
+      color: $light;
     }
   }
 }

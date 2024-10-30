@@ -81,6 +81,12 @@ export default defineComponent({
         link: "myBonuses",
       },
       {
+        title: "Mis transacciones",
+        caption: "Consultar consumos y recargas del bono",
+        icon: "payments",
+        link: "myTransactions",
+      },
+      {
         title: "Cerrar sesión",
         caption: "",
         icon: "logout",

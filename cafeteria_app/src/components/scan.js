@@ -114,9 +114,10 @@ async function registerTransaction(qrCode, action, bonusType) {
 
     const transactionData = {
       Alumno: studentData.Nombre + " " + studentData.Apellidos,
+      Uid_Alumno: studentData.Uid,
       Camarero: selectedWorker.value.Nombre,
       Tipo_Bono: bonusType,
-      Hora: dateTime,
+      Fecha: dateTime,
       Cafeteria: selectedCoffeeShop.value.Nombre,
       Tipo: action === "scan" ? "Venta" : "Recarga",
     };
