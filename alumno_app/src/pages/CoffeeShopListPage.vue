@@ -1,7 +1,8 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="q-pa-md text-center coffeeShopList">
-      <h1>Listado de Cafeterías</h1>
+  <q-page>
+    <h1>Consulta datos generales de nuestras cafeterías</h1>
+    <h2 class="q-pt-none">Listado de Cafeterías</h2>
+    <div class="q-pa-sm text-center coffeeShopList">
       <div
         v-for="(coffeeShops, company) in groupedCoffeeShops"
         :key="company"

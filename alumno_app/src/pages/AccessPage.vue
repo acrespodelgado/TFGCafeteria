@@ -1,8 +1,8 @@
 <template>
   <q-page>
-    <h2>Universidad de Cádiz</h2>
-    <h1 class="q-pt-xs">Inicia sesión</h1>
-    <div class="flex flex-center">
+    <h1>Universidad de Cádiz</h1>
+    <h2 class="q-pt-none">Inicia sesión</h2>
+    <div class="flex flex-center q-pa-xl">
       <form @submit.prevent.stop="onSubmit" class="q-pa-md text-center">
         <div class="q-gutter-md q-my-md">
           <q-input

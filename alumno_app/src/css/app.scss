@@ -28,6 +28,17 @@ body {
 /* -- Textos -- */
 
 h1 {
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.05;
+  color: $light;
+  text-align: left;
+  padding-left: 3rem;
+  padding-top: 3rem;
+  margin-bottom: 0;
+}
+
+h2 {
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.25;
@@ -37,32 +48,17 @@ h1 {
   text-align: left;
   padding-left: 3rem;
   padding-top: 3rem;
-}
-
-h2 {
-  font-size: 1.15rem;
-  font-weight: 300;
-  line-height: 1.15;
-  color: $light;
-  text-align: left;
-  padding-left: 3rem;
-  padding-top: 3rem;
+  margin-top: 10px;
 }
 
 h3 {
   font-size: 1rem;
+  line-height: 1rem;
 }
 
-#chooseCoffeeShop {
-  h2 {
-    margin-bottom: 10px;
-    line-height: 1.5rem;
-  }
-  h3 {
-    margin-bottom: 10px;
-    font-weight: 300;
-    line-height: 1.5rem;
-  }
+h4 {
+  font-size: 0.8rem;
+  line-height: 0.8rem;
 }
 
 /* -- Error -- */
@@ -141,7 +137,7 @@ form {
   .q-field__control {
     border: 2px solid $secondary-trans;
     border-radius: 16px !important;
-    background: $secondary-trans;
+    background: $secondary-light;
   }
   .q-field--highlighted {
     .q-field__control {
@@ -201,9 +197,29 @@ form {
 /* -- Carousel cafeterias -- */
 
 .q-carousel {
+  background: transparent;
   .q-carousel__slide {
     &:hover {
       cursor: pointer;
+    }
+  }
+  .circlePrimary {
+    background: $primary;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h3 {
+      color: $light;
+      font-weight: 600;
+      font-size: 1.15rem;
+    }
+    h4 {
+      color: $light;
+      font-size: 1rem;
     }
   }
 }
@@ -261,11 +277,9 @@ form {
   }
 }
 
-@media (max-width: 600px) {
+@media (min-width: 1200px) {
   .coffeeShopList {
-    .tableContainer {
-      max-width: 65%;
-      margin: auto;
-    }
+    width: 90%;
+    margin: auto;
   }
 }

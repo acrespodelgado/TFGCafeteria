@@ -1,8 +1,11 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="q-pa-md text-center">
-      <div v-if="coffeeShopData" class="text-center">
-        <h1>Bonos {{ coffeeShopData.Empresa }}</h1>
+  <q-page>
+    <h1>Enseña tu código QR a la persona encargada</h1>
+    <h2 v-if="coffeeShopData" class="q-pt-none">
+      Bonos {{ coffeeShopData.Empresa }}
+    </h2>
+    <div class="flex flex-center q-pa-xl">
+      <div v-if="coffeeShopData" class="text-center q-my-lg">
         <qrcode-vue
           v-if="selectedWallet"
           :value="selectedWallet"

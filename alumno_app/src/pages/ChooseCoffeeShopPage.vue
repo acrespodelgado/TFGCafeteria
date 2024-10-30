@@ -1,8 +1,8 @@
 <template>
-  <q-page class="flex flex-center" v-if="!isLoading" id="chooseCoffeeShop">
-    <div class="q-pa-xl text-center">
-      <h1>Elige tu cafetería</h1>
-
+  <q-page v-if="!isLoading">
+    <h1>Lugar a utilizar el tarjetero</h1>
+    <h2 class="q-pt-none">Elige tu cafetería</h2>
+    <div class="flex flex-center q-px-xl">
       <q-carousel
         v-model="currentCoffeeShop"
         vertical
@@ -21,14 +21,28 @@
           :name="coffeeShop.Name"
           class="flex flex-center"
         >
-          <div class="text-center">
-            <img :alt="coffeeShop.Name" :src="coffeeShop.Url" width="200px" />
-            <h2>
-              {{ coffeeShop.Name }} - Universidad
+          <div class="text-center circlePrimary">
+            <img
+              v-if="coffeeShop.Url"
+              :alt="coffeeShop.Name"
+              :src="coffeeShop.Url"
+              width="100px"
+            />
+            <img
+              v-else
+              alt="CoffeeShop icon"
+              src="../assets/local_cafe_48.png"
+              width="100px"
+            />
+            <h3 class="q-my-xs">
+              {{ coffeeShop.Name }}
+            </h3>
+            <h4 class="q-my-xs">
+              Universidad
               {{
                 coffeeShop.University ? coffeeShop.University : "por definir"
               }}
-            </h2>
+            </h4>
           </div>
         </q-carousel-slide>
       </q-carousel>
@@ -95,7 +109,7 @@ export default defineComponent({
     };
 
     return {
-      controlType: ref("outline"),
+      controlType: ref("regular"),
       coffeeShops,
       currentCoffeeShop,
       chooseCoffeeShop,
