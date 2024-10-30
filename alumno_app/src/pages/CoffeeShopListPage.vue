@@ -1,12 +1,16 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="q-pa-md text-center">
+    <div class="q-pa-md text-center coffeeShopList">
       <h1>Listado de Cafeterías</h1>
-      <div v-for="(coffeeShops, Company) in groupedCoffeeShops" :key="Company">
+      <div
+        v-for="(coffeeShops, company) in groupedCoffeeShops"
+        :key="company"
+        class="tableContainer"
+      >
         <q-table
           class="q-mb-lg"
-          :dense="$q.screen.lt.md"
-          :title="Company"
+          :dense="$q.screen.lt.sm"
+          :title="company"
           :rows="coffeeShops"
           :columns="[
             { name: 'name', label: 'Nombre', align: 'left', field: 'Name' },
@@ -36,13 +40,20 @@
           row-key="value"
           flat
           bordered
+          separator="vertical"
           hide-bottom
           virtual-scroll
         >
           <template v-slot:body-cell-menu="props">
             <q-td :props="props">
               <span v-if="props.row.Menu">
-                <a :href="props.row.Menu" target="_blank">Ver menú</a>
+                <q-btn
+                  flat
+                  :href="props.row.Menu"
+                  target="_blank"
+                  rel="noopener"
+                  label="Ver menú"
+                />
               </span>
               <span v-else>Por definir</span>
             </q-td>
@@ -53,7 +64,7 @@
         label="Elegir cafetería"
         to="/chooseCoffeeShop"
         color="primary"
-        type="a"
+        rounded
       />
     </div>
     <BackButton />

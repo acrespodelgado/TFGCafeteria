@@ -1,19 +1,11 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="q-pa-md">
-      <div class="row">
-        <div class="col-12 text-center">
-          <h1 class="q-mb-lg">Registro de usuario</h1>
-          <q-img
-            alt="logo UCA"
-            src="~/src/assets/uca_logo_horizontal.png"
-            style="max-width: 300px; height: auto"
-          />
-        </div>
-      </div>
+  <q-page>
+    <h2>Universidad de Cádiz</h2>
+    <h1 class="q-pt-xs">Registrarse</h1>
+    <div class="q-pa-md flex flex-center">
       <form @submit.prevent.stop="onSubmit" class="q-my-md q-p-0">
         <div class="row">
-          <div class="col-12 q-my-md">
+          <div class="col-12 q-my-sm">
             <q-input
               v-model="email"
               label="Email"
@@ -22,7 +14,7 @@
               lazy-rules
             />
           </div>
-          <div class="col-6 q-my-md q-pr-xs">
+          <div class="col-6 q-my-sm q-pr-xs">
             <q-input
               v-model="password"
               label="Contraseña"
@@ -40,7 +32,7 @@
               </template>
             </q-input>
           </div>
-          <div class="col-6 q-my-md q-pl-xs">
+          <div class="col-6 q-my-sm q-pl-xs">
             <q-input
               v-model="repeat_password"
               label="Repita la Contraseña"
@@ -58,7 +50,7 @@
               </template>
             </q-input>
           </div>
-          <div class="col-6 q-my-md q-pr-xs">
+          <div class="col-6 q-my-sm q-pr-xs">
             <q-input
               v-model="name"
               label="Nombre"
@@ -67,7 +59,7 @@
               lazy-rules
             />
           </div>
-          <div class="col-6 q-my-md q-pl-xs">
+          <div class="col-6 q-my-sm q-pl-xs">
             <q-input
               v-model="surname"
               label="Apellidos"
@@ -76,7 +68,7 @@
               lazy-rules
             />
           </div>
-          <div class="col-6 q-my-md q-pr-xs">
+          <div class="col-6 q-my-sm q-pr-xs">
             <q-input
               v-model="dni"
               label="DNI"
@@ -85,7 +77,7 @@
               lazy-rules
             />
           </div>
-          <div class="col-6 q-my-md q-pl-xs">
+          <div class="col-6 q-my-sm q-pl-xs">
             <q-input
               v-model="phone"
               label="Teléfono"
@@ -94,7 +86,7 @@
               lazy-rules
             />
           </div>
-          <div class="col-12 q-my-md">
+          <div class="col-12 q-my-sm">
             <q-select
               v-model="university"
               :options="universities"
@@ -103,8 +95,14 @@
           </div>
         </div>
 
-        <div class="q-gutter-md q-my-md column">
-          <q-btn label="Enviar" type="submit" color="primary" />
+        <div class="q-gutter-md q-my-sm">
+          <q-btn
+            padding="5px 40px"
+            label="Enviar"
+            type="submit"
+            color="primary"
+            rounded
+          />
         </div>
       </form>
     </div>

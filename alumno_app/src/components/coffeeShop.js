@@ -29,7 +29,7 @@ export const useCoffeeShop = () => {
 
   const groupByCompany = () => {
     groupedCoffeeShops.value = coffeeShops.value.reduce((acc, coffeeShop) => {
-      const company = coffeeShop.company;
+      const company = coffeeShop.Company;
       if (!acc[company]) {
         acc[company] = [];
       }

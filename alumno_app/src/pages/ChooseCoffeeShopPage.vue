@@ -1,40 +1,53 @@
 <template>
   <q-page class="flex flex-center" v-if="!isLoading" id="chooseCoffeeShop">
-    <h1>Elige tu cafetería</h1>
+    <div class="q-pa-xl text-center">
+      <h1>Elige tu cafetería</h1>
 
-    <q-carousel
-      v-model="currentCoffeeShop"
-      vertical
-      swipeable
-      animated
-      arrows
-      class="q-my-lg full-width"
-      control-color="black"
-      transition-prev="scale"
-      transition-next="scale"
-      height="400px"
-      :control-type="controlType"
-    >
-      <q-carousel-slide
-        v-for="coffeeShop in coffeeShops"
-        :key="coffeeShop.id"
-        :name="coffeeShop.Name"
-        class="flex flex-center"
+      <q-carousel
+        v-model="currentCoffeeShop"
+        vertical
+        swipeable
+        animated
+        arrows
+        class="q-my-lg full-width"
+        control-color="secondary"
+        transition-prev="scale"
+        transition-next="scale"
+        :control-type="controlType"
       >
-        <div class="text-center">
-          <img :alt="coffeeShop.Name" :src="coffeeShop.Url" width="100px" />
-          <h2>{{ coffeeShop.Name }}</h2>
-          <h3>
-            Universidad
-            {{ coffeeShop.University ? coffeeShop.University : "por definir" }}
-          </h3>
-        </div>
-      </q-carousel-slide>
-    </q-carousel>
+        <q-carousel-slide
+          v-for="coffeeShop in coffeeShops"
+          :key="coffeeShop.id"
+          :name="coffeeShop.Name"
+          class="flex flex-center"
+        >
+          <div class="text-center">
+            <img :alt="coffeeShop.Name" :src="coffeeShop.Url" width="200px" />
+            <h2>
+              {{ coffeeShop.Name }} - Universidad
+              {{
+                coffeeShop.University ? coffeeShop.University : "por definir"
+              }}
+            </h2>
+          </div>
+        </q-carousel-slide>
+      </q-carousel>
 
-    <div class="q-gutter-md column">
-      <q-btn label="Consultar cafeterías" to="/coffeeShopList" type="a" />
-      <q-btn label="Elegir" color="primary" @click="chooseCoffeeShop" />
+      <div class="q-gutter-md column">
+        <q-btn
+          label="Consultar cafeterías"
+          to="/coffeeShopList"
+          color="secondary"
+          outline
+          rounded
+        />
+        <q-btn
+          label="Elegir"
+          @click="chooseCoffeeShop"
+          color="primary"
+          rounded
+        />
+      </div>
     </div>
   </q-page>
 </template>

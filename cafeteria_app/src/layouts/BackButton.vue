@@ -1,6 +1,12 @@
 <template>
   <div class="back-button-container">
-    <q-btn label="Volver" @click="goBack" class="back-button" />
+    <q-btn
+      label="Volver"
+      @click="goBack"
+      class="back-button"
+      color="secondary"
+      rounded
+    />
   </div>
 </template>
 

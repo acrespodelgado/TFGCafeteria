@@ -36,16 +36,12 @@ export default defineComponent({
     const bonusType = route.params.bonusType;
     const action = route.params.action;
     const decodedQr = ref("");
-    const testCode =
-      "854f5e5a9d6ce3c013f5654df07785bd1ea0760ae2293e93913aef0c3177880c";
 
     const onDetect = async (detectedCodes) => {
       decodedQr.value = detectedCodes[0].rawValue;
-    };
 
-    const realizarOperacion = async () => {
       try {
-        const uses = await actionOnWallet(testCode, action, bonusType);
+        const uses = await actionOnWallet(decodedQr, action, bonusType);
 
         $q.notify({
           message: "Operación realizada con éxito",
@@ -61,8 +57,6 @@ export default defineComponent({
         });
       }
     };
-
-    realizarOperacion();
 
     return {
       bonusType,

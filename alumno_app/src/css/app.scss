@@ -1,13 +1,56 @@
 // app global css in SCSS form
+
+/* -- Global -- */
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.q-page-container {
+  background: url(../assets/fondo_header.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position-y: -300px;
+}
+
+/* -- Menú -- */
+
+.q-drawer {
+  background: $secondary;
+  .q-list {
+    .q-item,
+    .q-item__label {
+      color: $light;
+    }
+  }
+}
+
+/* -- Textos -- */
+
 h1 {
-  font-size: 2rem;
-  font-weight: 400;
-  line-height: 2.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.25;
   letter-spacing: 0;
+  text-transform: uppercase;
+  color: $light;
+  text-align: left;
+  padding-left: 3rem;
+  padding-top: 3rem;
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.15rem;
+  font-weight: 300;
+  line-height: 1.15;
+  color: $light;
+  text-align: left;
+  padding-left: 3rem;
+  padding-top: 3rem;
+}
+
+h3 {
+  font-size: 1rem;
 }
 
 #chooseCoffeeShop {
@@ -17,9 +60,51 @@ h2 {
   }
   h3 {
     margin-bottom: 10px;
-    font-size: 1.15rem;
     font-weight: 300;
     line-height: 1.5rem;
+  }
+}
+
+/* -- Error -- */
+
+.q-field--error {
+  .q-field__bottom {
+    padding-top: 3px;
+  }
+}
+
+/* -- Botones -- */
+
+.q-btn {
+  transition: all 0.2s ease-in;
+  box-shadow: none !important;
+  &.bg-primary {
+    border: 2px solid $primary;
+    &:hover {
+      background: $secondary !important;
+      border: 2px solid $secondary;
+      transition: all 0.2s ease-in-out;
+    }
+  }
+  &.bg-secondary {
+    border: 2px solid $secondary;
+    &:hover {
+      background: $primary !important;
+      border: 2px solid $primary;
+      transition: all 0.2s ease-in-out;
+    }
+  }
+  &.q-btn--outline.text-secondary {
+    &:hover {
+      background: $secondary !important;
+      color: $light !important;
+      &:before {
+        border: 0px !important;
+      }
+    }
+  }
+  &:before {
+    box-shadow: none;
   }
 }
 
@@ -34,7 +119,15 @@ h2 {
   bottom: 1rem;
   right: 1rem;
   padding: 1rem;
-  color: $secondary;
+  //color: $secondary;
+  //border: 2px solid $secondary;
+  transition: all 0.2s ease-in;
+  &:hover {
+    //border: 2px solid $primary;
+    background: $primary;
+    transition: all 0.2s ease-in-out;
+    color: $light;
+  }
   .q-btn {
     &:before {
       box-shadow: none !important;
@@ -42,9 +135,70 @@ h2 {
   }
 }
 
+/* -- Form -- */
+
+form {
+  .q-field__control {
+    border: 2px solid $secondary-trans;
+    border-radius: 16px !important;
+    background: $secondary-trans;
+  }
+  .q-field--highlighted {
+    .q-field__control {
+      border: 2px solid $primary;
+      &:before,
+      &:after {
+        content: none;
+      }
+      &.text-negative {
+        border: 2px solid #c10015;
+      }
+    }
+  }
+  .q-field--outlined {
+    .q-field__control {
+      &:before {
+        border: 0px !important;
+      }
+    }
+  }
+  .q-select {
+    .q-field__control {
+      padding: 0 12px;
+      &:before,
+      &:hover:before {
+        border: 0px !important;
+      }
+    }
+  }
+  .q-icon {
+    color: $primary;
+  }
+}
+
+.q-manual-focusable--focused {
+  opacity: 1;
+  background: $secondary;
+  color: $light;
+}
+
+.q-select__dialog {
+  max-width: 400px !important;
+  .q-select--single {
+    background: $secondary;
+  }
+  .q-field__label,
+  .q-field__control-container span,
+  .q-icon {
+    color: $light;
+  }
+}
+
 .q-field--with-bottom {
   padding: 0;
 }
+
+/* -- Carousel cafeterias -- */
 
 .q-carousel {
   .q-carousel__slide {
@@ -54,12 +208,64 @@ h2 {
   }
 }
 
-#bonusesPage {
-  table {
-    tr.q-tr {
-      &:hover {
-        cursor: pointer;
+/* -- Listado Cafeterias -- */
+
+.coffeeShopList {
+  max-height: 500px;
+}
+
+/* -- Tablas generales -- */
+
+.q-table__container {
+  .q-table__top {
+    background: $primary;
+    color: $light;
+    text-transform: uppercase;
+  }
+  thead {
+    th {
+      background: $secondary;
+      color: $light;
+      text-transform: uppercase;
+    }
+  }
+  tbody {
+    tr {
+      &:nth-child(even):not(:first-child) {
+        background: $secondary-trans;
       }
+      a {
+        color: $primary;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+/* -- Bonuses -- */
+
+.bonusDialog {
+  .q-card {
+    .q-toolbar {
+      min-height: auto;
+      .q-btn {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        z-index: 10;
+      }
+    }
+    .q-card__section {
+      padding: 2px;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .coffeeShopList {
+    .tableContainer {
+      max-width: 65%;
+      margin: auto;
     }
   }
 }

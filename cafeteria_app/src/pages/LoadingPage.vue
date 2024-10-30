@@ -40,6 +40,7 @@
         label="Panel de Gestión"
         href="https://localhost/administrar-cafeteria"
         target="_blank"
+        rounded
       />
     </div>
   </q-page>

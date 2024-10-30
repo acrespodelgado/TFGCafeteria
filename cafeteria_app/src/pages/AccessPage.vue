@@ -25,13 +25,14 @@
           :rules="pinRules"
           lazy-rules
         />
-        <q-btn label="Acceder" type="submit" color="primary" />
+        <q-btn label="Acceder" type="submit" color="primary" rounded />
         <q-btn
           label="Limpiar"
           type="reset"
           color="secondary"
-          flat
           class="q-ml-sm"
+          flat
+          rounded
         />
       </form>
     </div>

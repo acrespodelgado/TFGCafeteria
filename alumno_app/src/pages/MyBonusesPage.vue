@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="q-pa-md" id="bonusesPage">
+    <div class="q-pa-md text-center">
       <div v-if="coffeeShopData" class="text-center">
         <h1>Bonos {{ coffeeShopData.Empresa }}</h1>
         <qrcode-vue
@@ -10,24 +10,34 @@
           :margin="3"
         />
 
-        <div class="q-mb-md">
-          <q-btn label="Ver bonos" color="primary" @click="toolbar = true" />
+        <div class="q-gutter-md column q-mb-md">
+          <q-btn
+            label="Ver bonos"
+            color="primary"
+            @click="toolbar = true"
+            rounded
+          />
+          <q-btn
+            label="Cambiar cafetería"
+            to="/chooseCoffeeShop"
+            color="secondary"
+            outline
+            rounded
+          />
         </div>
 
-        <q-dialog v-model="toolbar">
+        <q-dialog v-model="toolbar" class="bonusDialog">
           <div v-if="bonuses" class="q-mb-md">
             <q-card>
               <q-toolbar>
-                <q-avatar>
-                  <img
-                    :src="coffeeShopData.Url_Logo"
-                    :alt="coffeeShopData.Empresa"
-                  />
-                </q-avatar>
-
-                <q-toolbar-title>{{ selectedCoffeeShop }}</q-toolbar-title>
-
-                <q-btn flat round dense icon="close" v-close-popup />
+                <q-space />
+                <q-btn
+                  flat
+                  round
+                  icon="close"
+                  v-close-popup
+                  color="secondary"
+                />
               </q-toolbar>
 
               <q-card-section>
@@ -40,10 +50,12 @@
                   "
                   :columns="columns"
                   row-key="tipo_bono"
+                  :title="selectedCoffeeShop"
                   flat
                   bordered
                   hide-bottom
                   virtual-scroll
+                  separator="vertical"
                 >
                   <template v-slot:body-cell-tipo_bono="props">
                     <q-td :props="props">
@@ -61,14 +73,6 @@
             </q-card>
           </div>
         </q-dialog>
-        <div class="q-gutter-md column q-mx-0">
-          <q-btn
-            label="Cambiar cafetería"
-            to="/chooseCoffeeShop"
-            color="secondary"
-            type="a"
-          />
-        </div>
       </div>
     </div>
     <BackButton />

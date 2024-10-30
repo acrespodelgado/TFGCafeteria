@@ -1,44 +1,48 @@
 <template>
-  <q-page class="flex flex-center">
-    <form @submit.prevent.stop="onSubmit" class="q-pa-md">
-      <h1 class="q-mb-lg">Inicio de sesión</h1>
-      <q-img
-        alt="logo UCA"
-        src="~/src/assets/uca_logo_horizontal.png"
-        style="max-width: 300px; height: auto"
-      />
-      <div class="q-gutter-md q-my-md">
-        <q-input
-          v-model="email"
-          label="Email"
-          outlined
-          :rules="emailRules"
-          lazy-rules
-          class="q-my-lg"
-        />
-        <q-input
-          v-model="password"
-          label="Contraseña"
-          :type="isPwd ? 'password' : 'text'"
-          outlined
-          class="q-mt-lg"
-        >
-          <template v-slot:append>
-            <q-icon
-              :name="isPwd ? 'visibility_off' : 'visibility'"
-              class="cursor-pointer"
-              @click="isPwd = !isPwd"
-            />
-          </template>
-        </q-input>
+  <q-page>
+    <h2>Universidad de Cádiz</h2>
+    <h1 class="q-pt-xs">Inicia sesión</h1>
+    <div class="flex flex-center">
+      <form @submit.prevent.stop="onSubmit" class="q-pa-md text-center">
+        <div class="q-gutter-md q-my-md">
+          <q-input
+            v-model="email"
+            label="Email"
+            outlined
+            :rules="emailRules"
+            lazy-rules
+            class="q-my-lg"
+          />
+          <q-input
+            v-model="password"
+            label="Contraseña"
+            :type="isPwd ? 'password' : 'text'"
+            outlined
+            class="q-mt-lg"
+          >
+            <template v-slot:append>
+              <q-icon
+                :name="isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
 
-        <q-toggle v-model="remember" label="Recordarme" />
-        <div class="q-gutter-md column q-mx-xs">
-          <q-btn label="Registrarse" to="/register" type="a" />
-          <q-btn label="Acceder" type="submit" color="primary" />
+          <q-toggle v-model="remember" label="Recordarme" />
+          <div class="q-gutter-md column q-mx-xs">
+            <q-btn
+              label="Registrarse"
+              to="/register"
+              color="secondary"
+              outline
+              rounded
+            />
+            <q-btn label="Acceder" type="submit" color="primary" rounded />
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </q-page>
 </template>
 

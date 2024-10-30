@@ -1,6 +1,7 @@
 // app global css in SCSS form
 
 /* -- Global -- */
+
 body {
   font-family: "Lato", sans-serif;
 }
@@ -36,14 +37,30 @@ h3 {
 }
 
 /* -- Form -- */
+
 form {
   .q-field__control {
-    border: 1px solid $secondary;
-    border-radius: 4px;
+    border: 2px solid $secondary-trans;
+    border-radius: 16px !important;
+    background: $secondary-trans;
   }
   .q-field--highlighted {
     .q-field__control {
-      border: 1px solid $primary;
+      border: 2px solid $primary;
+      &:before,
+      &:after {
+        content: none;
+      }
+      &.text-negative {
+        border: 2px solid #c10015;
+      }
+    }
+  }
+  .q-field--outlined {
+    .q-field__control {
+      &:before {
+        border: 0px !important;
+      }
     }
   }
   .q-icon {
@@ -112,11 +129,11 @@ form {
   bottom: 1rem;
   right: 1rem;
   padding: 1rem;
-  color: $secondary;
-  border: 2px solid $secondary;
+  //color: $secondary;
+  //border: 2px solid $secondary;
   transition: all 0.2s ease-in;
   &:hover {
-    border: 2px solid $primary;
+    //border: 2px solid $primary;
     background: $primary;
     transition: all 0.2s ease-in-out;
     color: $light;
