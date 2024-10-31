@@ -42,12 +42,6 @@ const routes = [
         component: () => import("pages/MyTransactionsPage.vue"),
         meta: { requiresAuth: true },
       },
-      {
-        path: "confirmation",
-        name: "confirmation",
-        component: () => import("pages/ConfirmationPage.vue"),
-        meta: { requiresAuth: true },
-      },
     ],
   },
 

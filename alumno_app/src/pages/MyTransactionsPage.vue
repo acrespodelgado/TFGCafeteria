@@ -2,11 +2,11 @@
   <q-page>
     <h1>Consulta los usos y recargas de todos tus bonos</h1>
     <h2 class="q-pt-none">Mis transacciones</h2>
-    <div class="q-pa-xl">
+    <div class="q-pa-md">
       <div v-if="transactions.length > 0">
         <q-table
           class="transactionsTable"
-          :dense="$q.screen.lt.sm"
+          :dense="$q.screen.lt.xs"
           :rows="transactions"
           :columns="columns"
           row-key="id"

@@ -89,6 +89,7 @@ import { useSelectedCoffeeShop } from "src/selected/useSelectedCoffeeShop";
 import { useSelectedWallet } from "src/selected/useSelectedWallet";
 import { useRouter } from "vue-router";
 import { fetchBonusesCoffeeShopData } from "src/components/bonus";
+import { monitorTransactions } from "src/components/transactions";
 import BackButton from "src/layouts/BackButton.vue";
 import QrcodeVue from "qrcode.vue";
 
@@ -128,8 +129,18 @@ export default defineComponent({
       }
     };
 
+    // Función para notificar si se ha usado código qr
+    const notifyNewTransactions = (transaction) => {
+      $q.notify({
+        message: `Operación de ${transaction.Tipo} de ${transaction.Tipo_Bono} realizada con éxito`,
+        color: "positive",
+        icon: "check_circle",
+      });
+    };
+
     onMounted(() => {
       fetchBonuses();
+      monitorTransactions(notifyNewTransactions);
     });
 
     const goToQrBonus = (bonusType, uses) => {
