@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-12 q-my-md">
           <q-input
-            v-model="email"
+            v-model="accessData.Email"
             label="Email"
             outlined
             :rules="emailRules"
@@ -13,8 +13,8 @@
         </div>
         <div class="col-6 q-my-md q-pr-xs">
           <q-input
-            v-model="password"
-            label="Contraseña"
+            v-model="accessData.Password"
+            label="Nueva contraseña"
             :type="isPwd1 ? 'password' : 'text'"
             outlined
             :rules="passwordRules"
@@ -31,7 +31,7 @@
         </div>
         <div class="col-6 q-my-md q-pl-xs">
           <q-input
-            v-model="repeat_password"
+            v-model="accessData.RepeatPassword"
             label="Repita la Contraseña"
             :type="isPwd2 ? 'password' : 'text'"
             outlined
@@ -56,13 +56,45 @@
   </q-page>
 </template>
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import { auth } from "src/composables/firebaseAuth";
+import {
+  emailRules,
+  passwordRules,
+  repeatPasswordRules,
+} from "src/composables/rules.js";
 
 export default defineComponent({
   name: "ModifyAccessData",
 
   setup() {
-    return {};
+    const isPwd1 = ref(true);
+    const isPwd2 = ref(true);
+    const accessData = ref({
+      Email: "",
+      Password: "",
+      RepeatPassword: "",
+    });
+
+    accessData.value.Email = auth.currentUser.email;
+
+    const onSubmit = () => {
+      // Lógica para manejar la modificación de los datos de acceso
+      console.log(
+        "Formulario enviado con los siguientes datos:",
+        accessData.value
+      );
+    };
+
+    return {
+      accessData,
+      isPwd1,
+      isPwd2,
+      emailRules,
+      passwordRules,
+      repeatPasswordRules,
+      onSubmit,
+    };
   },
 });
 </script>

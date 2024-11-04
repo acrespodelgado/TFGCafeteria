@@ -45,9 +45,10 @@
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
-import { login } from "src/composables/firebaseAuth";
+import { getCurrentUserData, login } from "src/composables/firebaseAuth";
 import { useRouter } from "vue-router";
 import { emailRules } from "src/composables/rules";
+import { useSelectedCompany } from "src/selected/useSelectedCompany";
 
 export default defineComponent({
   name: "AccessPage",
@@ -90,7 +91,7 @@ export default defineComponent({
           sessionStorage.removeItem("password");
         }
 
-        $q.notify({ type: "positive", message: "Registro exitoso" });
+        $q.notify({ type: "positive", message: "Inicio de sesión exitoso" });
         router.push("/adminPanel");
       } catch (error) {
         $q.notify({ type: "negative", message: error.message });

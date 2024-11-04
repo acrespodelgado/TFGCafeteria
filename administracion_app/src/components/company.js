@@ -29,3 +29,17 @@ export const getCompanyByCoffeeShop = async (coffeeShop) => {
     console.error("Error al obtener la empresa:", error);
   }
 };
+
+export const getCompanyData = async (company) => {
+  try {
+    const q = query(collection(db, "Empresa"), where("Nombre", "==", company));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const result = querySnapshot.docs[0];
+      return result.data();
+    }
+  } catch (error) {
+    console.error("Error al obtener los datos de la empresa:", error);
+  }
+};

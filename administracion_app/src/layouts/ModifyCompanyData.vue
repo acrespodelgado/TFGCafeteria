@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-6 q-my-md q-pr-xs">
           <q-input
-            v-model="name"
+            v-model="companyData.Propietario"
             label="Nombre del gestor"
             outlined
             :rules="inputRules"
@@ -13,25 +13,25 @@
         </div>
         <div class="col-6 q-my-md q-pl-xs">
           <q-input
-            v-model="phone"
+            v-model="companyData.Telefono"
             label="Teléfono"
             outlined
             :rules="phoneRules"
             lazy-rules
           />
         </div>
-        <div class="col-6 q-my-md">
+        <div class="col-6 q-my-md q-pr-xs">
           <q-input
-            v-model="companyName"
+            v-model="companyData.Nombre"
             label="Nombre de empresa"
             outlined
             :rules="inputRules"
             lazy-rules
           />
         </div>
-        <div class="col-6 q-my-md">
+        <div class="col-6 q-my-md q-pl-xs">
           <q-input
-            v-model="companyLogo"
+            v-model="companyData.Url"
             label="Url del logo"
             outlined
             :rules="inputRules"
@@ -47,13 +47,33 @@
   </q-page>
 </template>
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import { getCurrentUserData } from "src/composables/firebaseAuth";
+import { inputRules, phoneRules } from "src/composables/rules.js";
 
 export default defineComponent({
   name: "ModifyCompanyData",
 
   setup() {
-    return {};
+    const companyData = ref({
+      Propietario: "",
+      Nombre: "",
+      Telefono: "",
+      Url: "",
+    });
+
+    async function fetchCompanyData() {
+      const data = await getCurrentUserData();
+      companyData.value = { ...data };
+    }
+
+    fetchCompanyData();
+
+    return {
+      companyData,
+      inputRules,
+      phoneRules,
+    };
   },
 });
 </script>

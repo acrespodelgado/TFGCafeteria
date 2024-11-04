@@ -81,10 +81,9 @@ const getCurrentUserData = async () => {
       throw new Error("No hay un usuario autenticado.");
     }
 
-    // Consulta la colección Alumno utilizando el UID del usuario autenticado
     const adminQuery = query(
       collection(db, "Empresa"),
-      where("uid", "==", user.uid)
+      where("Uid", "==", user.uid)
     );
     const adminSnapshot = await getDocs(adminQuery);
 

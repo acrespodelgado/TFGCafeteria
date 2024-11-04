@@ -21,13 +21,13 @@ const routes = [
       {
         path: "adminPanel",
         name: "adminPanel",
-        component: () => import("pages/adminPanelPage.vue"),
+        component: () => import("pages/AdminPanelPage.vue"),
         meta: { requiresAuth: true },
       },
       {
         path: "statistics",
         name: "statistics",
-        component: () => import("pages/statisticsPage.vue"),
+        component: () => import("pages/StatisticsPage.vue"),
         meta: { requiresAuth: true },
       },
     ],
