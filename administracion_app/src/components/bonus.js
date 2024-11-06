@@ -1,54 +1,14 @@
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc,
+  addDoc,
+} from "firebase/firestore";
 import { db } from "src/boot/firebase";
-import { auth } from "src/composables/firebaseAuth";
-import { useSelectedWallet } from "src/selected/useSelectedWallet";
-
-// Función para obtener los datos de la cafetería y los bonos
-export const fetchBonusesCoffeeShopData = async (selectedCoffeeShop) => {
-  if (!selectedCoffeeShop) {
-    throw new Error("No se ha seleccionado ninguna cafetería");
-  } else {
-    try {
-      // Buscar los datos de la cafetería
-      const coffeeShopQuery = query(
-        collection(db, "Cafeteria"),
-        where("Nombre", "==", selectedCoffeeShop)
-      );
-      const coffeeShopSnapshot = await getDocs(coffeeShopQuery);
-      const coffeeShopData = coffeeShopSnapshot.docs[0].data();
-      const company = coffeeShopData.Empresa;
-
-      // Buscar en tarjetero donde id_empresa coincide y id_alumno es igual al usuario actual
-      const walletQuery = query(
-        collection(db, "Tarjetero"),
-        where("Id_Empresa", "==", company),
-        where("Id_Alumno", "==", auth.currentUser.uid)
-      );
-      const walletSnapshot = await getDocs(walletQuery);
-      const walletData = walletSnapshot.docs[0].id;
-
-      const { setSelectedWallet } = useSelectedWallet();
-      setSelectedWallet(walletSnapshot.docs[0].data().Direccion);
-
-      // Buscar los bonos en la colección disponibilidad_bono que coinciden con el id del tarjetero
-      const bonusQuery = query(
-        collection(db, "Disponibilidad_Bono"),
-        where("Id_Tarjetero", "==", walletData)
-      );
-
-      const bonusSnapshot = await getDocs(bonusQuery);
-      const bonuses = bonusSnapshot.docs.map((doc) => doc.data());
-
-      return {
-        coffeeShopData,
-        bonuses,
-      };
-    } catch (error) {
-      console.error("Error al obtener los datos: ", error.message);
-      throw error;
-    }
-  }
-};
 
 // Obtener tipos de bonos
 export const fetchBonusType = async () => {
@@ -59,5 +19,60 @@ export const fetchBonusType = async () => {
     return bonusType;
   } catch (error) {
     console.error("Error fetching bonuses: ", error);
+  }
+};
+
+// Agregar un nuevo tipo de bono
+export const addBonusType = async (nombre) => {
+  try {
+    const bonusRef = collection(db, "Tipo_Bono");
+    const docRef = await addDoc(bonusRef, { Nombre: nombre });
+    return docRef.id;
+  } catch (error) {
+    console.error("Error al agregar el bono: ", error);
+  }
+};
+
+// Actualizar el nombre de un bono
+export const updateBonusType = async (nombreAntiguo, nombreNuevo) => {
+  try {
+    const bonusQuery = query(
+      collection(db, "Tipo_Bono"),
+      where("Nombre", "==", nombreAntiguo)
+    );
+    const bonusSnapshot = await getDocs(bonusQuery);
+
+    if (!bonusSnapshot.empty) {
+      const bonusDoc = bonusSnapshot.docs[0];
+      const bonusRef = doc(db, "Tipo_Bono", bonusDoc.id);
+
+      await updateDoc(bonusRef, { Nombre: nombreNuevo });
+    } else {
+      console.error("No se encontró el bono con el nombre: ", nombreAntiguo);
+    }
+  } catch (error) {
+    console.error("Error al actualizar el bono: ", error);
+  }
+};
+
+// Eliminar un tipo de bono
+export const deleteBonusType = async (nombre) => {
+  try {
+    const bonusQuery = query(
+      collection(db, "Tipo_Bono"),
+      where("Nombre", "==", nombre)
+    );
+    const bonusSnapshot = await getDocs(bonusQuery);
+
+    if (!bonusSnapshot.empty) {
+      const bonusDoc = bonusSnapshot.docs[0];
+      const bonusRef = doc(db, "Tipo_Bono", bonusDoc.id);
+
+      await deleteDoc(bonusRef);
+    } else {
+      console.error("No se encontró el bono con el nombre: ", nombre);
+    }
+  } catch (error) {
+    console.error("Error al eliminar el bono: ", error);
   }
 };

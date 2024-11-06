@@ -1,11 +1,10 @@
-import { ref } from "vue";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "src/boot/firebase";
 
-export const fetchCoffeeShopsByCompany = async (company) => {
+export const fetchWorkers = async (company) => {
   try {
     const q = query(
-      collection(db, "Cafeteria"),
+      collection(db, "Camarero"),
       where("Empresa", "==", company)
     );
     const querySnapshot = await getDocs(q);
@@ -16,7 +15,7 @@ export const fetchCoffeeShopsByCompany = async (company) => {
       return [];
     }
   } catch (error) {
-    console.error("Error al obtener los datos de las cafeterias:", error);
+    console.error("Error al obtener los datos de los camareros:", error);
     return [];
   }
 };

@@ -1,16 +1,8 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="q-pa-md">
-      <div class="row">
-        <div class="col-12 text-center">
-          <h1 class="q-mb-lg">Registro de administrador</h1>
-          <q-img
-            alt="logo UCA"
-            src="~/src/assets/uca_logo_horizontal.png"
-            style="max-width: 300px; height: auto"
-          />
-        </div>
-      </div>
+  <h1>Panel de Administración para Empresas</h1>
+  <h2 class="q-pt-none">Registrarse</h2>
+  <q-page>
+    <div class="flex flex-center q-pa-xl">
       <form @submit.prevent.stop="onSubmit" class="q-my-md q-p-0">
         <div class="row">
           <div class="col-12 q-my-md">

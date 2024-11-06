@@ -1,27 +1,44 @@
 <template>
-  <q-page class="flex flex-center">
-    <h1>Administrar datos</h1>
-    <div class="q-gutter-md q-my-md column">
-      <q-btn
-        label="Modificar datos de acceso"
-        @click="modifyAccessData = true"
-        color="primary"
-      />
-      <q-btn
-        label="Modificar datos de empresa"
-        @click="modifyCompanyData = true"
-        color="primary"
-      />
-      <q-btn
-        label="Administrar mis cafeterías"
-        @click="adminCoffeeShop = true"
-        color="primary"
-      />
-      <q-btn
-        label="Administrar mis camareros"
-        @click="adminWorkers = true"
-        color="primary"
-      />
+  <h1>Administrar datos</h1>
+  <h2 class="q-pt-none">Seleccione su operación</h2>
+  <q-page class="flex flex-center q-pa-xl column justify-end">
+    <div class="row">
+      <div class="col-12 col-md-6 q-my-md text-center">
+        <q-btn
+          label="Modificar datos de acceso"
+          @click="modifyAccessData = true"
+          color="primary"
+          size="xl"
+          padding="xl md"
+        />
+      </div>
+      <div class="col-12 col-md-6 q-my-md text-center">
+        <q-btn
+          label="Modificar datos de empresa"
+          @click="modifyCompanyData = true"
+          color="primary"
+          size="xl"
+          padding="xl md"
+        />
+      </div>
+      <div class="col-12 col-md-6 q-my-md text-center">
+        <q-btn
+          label="Administrar mis cafeterías"
+          @click="adminCoffeeShop = true"
+          color="primary"
+          size="xl"
+          padding="xl md"
+        />
+      </div>
+      <div class="col-12 col-md-6 q-my-md text-center">
+        <q-btn
+          label="Administrar mis camareros"
+          @click="adminWorkers = true"
+          color="primary"
+          size="xl"
+          padding="xl md"
+        />
+      </div>
     </div>
 
     <q-dialog v-model="modifyAccessData">

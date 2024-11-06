@@ -10,10 +10,11 @@ import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 const auth = getAuth();
 
 // Función para cerrar sesión
-const logout = async () => {
+const logout = async (router) => {
   try {
     await signOut(auth);
     console.log("Sesión cerrada con éxito.");
+    router.push("/access");
   } catch (error) {
     console.error("Error al cerrar sesión: ", error.message);
     throw error;

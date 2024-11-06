@@ -11,7 +11,11 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> App Alumno </q-toolbar-title>
+        <q-toolbar-title> App Administración </q-toolbar-title>
+        <q-space />
+        <q-avatar>
+          <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+        </q-avatar>
       </q-toolbar>
     </q-header>
 
@@ -38,43 +42,7 @@ import { defineComponent, ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
 import { logout } from "src/composables/firebaseAuth";
 import { useRouter } from "vue-router";
-
-const linksList = [
-  {
-    title: "Home",
-    caption: "",
-    icon: "home",
-    link: "home",
-  },
-  {
-    title: "Administrar Cafetería",
-    caption: "",
-    icon: "local_cafe",
-    link: "adminPanel",
-  },
-  {
-    title: "Estadísticas",
-    caption: "Información sobre las cafeterías",
-    icon: "analytics",
-    link: "statistics",
-  },
-  {
-    title: "Administración general",
-    caption: "Panel de administración general",
-    icon: "settings",
-    link: "settings",
-  },
-  {
-    title: "Cerrar sesión",
-    caption: "",
-    icon: "logout",
-    link: "",
-    onClick: async () => {
-      await logout();
-      redirectLogin();
-    },
-  },
-];
+import { Notify } from "quasar";
 
 export default defineComponent({
   name: "MainLayout",
@@ -87,9 +55,55 @@ export default defineComponent({
     const leftDrawerOpen = ref(false);
     const router = useRouter();
 
-    const redirectLogin = () => {
-      router.push("/access");
-    };
+    const linksList = [
+      {
+        title: "Home",
+        caption: "",
+        icon: "home",
+        link: "home",
+      },
+      {
+        title: "Administrar Cafetería",
+        caption: "",
+        icon: "local_cafe",
+        link: "adminPanel",
+      },
+      {
+        title: "Estadísticas",
+        caption: "Información sobre las cafeterías",
+        icon: "analytics",
+        link: "statistics",
+      },
+      {
+        title: "Administración general",
+        caption: "Panel de administración general",
+        icon: "settings",
+        link: "settings",
+      },
+      {
+        title: "Cerrar sesión",
+        caption: "",
+        icon: "logout",
+        link: "",
+        onClick: async () => {
+          try {
+            await logout(router);
+            Notify.create({
+              type: "positive",
+              message: "Sesión cerrada con éxito.",
+              timeout: 1500,
+            });
+          } catch (error) {
+            console.error("Error al cerrar sesión:", error.message);
+            Notify.create({
+              type: "negative",
+              message: "Error al cerrar sesión. Inténtalo de nuevo.",
+              timeout: 1500,
+            });
+          }
+        },
+      },
+    ];
 
     return {
       essentialLinks: linksList,
@@ -97,7 +111,6 @@ export default defineComponent({
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
-      redirectLogin,
     };
   },
 });
