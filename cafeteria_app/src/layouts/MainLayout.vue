@@ -12,6 +12,10 @@
         />
 
         <q-toolbar-title> App Cafeteria </q-toolbar-title>
+        <q-space />
+        <q-avatar>
+          <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+        </q-avatar>
       </q-toolbar>
     </q-header>
 

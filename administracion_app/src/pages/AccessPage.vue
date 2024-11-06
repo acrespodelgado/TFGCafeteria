@@ -49,7 +49,7 @@
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
-import { login } from "src/composables/firebaseAuth";
+import { getCurrentUserData, login } from "src/composables/firebaseAuth";
 import { useRouter } from "vue-router";
 import { emailRules } from "src/composables/rules";
 
@@ -93,13 +93,25 @@ export default defineComponent({
           sessionStorage.removeItem("email");
           sessionStorage.removeItem("password");
         }
-
+        const data = await getCurrentUserData();
+        const hexColor = data.Color;
+        const hexColor2 = data.Color_2;
         $q.notify({ type: "positive", message: "Inicio de sesión exitoso" });
+        applyCustomColor(hexColor, hexColor2);
         router.push("/adminPanel");
       } catch (error) {
         $q.notify({ type: "negative", message: error.message });
       }
     }
+
+    const applyCustomColor = (hexColor, hexColor2) => {
+      if (hexColor) {
+        document.documentElement.style.setProperty("--q-primary", hexColor);
+      }
+      if (hexColor2) {
+        document.documentElement.style.setProperty("--q-secondary", hexColor2);
+      }
+    };
 
     return {
       email,

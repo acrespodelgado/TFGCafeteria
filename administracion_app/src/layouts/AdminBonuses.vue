@@ -131,6 +131,7 @@ export default defineComponent({
       try {
         await addBonusType(newBonusName.value);
         rows.value.push({ Nombre: newBonusName.value });
+
         $q.notify({
           type: "positive",
           message: "Bono " + newBonusName.value + " creado correctamente",
