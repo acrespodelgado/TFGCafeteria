@@ -39,7 +39,7 @@ async function fetchWallet(qrCode) {
 
 export async function actionOnWallet(qrCode, action, bonusType) {
   try {
-    const walletData = await fetchWallet(qrCode);
+    const walletData = await fetchWallet(qrCode.value);
 
     if (!walletData) {
       console.log("No se encontró el tarjetero");
@@ -56,7 +56,7 @@ export async function actionOnWallet(qrCode, action, bonusType) {
 
     if (disponibilitySnapshot.empty) {
       console.log("No se encontró disponibilidad para este bono");
-      return;
+      return 0;
     }
 
     const doc = disponibilitySnapshot.docs[0];
@@ -68,7 +68,7 @@ export async function actionOnWallet(qrCode, action, bonusType) {
         newUses -= 1;
       } else {
         console.log("El bono ya no tiene usos disponibles");
-        return;
+        return 0;
       }
     } else if (action === "recharge") {
       newUses += 10;
