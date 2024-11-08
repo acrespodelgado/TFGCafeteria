@@ -1,5 +1,10 @@
 <template>
   <div class="q-pa-md">
+    <q-btn
+      @click="createCoffeeShopDialog"
+      color="primary"
+      label="Añadir Cafetería"
+    />
     <q-table
       flat
       bordered
@@ -21,7 +26,11 @@
                 dense
                 autofocus
                 counter
-                @keyup.enter="scope.set"
+                @keyup.enter="
+                  handleUpdate(props.row.Nombre, 'Nombre', scope.value)
+                "
+                @blur="handleUpdate(props.row.Nombre, 'Nombre', scope.value)"
+                :rules="inputRules"
               />
             </q-popup-edit>
           </q-td>
@@ -33,7 +42,11 @@
                 dense
                 autofocus
                 counter
-                @keyup.enter="scope.set"
+                @keyup.enter="
+                  handleUpdate(props.row.Nombre, 'Horario', scope.value)
+                "
+                @blur="handleUpdate(props.row.Nombre, 'Horario', scope.value)"
+                :rules="inputRules"
               />
             </q-popup-edit>
           </q-td>
@@ -42,10 +55,19 @@
             <q-popup-edit
               v-model="props.row.Telefono"
               title="Actualizar teléfono"
-              buttons
               v-slot="scope"
             >
-              <q-input type="number" v-model="scope.value" dense autofocus />
+              <q-input
+                type="number"
+                v-model="scope.value"
+                dense
+                autofocus
+                @keyup.enter="
+                  handleUpdate(props.row.Nombre, 'Telefono', scope.value)
+                "
+                @blur="handleUpdate(props.row.Nombre, 'Telefono', scope.value)"
+                :rules="phoneRules"
+              />
             </q-popup-edit>
           </q-td>
           <q-td key="Menu" :props="props">
@@ -56,7 +78,11 @@
                 dense
                 autofocus
                 counter
-                @keyup.enter="scope.set"
+                @keyup.enter="
+                  handleUpdate(props.row.Nombre, 'Menu', scope.value)
+                "
+                @blur="handleUpdate(props.row.Nombre, 'Menu', scope.value)"
+                :rules="inputRules"
               />
             </q-popup-edit>
           </q-td>
@@ -68,7 +94,13 @@
                 dense
                 autofocus
                 counter
-                @keyup.enter="scope.set"
+                @keyup.enter="
+                  handleUpdate(props.row.Nombre, 'Universidad', scope.value)
+                "
+                @blur="
+                  handleUpdate(props.row.Nombre, 'Universidad', scope.value)
+                "
+                :rules="inputRules"
               />
             </q-popup-edit>
           </q-td>
@@ -80,7 +112,17 @@
               buttons
               v-slot="scope"
             >
-              <q-input type="number" v-model="scope.value" dense autofocus />
+              <q-input
+                type="number"
+                v-model="scope.value"
+                dense
+                autofocus
+                @keyup.enter="
+                  handleUpdate(props.row.Nombre, 'Pin', scope.value)
+                "
+                @blur="handleUpdate(props.row.Nombre, 'Pin', scope.value)"
+                :rules="inputRules"
+              />
             </q-popup-edit>
           </q-td>
           <q-td key="Url_Logo" :props="props">
@@ -91,25 +133,98 @@
                 dense
                 autofocus
                 counter
-                @keyup.enter="scope.set"
+                @keyup.enter="
+                  handleUpdate(props.row.Nombre, 'Url_Logo', scope.value)
+                "
+                @blur="handleUpdate(props.row.Nombre, 'Url_Logo', scope.value)"
+                :rules="inputRules"
               />
             </q-popup-edit>
+          </q-td>
+          <q-td>
+            <q-btn
+              @click="handleDelete(props.row.Nombre)"
+              color="negative"
+              icon="delete"
+              label="Eliminar"
+            />
           </q-td>
         </q-tr>
       </template>
     </q-table>
+
+    <!-- Dialogo para añadir nueva cafetería -->
+    <q-dialog v-model="createCoffeeShop">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Añadir Nueva Cafetería</div>
+        </q-card-section>
+        <q-card-section>
+          <q-input
+            v-model="newCoffeeShop.Nombre"
+            label="Nombre"
+            :rules="inputRules"
+          />
+          <q-input
+            v-model="newCoffeeShop.Horario"
+            label="Horario"
+            :rules="inputRules"
+          />
+          <q-input
+            v-model="newCoffeeShop.Telefono"
+            label="Telefono"
+            :rules="phoneRules"
+            type="number"
+          />
+          <q-input
+            v-model="newCoffeeShop.Menu"
+            label="Menu"
+            :rules="inputRules"
+          />
+          <q-input
+            v-model="newCoffeeShop.Universidad"
+            label="Universidad"
+            :rules="inputRules"
+          />
+          <q-input
+            v-model="newCoffeeShop.Pin"
+            label="Pin"
+            :rules="inputRules"
+            type="number"
+          />
+          <q-input
+            v-model="newCoffeeShop.Url_Logo"
+            label="Url Logo"
+            :rules="inputRules"
+          />
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancelar" @click="closeDialog" />
+          <q-btn flat label="Añadir" color="primary" @click="handleAdd" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
+import { useQuasar } from "quasar";
 import { getCurrentUserData } from "src/composables/firebaseAuth";
-import { fetchCoffeeShopsByCompany } from "src/components/coffeeShop";
+import {
+  fetchCoffeeShopsByCompany,
+  updateCoffeeShop,
+  addCoffeeShop,
+  deleteCoffeeShop,
+} from "src/components/coffeeShop";
+import { phoneRules, inputRules } from "src/composables/rules"; // Reglas de validación
 
 export default defineComponent({
   name: "AdminCoffeeShop",
 
   setup() {
+    const $q = useQuasar();
     const columns = [
       {
         name: "Nombre",
@@ -117,7 +232,6 @@ export default defineComponent({
         label: "Nombre",
         align: "left",
         field: (row) => row.Nombre,
-        format: (val) => `${val}`,
         sortable: true,
       },
       {
@@ -161,15 +275,36 @@ export default defineComponent({
         field: "Url_Logo",
         sortable: false,
       },
+      { name: "Acciones", label: "Acciones", field: "acciones" },
     ];
 
     const rows = ref([]);
+    const data = ref();
+    const newCoffeeShop = ref({
+      Nombre: "",
+      Horario: "",
+      Telefono: "",
+      Menu: "",
+      Universidad: "",
+      Pin: "",
+      Url_Logo: "",
+    });
+
+    const createCoffeeShop = ref(false);
+
+    const createCoffeeShopDialog = () => {
+      createCoffeeShop.value = true;
+    };
+
+    const closeDialog = () => {
+      createCoffeeShop.value = false;
+    };
 
     const loadCoffeeShops = async () => {
       try {
-        const data = await getCurrentUserData();
-        const coffeeShopData = await fetchCoffeeShopsByCompany(data.Nombre);
-
+        const coffeeShopData = await fetchCoffeeShopsByCompany(
+          data.value.Nombre
+        );
         if (coffeeShopData) {
           rows.value = coffeeShopData;
         }
@@ -178,11 +313,133 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
+    async function onMounted() {
+      data.value = await getCurrentUserData();
       loadCoffeeShops();
-    });
+    }
 
-    return { columns, rows };
+    onMounted();
+
+    // Actualizar cafetería
+    const handleUpdate = async (nombre, field, newValue) => {
+      let rules;
+      if (field === "Telefono") {
+        rules = phoneRules;
+      } else {
+        rules = inputRules;
+      }
+
+      const isValid = rules.every((rule) => rule(newValue) === true);
+
+      if (!isValid) {
+        $q.notify({
+          type: "negative",
+          message:
+            "El valor proporcionado no cumple con las reglas de validación",
+        });
+        return;
+      }
+
+      try {
+        const updatedData = { [field]: newValue };
+        await updateCoffeeShop(nombre, updatedData);
+
+        rows.value = rows.value.map((r) =>
+          r.Nombre === nombre ? { ...r, [field]: newValue } : r
+        );
+
+        $q.notify({
+          type: "positive",
+          message: `Cafetería ${nombre} actualizada correctamente`,
+        });
+      } catch (error) {
+        $q.notify({
+          type: "negative",
+          message: "Error al actualizar la cafetería",
+        });
+      }
+    };
+
+    // Añadir nueva cafetería
+    const handleAdd = async () => {
+      if (
+        !newCoffeeShop.value.Nombre ||
+        !newCoffeeShop.value.Horario ||
+        !newCoffeeShop.value.Telefono ||
+        !newCoffeeShop.value.Menu ||
+        !newCoffeeShop.value.Pin ||
+        !newCoffeeShop.value.Url_Logo ||
+        !newCoffeeShop.value.Universidad
+      ) {
+        $q.notify({
+          type: "negative",
+          message: "Rellene todos los campos",
+        });
+        return;
+      }
+      try {
+        await addCoffeeShop(data.value.Nombre, newCoffeeShop.value);
+
+        rows.value.push({ ...newCoffeeShop.value });
+        createCoffeeShop.value = false;
+
+        $q.notify({
+          type: "positive",
+          message: `Cafetería añadida correctamente`,
+        });
+
+        // Limpiar los campos del formulario
+        newCoffeeShop.value = {
+          Nombre: "",
+          Horario: "",
+          Telefono: "",
+          Menu: "",
+          Universidad: "",
+          Pin: "",
+          Url_Logo: "",
+        };
+
+        closeDialog();
+      } catch (error) {
+        $q.notify({
+          type: "negative",
+          message: "Error al añadir la cafetería",
+        });
+      }
+    };
+
+    // Eliminar cafetería
+    const handleDelete = async (nombre) => {
+      try {
+        await deleteCoffeeShop(nombre);
+
+        rows.value = rows.value.filter((r) => r.Nombre !== nombre);
+
+        $q.notify({
+          type: "positive",
+          message: `Cafetería ${nombre} eliminada correctamente`,
+        });
+      } catch (error) {
+        $q.notify({
+          type: "negative",
+          message: "Error al eliminar la cafetería",
+        });
+      }
+    };
+
+    return {
+      columns,
+      rows,
+      phoneRules,
+      inputRules,
+      handleUpdate,
+      handleAdd,
+      handleDelete,
+      createCoffeeShop,
+      createCoffeeShopDialog,
+      closeDialog,
+      newCoffeeShop,
+    };
   },
 });
 </script>

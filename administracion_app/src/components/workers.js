@@ -1,4 +1,13 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc,
+  addDoc,
+} from "firebase/firestore";
 import { db } from "src/boot/firebase";
 
 export const fetchWorkers = async (company) => {
@@ -17,5 +26,65 @@ export const fetchWorkers = async (company) => {
   } catch (error) {
     console.error("Error al obtener los datos de los camareros:", error);
     return [];
+  }
+};
+
+// Agregar un nuevo camarero
+export const addWorker = async (name, dni, phone, company) => {
+  try {
+    const workerRef = collection(db, "Camarero");
+    const docRef = await addDoc(workerRef, {
+      Nombre: name,
+      DNI: dni,
+      Telefono: phone,
+      Empresa: company,
+    });
+    return docRef.id;
+  } catch (error) {
+    console.error("Error al agregar el camarero: ", error);
+  }
+};
+
+// Actualizar los datos de un camarero
+export const updateWorker = async (dni, newData) => {
+  try {
+    const workerQuery = query(
+      collection(db, "Camarero"),
+      where("DNI", "==", dni)
+    );
+    const workerSnapshot = await getDocs(workerQuery);
+
+    if (!workerSnapshot.empty) {
+      const workerDoc = workerSnapshot.docs[0];
+      const workerRef = doc(db, "Camarero", workerDoc.id);
+
+      await updateDoc(workerRef, newData);
+    } else {
+      console.error("No se encontró el camarero con el DNI: ", dni);
+    }
+  } catch (error) {
+    console.error("Error al actualizar los datos del camarero: ", error);
+  }
+};
+
+// Eliminar un camarero
+export const deleteWorker = async (dni) => {
+  try {
+    const workerQuery = query(
+      collection(db, "Camarero"),
+      where("DNI", "==", dni)
+    );
+    const workerSnapshot = await getDocs(workerQuery);
+
+    if (!workerSnapshot.empty) {
+      const workerDoc = workerSnapshot.docs[0];
+      const workerRef = doc(db, "Camarero", workerDoc.id);
+
+      await deleteDoc(workerRef);
+    } else {
+      console.error("No se encontró el camarero con el DNI: ", dni);
+    }
+  } catch (error) {
+    console.error("Error al eliminar el camarero: ", error);
   }
 };

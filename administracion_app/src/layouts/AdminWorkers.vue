@@ -1,5 +1,6 @@
 <template>
   <div class="q-pa-md">
+    <q-btn label="Agregar Camarero" color="primary" @click="createWorker" />
     <q-table
       flat
       bordered
@@ -21,7 +22,11 @@
                 dense
                 autofocus
                 counter
-                @keyup.enter="scope.set"
+                @keyup.enter="
+                  handleUpdate(props.row.DNI, 'Nombre', scope.value)
+                "
+                @blur="handleUpdate(props.row.DNI, 'Nombre', scope.value)"
+                :rules="inputRules"
               />
             </q-popup-edit>
           </q-td>
@@ -33,21 +38,78 @@
             <q-popup-edit
               v-model="props.row.Telefono"
               title="Actualizar teléfono"
-              buttons
               v-slot="scope"
             >
-              <q-input type="number" v-model="scope.value" dense autofocus />
+              <q-input
+                type="number"
+                v-model="scope.value"
+                dense
+                autofocus
+                @keyup.enter="
+                  handleUpdate(props.row.DNI, 'Telefono', scope.value)
+                "
+                @blur="handleUpdate(props.row.DNI, 'Telefono', scope.value)"
+                :rules="phoneRules"
+              />
             </q-popup-edit>
+          </q-td>
+          <q-td key="delete" :props="props">
+            <q-btn
+              color="negative"
+              icon="delete"
+              round
+              dense
+              @click="handleDeleteWorker(props.row.DNI)"
+            />
           </q-td>
         </q-tr>
       </template>
     </q-table>
+
+    <q-dialog v-model="createDialog">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Nuevo Camarero</div>
+        </q-card-section>
+
+        <q-card-section>
+          <q-input
+            v-model="newWorkerName"
+            label="Nombre"
+            autofocus
+            dense
+            counter
+          />
+          <q-input v-model="newWorkerDNI" label="DNI" autofocus dense counter />
+          <q-input
+            v-model="newWorkerPhone"
+            label="Teléfono"
+            autofocus
+            dense
+            counter
+            type="number"
+          />
+        </q-card-section>
+
+        <q-card-actions>
+          <q-btn flat label="Cancelar" @click="closeDialog" />
+          <q-btn flat label="Agregar" color="primary" @click="addNewWorker" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
-import { fetchWorkers } from "src/components/workers.js";
+import { useQuasar } from "quasar";
+import {
+  fetchWorkers,
+  addWorker,
+  updateWorker,
+  deleteWorker,
+} from "src/components/workers.js";
+import { phoneRules, inputRules } from "src/composables/rules";
 import { getCurrentUserData } from "src/composables/firebaseAuth";
 
 export default defineComponent({
@@ -77,14 +139,34 @@ export default defineComponent({
         field: "Telefono",
         sortable: true,
       },
+      {
+        name: "delete",
+        label: "Eliminar",
+        align: "center",
+        field: "delete",
+      },
     ];
 
+    const $q = useQuasar();
+    const data = ref();
     const rows = ref([]);
+    const createDialog = ref(false);
+    const newWorkerName = ref("");
+    const newWorkerDNI = ref("");
+    const newWorkerPhone = ref("");
 
+    const createWorker = () => {
+      createDialog.value = true;
+    };
+
+    const closeDialog = () => {
+      createDialog.value = false;
+    };
+
+    // Cargar camareros
     const loadWorkers = async () => {
       try {
-        const data = await getCurrentUserData();
-        const workersData = await fetchWorkers(data.Nombre);
+        const workersData = await fetchWorkers(data.value.Nombre);
 
         if (workersData) {
           rows.value = workersData;
@@ -94,11 +176,123 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
+    async function onMounted() {
+      data.value = await getCurrentUserData();
       loadWorkers();
-    });
+    }
 
-    return { columns, rows };
+    onMounted();
+
+    // Crear nuevo camarero
+    const addNewWorker = async () => {
+      if (
+        !newWorkerName.value ||
+        !newWorkerDNI.value ||
+        !newWorkerPhone.value
+      ) {
+        return;
+      }
+      try {
+        await addWorker(
+          newWorkerName.value,
+          newWorkerDNI.value,
+          newWorkerPhone.value,
+          data.value.Nombre
+        );
+        rows.value.push({
+          Nombre: newWorkerName.value,
+          DNI: newWorkerDNI.value,
+          Telefono: newWorkerPhone.value,
+        });
+
+        $q.notify({
+          type: "positive",
+          message: "Camarero " + newWorkerName.value + " creado correctamente",
+        });
+
+        newWorkerName.value = "";
+        newWorkerDNI.value = "";
+        newWorkerPhone.value = "";
+        closeDialog();
+      } catch (error) {
+        $q.notify({ type: "negative", message: "Error al crear el camarero" });
+      }
+    };
+
+    // Actualizar camarero
+    const handleUpdate = async (dni, field, newValue) => {
+      let rules;
+      if (field === "Telefono") {
+        rules = phoneRules;
+      } else {
+        rules = inputRules;
+      }
+
+      // Verificar si el valor cumple con las reglas de validación
+      const isValid = rules.every((rule) => rule(newValue) === true);
+
+      if (!isValid) {
+        $q.notify({
+          type: "negative",
+          message:
+            "El valor proporcionado no cumple con las reglas de validación",
+        });
+        return;
+      }
+
+      try {
+        const updatedData = { [field]: newValue };
+        await updateWorker(dni, updatedData);
+
+        // Actualizar la fila localmente
+        rows.value = rows.value.map((r) =>
+          r.DNI === dni ? { ...r, [field]: newValue } : r
+        );
+
+        $q.notify({
+          type: "positive",
+          message: `Camarero ${dni} actualizado correctamente`,
+        });
+      } catch (error) {
+        $q.notify({
+          type: "negative",
+          message: "Error al actualizar el camarero",
+        });
+      }
+    };
+
+    // Eliminar camarero
+    const handleDeleteWorker = async (dni) => {
+      try {
+        await deleteWorker(dni);
+        rows.value = rows.value.filter((row) => row.DNI !== dni); // Elimina el camarero de la lista local
+        $q.notify({
+          type: "positive",
+          message: "Camarero eliminado con éxito",
+        });
+      } catch (error) {
+        $q.notify({
+          type: "negative",
+          message: "Error al eliminar el camarero",
+        });
+      }
+    };
+
+    return {
+      columns,
+      rows,
+      phoneRules,
+      inputRules,
+      createWorker,
+      createDialog,
+      newWorkerName,
+      newWorkerDNI,
+      newWorkerPhone,
+      addNewWorker,
+      closeDialog,
+      handleDeleteWorker,
+      handleUpdate,
+    };
   },
 });
 </script>

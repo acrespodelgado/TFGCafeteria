@@ -1,4 +1,11 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  updateDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "src/boot/firebase";
 
 export const fetchCompanies = async () => {
@@ -41,5 +48,30 @@ export const getCompanyData = async (company) => {
     }
   } catch (error) {
     console.error("Error al obtener los datos de la empresa:", error);
+  }
+};
+
+export const updateCompanyColors = async (company, hexColor, hexColor2) => {
+  try {
+    const q = query(collection(db, "Empresa"), where("Nombre", "==", company));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const companyDoc = querySnapshot.docs[0];
+      const companyRef = doc(db, "Empresa", companyDoc.id);
+
+      await updateDoc(companyRef, {
+        Color: hexColor,
+        Color_2: hexColor2,
+      });
+
+      console.log("Colores actualizados con éxito.");
+      return true;
+    } else {
+      throw new Error("Empresa no encontrada.");
+    }
+  } catch (error) {
+    console.error("Error al actualizar los colores de la empresa:", error);
+    throw error;
   }
 };

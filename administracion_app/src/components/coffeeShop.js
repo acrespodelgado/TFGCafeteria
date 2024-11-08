@@ -1,5 +1,13 @@
-import { ref } from "vue";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc,
+  addDoc,
+} from "firebase/firestore";
 import { db } from "src/boot/firebase";
 
 export const fetchCoffeeShopsByCompany = async (company) => {
@@ -18,5 +26,69 @@ export const fetchCoffeeShopsByCompany = async (company) => {
   } catch (error) {
     console.error("Error al obtener los datos de las cafeterias:", error);
     return [];
+  }
+};
+
+// Agregar una nueva cafeteria
+export const addCoffeeShop = async (company, data) => {
+  try {
+    const coffeeShopRef = collection(db, "Cafeteria");
+    const docRef = await addDoc(coffeeShopRef, {
+      Empresa: company,
+      Nombre: data.Nombre,
+      Horario: data.Horario,
+      Telefono: data.Telefono,
+      Menu: data.Menu,
+      Universidad: data.Universidad,
+      Pin: data.Pin,
+      Url_Logo: data.Url_Logo,
+    });
+    return docRef.id;
+  } catch (error) {
+    console.error("Error al agregar la cafeteria: ", error);
+  }
+};
+
+// Actualizar los datos de una cafeteria
+export const updateCoffeeShop = async (name, newData) => {
+  try {
+    const coffeeShopQuery = query(
+      collection(db, "Cafeteria"),
+      where("Nombre", "==", name)
+    );
+    const coffeeShopSnapshot = await getDocs(coffeeShopQuery);
+
+    if (!coffeeShopSnapshot.empty) {
+      const coffeeShopDoc = coffeeShopSnapshot.docs[0];
+      const coffeeShopRef = doc(db, "Cafeteria", coffeeShopDoc.id);
+
+      await updateDoc(coffeeShopRef, newData);
+    } else {
+      console.error("No se encontró la cafetería con nombre: ", name);
+    }
+  } catch (error) {
+    console.error("Error al actualizar los datos de la cafeteria: ", error);
+  }
+};
+
+// Eliminar una cafeteria
+export const deleteCoffeeShop = async (name) => {
+  try {
+    const coffeeShopQuery = query(
+      collection(db, "Cafeteria"),
+      where("Nombre", "==", name)
+    );
+    const coffeeShopSnapshot = await getDocs(coffeeShopQuery);
+
+    if (!coffeeShopSnapshot.empty) {
+      const coffeeShopDoc = coffeeShopSnapshot.docs[0];
+      const coffeeShopRef = doc(db, "Cafeteria", coffeeShopDoc.id);
+
+      await deleteDoc(coffeeShopRef);
+    } else {
+      console.error("No se encontró la cafetería con nombre: ", name);
+    }
+  } catch (error) {
+    console.error("Error al eliminar la cafetería: ", error);
   }
 };
