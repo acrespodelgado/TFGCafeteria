@@ -19,7 +19,7 @@
         <q-input
           ref="pinRef"
           v-model.number="pin"
-          type="number"
+          type="password"
           label="Pin de acceso"
           outlined
           :rules="pinRules"

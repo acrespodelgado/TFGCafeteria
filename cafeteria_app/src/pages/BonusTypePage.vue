@@ -21,8 +21,10 @@
       >
         <q-btn
           color="secondary"
-          class="big-button"
+          class="big-button q-btn-icon-right"
           :label="type.Nombre"
+          :icon-right="type.Icono"
+          icon-size="lg"
           @click="navigateToCamera(type.Nombre)"
         />
       </div>

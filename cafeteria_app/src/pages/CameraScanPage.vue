@@ -1,12 +1,10 @@
 <template>
   <q-page class="flex-center cameraScan">
     <div class="q-pa-md text-center">
-      <h1>{{ action === "scan" ? "Escanear" : "Recargar" }} {{ bonusType }}</h1>
+      <h1>{{ action === "scan" ? "Escanear" : "Recargar" }}</h1>
+      <h2>{{ bonusType }}</h2>
       <div class="scanContainer">
         <qrcode-stream @detect="onDetect"></qrcode-stream>
-        <q-card-section v-if="decodedQr">
-          <p>Código QR escaneado: {{ decodedQr }}</p>
-        </q-card-section>
       </div>
       <h2>Escanee el código QR</h2>
       <BackButton />
@@ -42,13 +40,28 @@ export default defineComponent({
 
       try {
         const uses = await actionOnWallet(decodedQr, action, bonusType);
-
-        $q.notify({
-          message: "Operación realizada con éxito",
-          color: "positive",
-          timeout: 5000,
-        });
-        router.push(`/confirmation/${action}/${bonusType}/${uses}`);
+        if (uses == undefined) {
+          $q.notify({
+            message: "No se encontró el tarjetero.",
+            color: "negative",
+            timeout: 3000,
+          });
+        } else {
+          if (action == "scan" && uses == 0) {
+            $q.notify({
+              message: "No quedan usos disponibles.",
+              color: "negative",
+              timeout: 3000,
+            });
+          } else {
+            $q.notify({
+              message: "Operación realizada con éxito",
+              color: "positive",
+              timeout: 5000,
+            });
+            router.push(`/confirmation/${action}/${bonusType}/${uses}`);
+          }
+        }
       } catch (error) {
         $q.notify({
           message: "Error al realizar la operación",

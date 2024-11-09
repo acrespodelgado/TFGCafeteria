@@ -13,7 +13,7 @@ body {
   .q-list {
     .q-item,
     .q-item__label {
-      color: $light;
+      color: $text;
     }
   }
 }
@@ -76,7 +76,7 @@ form {
   .q-field__label,
   .q-field__control-container span,
   .q-icon {
-    color: $light;
+    color: $text;
   }
 }
 
@@ -136,12 +136,20 @@ form {
     //border: 2px solid $primary;
     background: $primary;
     transition: all 0.2s ease-in-out;
-    color: $light;
+    color: $text;
   }
   .q-btn {
     &:before {
       box-shadow: none !important;
     }
+  }
+}
+
+/* -- BonusType -- */
+
+.q-btn-icon-right {
+  .q-icon {
+    font-size: 2rem;
   }
 }
 
@@ -171,5 +179,20 @@ form {
     margin: 3rem 0 1.5rem 0;
     min-height: 350px;
     max-height: 450px;
+  }
+}
+
+@media (max-width: 959px) {
+  .q-btn-icon-right {
+    height: auto;
+    padding: 1rem;
+    .q-btn__content {
+      display: flex;
+      flex-direction: column;
+      .q-icon {
+        font-size: 1.7rem;
+        margin: 10px 0;
+      }
+    }
   }
 }

@@ -2,10 +2,14 @@
   <q-page class="flex flex-center">
     <div class="q-pa-md text-center">
       <h1 v-if="action && bonusType">
-        Se ha {{ action === "scan" ? "escaneado" : "recargado" }}
-        {{ bonusType }} con éxito
+        Se ha {{ action === "scan" ? "escaneado" : "recargado" }} con éxito
       </h1>
-      <h2>Cantidad de usos restantes: {{ uses ? uses : "No disponible" }}</h2>
+      <h2>
+        <b>{{ bonusType }}</b>
+      </h2>
+      <h3>
+        Cantidad de usos restantes: <b>{{ uses ? uses : "No disponible" }}</b>
+      </h3>
     </div>
   </q-page>
 </template>

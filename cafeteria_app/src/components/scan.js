@@ -91,7 +91,7 @@ export async function actionOnWallet(qrCode, action, bonusType) {
 
 async function registerTransaction(qrCode, action, bonusType) {
   try {
-    const walletData = await fetchWallet(qrCode);
+    const walletData = await fetchWallet(qrCode.value);
     const { selectedWorker } = useSelectedWorker();
     const { selectedCoffeeShop } = useSelectedCoffeeShop();
     const dateTime = new Date();
