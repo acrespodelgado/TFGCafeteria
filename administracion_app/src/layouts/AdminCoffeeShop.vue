@@ -13,9 +13,15 @@
       :columns="columns"
       row-key="Nombre"
       binary-state-sort
-      hide-bottom
       virtual-scroll
+      no-data-label="No hay cafeterías disponibles"
+      no-results-label="No hay cafeterías disponibles para el filtro"
+      hide-pagination
     >
+      <template v-slot:no-data>
+        <div class="text-center q-pa-md">No hay cafeterías disponibles</div>
+      </template>
+
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="Nombre" :props="props">
@@ -181,10 +187,10 @@
             label="Menu"
             :rules="inputRules"
           />
-          <q-input
-            v-model="newCoffeeShop.Universidad"
-            label="Universidad"
-            :rules="inputRules"
+          <q-select
+            v-model="university"
+            :options="universities"
+            label="Seleccione una universidad"
           />
           <q-input
             v-model="newCoffeeShop.Pin"
@@ -315,6 +321,7 @@ export default defineComponent({
 
     async function onMounted() {
       data.value = await getCurrentUserData();
+      universities.value = await fetchUniversities();
       loadCoffeeShops();
     }
 

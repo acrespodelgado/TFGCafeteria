@@ -39,6 +39,15 @@
           padding="xl md"
         />
       </div>
+      <div class="col-12 col-md-6 q-my-md text-center">
+        <q-btn
+          label="Modificar colores"
+          @click="changeColours = true"
+          color="primary"
+          size="xl"
+          padding="xl md"
+        />
+      </div>
     </div>
 
     <q-dialog v-model="modifyAccessData">
@@ -96,6 +105,20 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
+    <q-dialog v-model="changeColours">
+      <q-card>
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">Modificar colores de la aplicación</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+
+        <q-card-section>
+          <ChangeColours />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -104,6 +127,8 @@ import ModifyAccessData from "src/layouts/ModifyAccessData.vue";
 import ModifyCompanyData from "src/layouts/ModifyCompanyData.vue";
 import AdminCoffeeShop from "src/layouts/AdminCoffeeShop.vue";
 import AdminWorkers from "src/layouts/AdminWorkers.vue";
+import ChangeColours from "src/layouts/ChangeColours.vue";
+
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
@@ -113,6 +138,7 @@ export default defineComponent({
     ModifyCompanyData,
     AdminCoffeeShop,
     AdminWorkers,
+    ChangeColours,
   },
 
   setup() {
@@ -121,6 +147,7 @@ export default defineComponent({
       modifyCompanyData: ref(false),
       adminCoffeeShop: ref(false),
       adminWorkers: ref(false),
+      changeColours: ref(false),
     };
   },
 });

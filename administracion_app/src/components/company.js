@@ -51,7 +51,12 @@ export const getCompanyData = async (company) => {
   }
 };
 
-export const updateCompanyColors = async (company, hexColor, hexColor2) => {
+export const updateCompanyColors = async (
+  company,
+  hexColor,
+  hexColor2,
+  hexColorText
+) => {
   try {
     const q = query(collection(db, "Empresa"), where("Nombre", "==", company));
     const querySnapshot = await getDocs(q);
@@ -63,6 +68,7 @@ export const updateCompanyColors = async (company, hexColor, hexColor2) => {
       await updateDoc(companyRef, {
         Color: hexColor,
         Color_2: hexColor2,
+        Color_Text: hexColorText,
       });
 
       console.log("Colores actualizados con éxito.");

@@ -15,8 +15,12 @@
           outlined
           class="q-mt-lg"
           placeholder="#FFFFFF"
-        >
-        </q-input>
+        ></q-input>
+        <div class="q-gutter-sm">
+          <q-radio v-model="hexColorText" val="#FFF" label="Blanco" />
+          <q-radio v-model="hexColorText" val="#000" label="Negro" />
+        </div>
+
         <q-btn
           label="Actualizar Colores"
           type="submit"
@@ -48,11 +52,13 @@ export default defineComponent({
     const data = ref();
     const hexColor = ref(null);
     const hexColor2 = ref(null);
+    const hexColorText = ref(null);
 
     async function onMounted() {
       data.value = await getCurrentUserData();
       hexColor.value = data.value.Color || ""; // Valores iniciales si existen
       hexColor2.value = data.value.Color_2 || "";
+      hexColorText.value = data.value.Color_Text || "";
     }
 
     onMounted();
@@ -62,7 +68,8 @@ export default defineComponent({
         await updateCompanyColors(
           data.value.Nombre,
           hexColor.value,
-          hexColor2.value
+          hexColor2.value,
+          hexColorText.value
         );
 
         $q.notify({
@@ -70,7 +77,7 @@ export default defineComponent({
           message: "Colores modificados con éxito",
         });
 
-        applyCustomColor(hexColor.value, hexColor2.value);
+        applyCustomColor(hexColor.value, hexColor2.value, hexColorText.value);
       } catch (error) {
         $q.notify({ type: "negative", message: error.message });
       }
@@ -78,11 +85,12 @@ export default defineComponent({
 
     async function resetColors() {
       try {
-        await updateCompanyColors(data.value.Nombre, null, null);
+        await updateCompanyColors(data.value.Nombre, null, null, null);
 
         hexColor.value = null;
         hexColor2.value = null;
-        applyCustomColor(null, null);
+        hexColorText.value = null;
+        applyCustomColor(null, null, null);
 
         $q.notify({
           type: "positive",
@@ -93,7 +101,7 @@ export default defineComponent({
       }
     }
 
-    const applyCustomColor = (hexColor, hexColor2) => {
+    const applyCustomColor = (hexColor, hexColor2, hexColorText) => {
       if (hexColor) {
         document.documentElement.style.setProperty("--q-primary", hexColor);
       } else {
@@ -104,11 +112,17 @@ export default defineComponent({
       } else {
         document.documentElement.style.removeProperty("--q-secondary");
       }
+      if (hexColorText) {
+        document.documentElement.style.setProperty("--q-accent", hexColorText);
+      } else {
+        document.documentElement.style.removeProperty("--q-accent");
+      }
     };
 
     return {
       hexColor,
       hexColor2,
+      hexColorText,
       onMounted,
       onSubmit,
       resetColors,
