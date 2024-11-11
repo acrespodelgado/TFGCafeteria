@@ -35,7 +35,7 @@
             label="Repita la Contraseña"
             :type="isPwd2 ? 'password' : 'text'"
             outlined
-            :rules="repeatPasswordRules"
+            :rules="repeatPasswordRules(accessData.Password)"
             lazy-rules
           >
             <template v-slot:append>
@@ -96,21 +96,30 @@ export default defineComponent({
           });
         }
 
-        // Verificar si las contraseñas coinciden y si la contraseña no está vacía
-        if (
-          accessData.value.Password &&
-          accessData.value.Password === accessData.value.RepeatPassword
-        ) {
-          await handleUpdatePassword(accessData.value.Password);
-          $q.notify({
-            type: "positive",
-            message: "Contraseña actualizada correctamente.",
-          });
-        } else {
-          $q.notify({
-            type: "negative",
-            message: "Las contraseñas no coinciden o están vacías.",
-          });
+        // Verificar si las contraseñas coinciden si la contraseña no está vacía
+        if (accessData.value.Password) {
+          const passwordIsValid = passwordRules.every(
+            (rule) => rule(accessData.value.Password) === true
+          );
+          if (!passwordIsValid) {
+            $q.notify({
+              type: "negative",
+              message: "El formato de contraseña no es válido",
+            });
+            return;
+          }
+          if (accessData.value.Password === accessData.value.RepeatPassword) {
+            await handleUpdatePassword(accessData.value.Password);
+            $q.notify({
+              type: "positive",
+              message: "Contraseña actualizada correctamente.",
+            });
+          } else {
+            $q.notify({
+              type: "negative",
+              message: "Las contraseñas no coinciden.",
+            });
+          }
         }
       } catch (error) {
         $q.notify({
