@@ -8,7 +8,6 @@
             label="Nombre del gestor"
             outlined
             :rules="inputRules"
-            lazy-rules
           />
         </div>
         <div class="col-6 q-my-md q-pl-xs">
@@ -17,7 +16,6 @@
             label="Teléfono"
             outlined
             :rules="phoneRules"
-            lazy-rules
             type="number"
           />
         </div>
@@ -27,7 +25,6 @@
             label="Nombre de empresa"
             outlined
             :rules="inputRules"
-            lazy-rules
             disable
           />
         </div>

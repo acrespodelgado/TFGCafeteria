@@ -60,7 +60,7 @@ export const updateWorker = async (dni, newData) => {
 
       await updateDoc(workerRef, newData);
     } else {
-      throw new Error("No se encontró el camarero con el DNI: ", dni);
+      throw new Error(`No se encontró el camarero con el DNI: ${dni}`);
     }
   } catch (error) {
     throw new Error("Error al actualizar los datos del camarero: ", error);
@@ -82,7 +82,7 @@ export const deleteWorker = async (dni) => {
 
       await deleteDoc(workerRef);
     } else {
-      throw new Error("No se encontró el camarero con el DNI: ", dni);
+      throw new Error(`No se encontró el camarero con el DNI: ${dni}`);
     }
   } catch (error) {
     throw new Error("Error al eliminar el camarero", error);

@@ -27,7 +27,6 @@
                 v-model="scope.value"
                 dense
                 autofocus
-                counter
                 @keyup.enter="
                   handleUpdate(props.row.Nombre, 'Nombre', scope.value)
                 "
@@ -43,7 +42,6 @@
                 v-model="scope.value"
                 dense
                 autofocus
-                counter
                 @keyup.enter="
                   handleUpdate(props.row.Nombre, 'Horario', scope.value)
                 "
@@ -79,7 +77,6 @@
                 v-model="scope.value"
                 dense
                 autofocus
-                counter
                 @keyup.enter="
                   handleUpdate(props.row.Nombre, 'Menu', scope.value)
                 "
@@ -130,7 +127,6 @@
                 v-model="scope.value"
                 dense
                 autofocus
-                counter
                 @keyup.enter="
                   handleUpdate(props.row.Nombre, 'Url_Logo', scope.value)
                 "

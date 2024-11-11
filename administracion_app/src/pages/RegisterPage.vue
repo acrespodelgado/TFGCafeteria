@@ -11,7 +11,6 @@
               label="Email"
               outlined
               :rules="emailRules"
-              lazy-rules
             />
           </div>
           <div class="col-6 q-my-md q-pr-xs">
@@ -21,7 +20,6 @@
               :type="isPwd1 ? 'password' : 'text'"
               outlined
               :rules="passwordRules"
-              lazy-rules
             >
               <template v-slot:append>
                 <q-icon
@@ -39,7 +37,6 @@
               :type="isPwd2 ? 'password' : 'text'"
               outlined
               :rules="repeatPasswordRules(password)"
-              lazy-rules
             >
               <template v-slot:append>
                 <q-icon
@@ -56,7 +53,6 @@
               label="Nombre del gestor"
               outlined
               :rules="inputRules"
-              lazy-rules
             />
           </div>
           <div class="col-6 q-my-md q-pl-xs">
@@ -65,7 +61,6 @@
               label="Teléfono"
               outlined
               :rules="phoneRules"
-              lazy-rules
               type="number"
             />
           </div>
@@ -75,7 +70,6 @@
               label="Nombre de empresa"
               outlined
               :rules="inputRules"
-              lazy-rules
             />
           </div>
         </div>

@@ -4,7 +4,7 @@
     <q-table
       flat
       bordered
-      title="Tipos de Bonus"
+      title="Tipos de Bonos"
       :rows="rows"
       :columns="columns"
       row-key="Nombre"
@@ -21,7 +21,6 @@
                 v-model="scope.value"
                 dense
                 autofocus
-                counter
                 @keyup.enter="handleUpdate(props.row.Nombre, scope.value)"
                 @blur="handleUpdate(props.row.Nombre, scope.value)"
               />
@@ -52,7 +51,6 @@
             label="Nombre del Bono"
             autofocus
             dense
-            counter
           />
         </q-card-section>
 

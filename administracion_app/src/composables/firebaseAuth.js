@@ -36,7 +36,6 @@ const registerCompany = async (email, password, name, companyName, phone) => {
     if (!querySnapshot.empty) {
       throw new Error("Ya existe una empresa con ese nombre.");
     } else {
-      // Creo el admin
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -50,10 +49,7 @@ const registerCompany = async (email, password, name, companyName, phone) => {
         Nombre: companyName,
         Telefono: phone,
         Url: "",
-      });
-
-      sendEmailVerification(auth.currentUser).then(() => {
-        console.log("Email de verificación enviado");
+        Validate: false,
       });
 
       return user;
@@ -73,25 +69,35 @@ const login = async (email, password) => {
     );
     const user = userCredential.user;
 
-    // Comprobar si el email está verificado
-    if (!user.emailVerified) {
+    const companyQuery = query(
+      collection(db, "Empresa"),
+      where("Uid", "==", user.uid)
+    );
+    const companySnapshot = await getDocs(companyQuery);
+
+    if (companySnapshot.empty) {
+      throw new Error("No se encontró la empresa asociada al email.");
+    }
+
+    const companyData = companySnapshot.docs[0].data();
+
+    if (companyData.Validate === false) {
       await auth.signOut();
       throw new Error(
-        "Compruebe el email y valide la cuenta antes de iniciar sesión."
+        "El administrador debe validar su cuenta antes de iniciar sesión."
       );
     }
 
-    console.log("Inicio de sesión exitoso: ", user);
     return user;
   } catch (error) {
-    throw new Error("Usuario o contraseña incorrectos", error);
+    throw new Error("Error al iniciar sesión", error);
   }
 };
 
 // Función para obtener datos del usuario actual
 const getCurrentUserData = async () => {
   try {
-    const user = auth.currentUser; // Obtiene el usuario autenticado actual
+    const user = auth.currentUser;
     if (!user) {
       throw new Error("No hay un usuario autenticado.");
     }

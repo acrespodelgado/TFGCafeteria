@@ -8,7 +8,6 @@
             label="Email"
             outlined
             :rules="emailRules"
-            lazy-rules
           />
         </div>
         <div class="col-6 q-my-md q-pr-xs">
@@ -18,7 +17,6 @@
             :type="isPwd1 ? 'password' : 'text'"
             outlined
             :rules="passwordRules"
-            lazy-rules
           >
             <template v-slot:append>
               <q-icon
@@ -36,7 +34,6 @@
             :type="isPwd2 ? 'password' : 'text'"
             outlined
             :rules="repeatPasswordRules(accessData.Password)"
-            lazy-rules
           >
             <template v-slot:append>
               <q-icon

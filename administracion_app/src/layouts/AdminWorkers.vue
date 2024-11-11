@@ -23,7 +23,6 @@
                 v-model="scope.value"
                 dense
                 autofocus
-                counter
                 @keyup.enter="
                   handleUpdate(props.row.DNI, 'Nombre', scope.value)
                 "

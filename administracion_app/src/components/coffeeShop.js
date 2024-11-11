@@ -64,7 +64,7 @@ export const updateCoffeeShop = async (name, newData) => {
 
       await updateDoc(coffeeShopRef, newData);
     } else {
-      throw new Error("No se encontró la cafetería con nombre ", name);
+      throw new Error(`No se encontró la cafetería con nombre ${name}`);
     }
   } catch (error) {
     throw new Error("Error al actualizar los datos de la cafeteria", error);
@@ -86,7 +86,7 @@ export const deleteCoffeeShop = async (name) => {
 
       await deleteDoc(coffeeShopRef);
     } else {
-      throw new Error("No se encontró la cafetería con nombre ", name);
+      throw new Error(`No se encontró la cafetería con nombre ${name}`);
     }
   } catch (error) {
     throw new Error("Error al eliminar la cafetería", error);
