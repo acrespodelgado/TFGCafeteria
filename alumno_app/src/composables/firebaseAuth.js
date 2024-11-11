@@ -4,6 +4,7 @@ import {
   signOut,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { fetchCompanies } from "src/components/company";
@@ -147,4 +148,14 @@ const getCurrentUserData = async () => {
   }
 };
 
-export { auth, login, logout, register, getCurrentUserData };
+const resetPassword = async (email) => {
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      return true;
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
+
+export { auth, login, logout, register, getCurrentUserData, resetPassword };

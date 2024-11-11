@@ -30,6 +30,7 @@
           </q-input>
 
           <q-toggle v-model="remember" label="Recordarme" />
+          <q-btn @click="handleResetPassword">Restablecer contraseña</q-btn>
           <div class="q-gutter-md column q-mx-xs">
             <q-btn
               label="Registrarse"
@@ -49,7 +50,7 @@
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
-import { login } from "src/composables/firebaseAuth";
+import { login, resetPassword } from "src/composables/firebaseAuth";
 import { useRouter } from "vue-router";
 import { emailRules } from "src/composables/rules";
 
@@ -101,6 +102,18 @@ export default defineComponent({
       }
     }
 
+    async function handleResetPassword() {
+      try {
+        await resetPassword(email.value);
+        $q.notify({
+          type: "positive",
+          message: "Email de restablecimiento enviado con éxito",
+        });
+      } catch (error) {
+        $q.notify({ type: "negative", message: error.message });
+      }
+    }
+
     return {
       email,
       password,
@@ -108,6 +121,7 @@ export default defineComponent({
       remember,
       emailRules,
       onSubmit,
+      handleResetPassword,
       login,
     };
   },

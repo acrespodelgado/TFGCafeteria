@@ -44,9 +44,12 @@
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
-import { fetchCompanies } from "src/components/company";
+import {
+  fetchCompanies,
+  deleteCompany,
+  validateCompany,
+} from "src/components/company";
 import { useQuasar } from "quasar";
-import { deleteCompany, validateCompany } from "src/components/company";
 
 export default defineComponent({
   name: "AdminCompanies",
