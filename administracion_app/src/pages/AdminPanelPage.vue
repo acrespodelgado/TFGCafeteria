@@ -5,6 +5,7 @@
     <div class="row">
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
+          class="full-width"
           label="Modificar datos de acceso"
           @click="modifyAccessData = true"
           color="primary"
@@ -14,6 +15,7 @@
       </div>
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
+          class="full-width"
           label="Modificar datos de empresa"
           @click="modifyCompanyData = true"
           color="primary"
@@ -23,6 +25,7 @@
       </div>
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
+          class="full-width"
           label="Administrar mis cafeterías"
           @click="adminCoffeeShop = true"
           color="primary"
@@ -32,6 +35,7 @@
       </div>
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
+          class="full-width"
           label="Administrar mis camareros"
           @click="adminWorkers = true"
           color="primary"
@@ -41,6 +45,7 @@
       </div>
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
+          class="full-width"
           label="Modificar colores"
           @click="changeColours = true"
           color="primary"

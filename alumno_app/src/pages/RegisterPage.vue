@@ -11,7 +11,6 @@
               label="Email"
               outlined
               :rules="emailRules"
-              lazy-rules
             />
           </div>
           <div class="col-6 q-my-sm q-pr-xs">
@@ -21,7 +20,6 @@
               :type="isPwd1 ? 'password' : 'text'"
               outlined
               :rules="passwordRules"
-              lazy-rules
             >
               <template v-slot:append>
                 <q-icon
@@ -39,7 +37,6 @@
               :type="isPwd2 ? 'password' : 'text'"
               outlined
               :rules="repeatPasswordRules(password)"
-              lazy-rules
             >
               <template v-slot:append>
                 <q-icon
@@ -56,7 +53,6 @@
               label="Nombre"
               outlined
               :rules="inputRules"
-              lazy-rules
             />
           </div>
           <div class="col-6 q-my-sm q-pl-xs">
@@ -65,17 +61,10 @@
               label="Apellidos"
               outlined
               :rules="inputRules"
-              lazy-rules
             />
           </div>
           <div class="col-6 q-my-sm q-pr-xs">
-            <q-input
-              v-model="dni"
-              label="DNI"
-              outlined
-              :rules="dniRules"
-              lazy-rules
-            />
+            <q-input v-model="dni" label="DNI" outlined :rules="dniRules" />
           </div>
           <div class="col-6 q-my-sm q-pl-xs">
             <q-input
@@ -83,7 +72,6 @@
               label="Teléfono"
               outlined
               :rules="phoneRules"
-              lazy-rules
             />
           </div>
           <div class="col-12 q-my-sm">

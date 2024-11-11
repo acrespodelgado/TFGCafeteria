@@ -1,7 +1,7 @@
 <template>
   <h1>Administrar datos</h1>
   <h2 class="q-pt-none">Seleccione su operación</h2>
-  <q-page class="q-pa-xl column justify-end">
+  <q-page class="q-pa-xl column justify-center">
     <div class="row">
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn

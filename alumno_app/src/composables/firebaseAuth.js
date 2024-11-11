@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
+  sendEmailVerification,
 } from "firebase/auth";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { fetchCompanies } from "src/components/company";
@@ -85,7 +86,7 @@ const register = async (
       console.log("Email de verificación enviado");
     });
 
-    logout();
+    //logout();
     return user;
   } catch (error) {
     console.error("Error al registrar el usuario: ", error.message);
@@ -105,9 +106,7 @@ const login = async (email, password) => {
 
     if (!user.emailVerified) {
       await auth.signOut();
-      throw new Error(
-        "El administrador debe validar su cuenta antes de iniciar sesión."
-      );
+      throw new Error("Debe validar su email antes de iniciar sesión.");
     }
 
     console.log("Inicio de sesión exitoso: ", user);

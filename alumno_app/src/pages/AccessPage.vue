@@ -10,7 +10,6 @@
             label="Email"
             outlined
             :rules="emailRules"
-            lazy-rules
             class="q-my-lg"
           />
           <q-input

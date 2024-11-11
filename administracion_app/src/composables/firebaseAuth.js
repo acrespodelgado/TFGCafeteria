@@ -90,7 +90,7 @@ const login = async (email, password) => {
 
     return user;
   } catch (error) {
-    throw new Error("Error al iniciar sesión", error);
+    throw new Error(`Error al iniciar sesión. ${error.message}`);
   }
 };
 
