@@ -80,6 +80,10 @@ const register = async (
       });
     });
 
+    sendEmailVerification(auth.currentUser).then(() => {
+      console.log("Email de verificación enviado");
+    });
+
     logout();
     return user;
   } catch (error) {
@@ -97,6 +101,14 @@ const login = async (email, password) => {
       password
     );
     const user = userCredential.user;
+
+    if (!user.emailVerified) {
+      await auth.signOut();
+      throw new Error(
+        "El administrador debe validar su cuenta antes de iniciar sesión."
+      );
+    }
+
     console.log("Inicio de sesión exitoso: ", user);
     return user;
   } catch (error) {
