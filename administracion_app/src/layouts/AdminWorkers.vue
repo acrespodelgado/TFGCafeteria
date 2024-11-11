@@ -9,8 +9,10 @@
       :columns="columns"
       row-key="DNI"
       binary-state-sort
-      hide-bottom
+      hide-pagination
       virtual-scroll
+      no-data-label="No hay camareros disponibles"
+      no-results-label="No hay camareros disponibles para el filtro"
     >
       <template v-slot:body="props">
         <q-tr :props="props">
@@ -59,7 +61,7 @@
               icon="delete"
               round
               dense
-              @click="handleDeleteWorker(props.row.DNI)"
+              @click="handleDelete(props.row.DNI)"
             />
           </q-td>
         </q-tr>
@@ -78,22 +80,28 @@
             label="Nombre"
             autofocus
             dense
-            counter
+            :rules="inputRules"
           />
-          <q-input v-model="newWorkerDNI" label="DNI" autofocus dense counter />
+          <q-input
+            v-model="newWorkerDNI"
+            label="DNI"
+            autofocus
+            dense
+            :rules="dniRules"
+          />
           <q-input
             v-model="newWorkerPhone"
             label="Teléfono"
             autofocus
             dense
-            counter
             type="number"
+            :rules="phoneRules"
           />
         </q-card-section>
 
         <q-card-actions>
           <q-btn flat label="Cancelar" @click="closeDialog" />
-          <q-btn flat label="Agregar" color="primary" @click="addNewWorker" />
+          <q-btn flat label="Agregar" color="primary" @click="handleAdd" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -109,7 +117,7 @@ import {
   updateWorker,
   deleteWorker,
 } from "src/components/workers.js";
-import { phoneRules, inputRules } from "src/composables/rules";
+import { phoneRules, dniRules, inputRules } from "src/composables/rules";
 import { getCurrentUserData } from "src/composables/firebaseAuth";
 
 export default defineComponent({
@@ -184,14 +192,43 @@ export default defineComponent({
     onMounted();
 
     // Crear nuevo camarero
-    const addNewWorker = async () => {
+    const handleAdd = async () => {
       if (
         !newWorkerName.value ||
         !newWorkerDNI.value ||
         !newWorkerPhone.value
       ) {
+        $q.notify({
+          type: "negative",
+          message: "Rellene los campos obligatorios",
+        });
         return;
       }
+
+      // Validar teléfono y dni
+      const phoneIsValid = phoneRules.every(
+        (rule) => rule(newWorkerPhone.value) === true
+      );
+      const dniIsValid = dniRules.every(
+        (rule) => rule(newWorkerDNI.value) === true
+      );
+
+      if (!phoneIsValid) {
+        $q.notify({
+          type: "negative",
+          message: "El teléfono no cumple con las reglas de validación",
+        });
+        return;
+      }
+
+      if (!dniIsValid) {
+        $q.notify({
+          type: "negative",
+          message: "El DNI no cumple con las reglas de validación",
+        });
+        return;
+      }
+
       try {
         await addWorker(
           newWorkerName.value,
@@ -262,7 +299,7 @@ export default defineComponent({
     };
 
     // Eliminar camarero
-    const handleDeleteWorker = async (dni) => {
+    const handleDelete = async (dni) => {
       try {
         await deleteWorker(dni);
         rows.value = rows.value.filter((row) => row.DNI !== dni); // Elimina el camarero de la lista local
@@ -283,14 +320,15 @@ export default defineComponent({
       rows,
       phoneRules,
       inputRules,
+      dniRules,
       createWorker,
       createDialog,
       newWorkerName,
       newWorkerDNI,
       newWorkerPhone,
-      addNewWorker,
+      handleAdd,
       closeDialog,
-      handleDeleteWorker,
+      handleDelete,
       handleUpdate,
     };
   },

@@ -4,6 +4,8 @@ import {
   signOut,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  updatePassword,
+  updateEmail,
 } from "firebase/auth";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 
@@ -30,7 +32,6 @@ const registerCompany = async (email, password, name, companyName, phone) => {
     const querySnapshot = await getDocs(q);
 
     if (!querySnapshot.empty) {
-      // Si existe una empresa con el mismo nombre, error
       throw new Error("Ya existe una empresa con ese nombre.");
     } else {
       // Creo el admin
@@ -40,7 +41,7 @@ const registerCompany = async (email, password, name, companyName, phone) => {
         password
       );
       const user = userCredential.user;
-      // Guardar los datos en Empresa
+
       await addDoc(collection(db, "Empresa"), {
         Uid: user.uid,
         Propietario: name,
@@ -104,4 +105,36 @@ const getCurrentUserData = async () => {
   }
 };
 
-export { auth, login, logout, registerCompany, getCurrentUserData };
+const handleUpdatePassword = async (newPassword) => {
+  const user = auth.currentUser;
+
+  updatePassword(user, newPassword)
+    .then(() => {
+      return true;
+    })
+    .catch((error) => {
+      console.log("Se ha producido un error", error);
+    });
+};
+
+const handleUpdateEmail = async (newEmail) => {
+  const user = auth.currentUser;
+
+  updateEmail(user, newEmail)
+    .then(() => {
+      return true;
+    })
+    .catch((error) => {
+      console.log("Se ha producido un error", error);
+    });
+};
+
+export {
+  auth,
+  login,
+  logout,
+  registerCompany,
+  getCurrentUserData,
+  handleUpdatePassword,
+  handleUpdateEmail,
+};

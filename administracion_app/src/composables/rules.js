@@ -18,6 +18,11 @@ const repeatPasswordRules = (password) => [
   (val) => val === password || "Las contraseñas deben coincidir",
 ];
 
+const pinRules = [
+  (val) => !!val || "* Obligatorio",
+  (val) => /^\d{4}$/.test(val) || "Debe contener exactamente 4 números",
+];
+
 const dniRules = [
   (val) => !!val || "* Obligatorio",
   (val) => /^[0-9]{8}[A-Z]$/.test(val) || "Formato de DNI inválido",
@@ -49,6 +54,7 @@ export {
   emailRules,
   passwordRules,
   repeatPasswordRules,
+  pinRules,
   dniRules,
   inputRules,
   phoneRules,

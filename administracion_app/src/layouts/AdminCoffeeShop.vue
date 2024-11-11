@@ -18,10 +18,6 @@
       no-results-label="No hay cafeterías disponibles para el filtro"
       hide-pagination
     >
-      <template v-slot:no-data>
-        <div class="text-center q-pa-md">No hay cafeterías disponibles</div>
-      </template>
-
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="Nombre" :props="props">
@@ -88,25 +84,22 @@
                   handleUpdate(props.row.Nombre, 'Menu', scope.value)
                 "
                 @blur="handleUpdate(props.row.Nombre, 'Menu', scope.value)"
-                :rules="inputRules"
               />
             </q-popup-edit>
           </q-td>
           <q-td key="Universidad" :props="props">
             {{ props.row.Universidad }}
             <q-popup-edit v-model="props.row.Universidad" v-slot="scope">
-              <q-input
+              <q-select
                 v-model="scope.value"
+                :options="universities"
+                label="Seleccione una universidad"
                 dense
                 autofocus
-                counter
+                autosave
                 @keyup.enter="
                   handleUpdate(props.row.Nombre, 'Universidad', scope.value)
                 "
-                @blur="
-                  handleUpdate(props.row.Nombre, 'Universidad', scope.value)
-                "
-                :rules="inputRules"
               />
             </q-popup-edit>
           </q-td>
@@ -115,7 +108,6 @@
             <q-popup-edit
               v-model="props.row.Pin"
               title="Actualizar pin acceso"
-              buttons
               v-slot="scope"
             >
               <q-input
@@ -127,7 +119,7 @@
                   handleUpdate(props.row.Nombre, 'Pin', scope.value)
                 "
                 @blur="handleUpdate(props.row.Nombre, 'Pin', scope.value)"
-                :rules="inputRules"
+                :rules="pinRules"
               />
             </q-popup-edit>
           </q-td>
@@ -143,7 +135,6 @@
                   handleUpdate(props.row.Nombre, 'Url_Logo', scope.value)
                 "
                 @blur="handleUpdate(props.row.Nombre, 'Url_Logo', scope.value)"
-                :rules="inputRules"
               />
             </q-popup-edit>
           </q-td>
@@ -152,7 +143,7 @@
               @click="handleDelete(props.row.Nombre)"
               color="negative"
               icon="delete"
-              label="Eliminar"
+              round
             />
           </q-td>
         </q-tr>
@@ -175,6 +166,7 @@
             v-model="newCoffeeShop.Horario"
             label="Horario"
             :rules="inputRules"
+            placeholder="9:00 a 18:00"
           />
           <q-input
             v-model="newCoffeeShop.Telefono"
@@ -182,27 +174,21 @@
             :rules="phoneRules"
             type="number"
           />
-          <q-input
-            v-model="newCoffeeShop.Menu"
-            label="Menu"
-            :rules="inputRules"
-          />
+          <q-input v-model="newCoffeeShop.Menu" label="Menu" />
           <q-select
-            v-model="university"
+            v-model="newCoffeeShop.Universidad"
             :options="universities"
             label="Seleccione una universidad"
+            placeholder="Url del pdf"
           />
           <q-input
             v-model="newCoffeeShop.Pin"
             label="Pin"
-            :rules="inputRules"
+            :rules="pinRules"
             type="number"
+            placeholder="9999"
           />
-          <q-input
-            v-model="newCoffeeShop.Url_Logo"
-            label="Url Logo"
-            :rules="inputRules"
-          />
+          <q-input v-model="newCoffeeShop.Url_Logo" label="Url Logo" />
         </q-card-section>
 
         <q-card-actions align="right">
@@ -224,7 +210,8 @@ import {
   addCoffeeShop,
   deleteCoffeeShop,
 } from "src/components/coffeeShop";
-import { phoneRules, inputRules } from "src/composables/rules"; // Reglas de validación
+import { fetchUniversities } from "src/components/university";
+import { phoneRules, inputRules, pinRules } from "src/composables/rules";
 
 export default defineComponent({
   name: "AdminCoffeeShop",
@@ -296,6 +283,7 @@ export default defineComponent({
       Url_Logo: "",
     });
 
+    const universities = ref([]);
     const createCoffeeShop = ref(false);
 
     const createCoffeeShopDialog = () => {
@@ -332,6 +320,8 @@ export default defineComponent({
       let rules;
       if (field === "Telefono") {
         rules = phoneRules;
+      } else if (field === "Pin") {
+        rules = pinRules;
       } else {
         rules = inputRules;
       }
@@ -348,11 +338,18 @@ export default defineComponent({
       }
 
       try {
-        const updatedData = { [field]: newValue };
+        const updatedData = {
+          [field]: field === "Universidad" ? newValue.value : newValue,
+        };
         await updateCoffeeShop(nombre, updatedData);
 
         rows.value = rows.value.map((r) =>
-          r.Nombre === nombre ? { ...r, [field]: newValue } : r
+          r.Nombre === nombre
+            ? {
+                ...r,
+                [field]: field === "Universidad" ? newValue.value : newValue,
+              }
+            : r
         );
 
         $q.notify({
@@ -373,21 +370,47 @@ export default defineComponent({
         !newCoffeeShop.value.Nombre ||
         !newCoffeeShop.value.Horario ||
         !newCoffeeShop.value.Telefono ||
-        !newCoffeeShop.value.Menu ||
         !newCoffeeShop.value.Pin ||
-        !newCoffeeShop.value.Url_Logo ||
         !newCoffeeShop.value.Universidad
       ) {
         $q.notify({
           type: "negative",
-          message: "Rellene todos los campos",
+          message: "Rellene los campos obligatorios",
         });
         return;
       }
+
+      // Validar teléfono y pin
+      const phoneIsValid = phoneRules.every(
+        (rule) => rule(newCoffeeShop.value.Telefono) === true
+      );
+      const pinIsValid = pinRules.every(
+        (rule) => rule(newCoffeeShop.value.Pin) === true
+      );
+
+      if (!phoneIsValid) {
+        $q.notify({
+          type: "negative",
+          message: "El teléfono no cumple con las reglas de validación",
+        });
+        return;
+      }
+
+      if (!pinIsValid) {
+        $q.notify({
+          type: "negative",
+          message: "El pin no cumple con las reglas de validación",
+        });
+        return;
+      }
+
       try {
         await addCoffeeShop(data.value.Nombre, newCoffeeShop.value);
 
-        rows.value.push({ ...newCoffeeShop.value });
+        rows.value.push({
+          ...newCoffeeShop.value,
+          Universidad: newCoffeeShop.value.Universidad.value,
+        });
         createCoffeeShop.value = false;
 
         $q.notify({
@@ -439,9 +462,11 @@ export default defineComponent({
       rows,
       phoneRules,
       inputRules,
+      pinRules,
       handleUpdate,
       handleAdd,
       handleDelete,
+      universities,
       createCoffeeShop,
       createCoffeeShopDialog,
       closeDialog,

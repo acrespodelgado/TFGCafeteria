@@ -57,7 +57,12 @@
 </template>
 <script>
 import { defineComponent, ref } from "vue";
-import { auth } from "src/composables/firebaseAuth";
+import { useQuasar } from "quasar";
+import {
+  auth,
+  handleUpdateEmail,
+  handleUpdatePassword,
+} from "src/composables/firebaseAuth";
 import {
   emailRules,
   passwordRules,
@@ -68,6 +73,8 @@ export default defineComponent({
   name: "ModifyAccessData",
 
   setup() {
+    const $q = useQuasar();
+
     const isPwd1 = ref(true);
     const isPwd2 = ref(true);
     const accessData = ref({
@@ -78,13 +85,40 @@ export default defineComponent({
 
     accessData.value.Email = auth.currentUser.email;
 
-    const onSubmit = () => {
-      // Lógica para manejar la modificación de los datos de acceso
-      console.log(
-        "Formulario enviado con los siguientes datos:",
-        accessData.value
-      );
-    };
+    async function onSubmit() {
+      try {
+        // Verificar si el email ha cambiado
+        if (accessData.value.Email !== auth.currentUser.email) {
+          await handleUpdateEmail(accessData.value.Email);
+          $q.notify({
+            type: "positive",
+            message: "Email actualizado correctamente.",
+          });
+        }
+
+        // Verificar si las contraseñas coinciden y si la contraseña no está vacía
+        if (
+          accessData.value.Password &&
+          accessData.value.Password === accessData.value.RepeatPassword
+        ) {
+          await handleUpdatePassword(accessData.value.Password);
+          $q.notify({
+            type: "positive",
+            message: "Contraseña actualizada correctamente.",
+          });
+        } else {
+          $q.notify({
+            type: "negative",
+            message: "Las contraseñas no coinciden o están vacías.",
+          });
+        }
+      } catch (error) {
+        $q.notify({
+          type: "negative",
+          message: `Error al actualizar los datos: ${error.message}.`,
+        });
+      }
+    }
 
     return {
       accessData,

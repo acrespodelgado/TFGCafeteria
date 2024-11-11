@@ -1,6 +1,6 @@
 const pinRules = [
   (val) => !!val || "* Obligatorio",
-  (val) => String(val).length === 4 || "Por favor introduzca 4 dígitos",
+  (val) => /^\d{4}$/.test(val) || "Debe contener exactamente 4 números",
 ];
 
 export { pinRules };

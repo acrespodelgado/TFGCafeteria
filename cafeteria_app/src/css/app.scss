@@ -96,7 +96,7 @@ form {
   &.bg-primary {
     border: 2px solid $primary;
     &:hover {
-      background: $secondary !important;
+      background: $secondary;
       border: 2px solid $secondary;
       transition: all 0.2s ease-in-out;
     }
@@ -104,7 +104,7 @@ form {
   &.bg-secondary {
     border: 2px solid $secondary;
     &:hover {
-      background: $primary !important;
+      background: $primary;
       border: 2px solid $primary;
       transition: all 0.2s ease-in-out;
     }

@@ -16,7 +16,8 @@
           class="q-mt-lg"
           placeholder="#FFFFFF"
         ></q-input>
-        <div class="q-gutter-sm">
+        <div>
+          <label>Color de texto</label>
           <q-radio v-model="hexColorText" val="#FFF" label="Blanco" />
           <q-radio v-model="hexColorText" val="#000" label="Negro" />
         </div>
@@ -66,7 +67,7 @@ export default defineComponent({
     async function onSubmit() {
       try {
         await updateCompanyColors(
-          data.value.Nombre,
+          data.value.Uid,
           hexColor.value,
           hexColor2.value,
           hexColorText.value
@@ -85,7 +86,7 @@ export default defineComponent({
 
     async function resetColors() {
       try {
-        await updateCompanyColors(data.value.Nombre, null, null, null);
+        await updateCompanyColors(data.value.Uid, null, null, null);
 
         hexColor.value = null;
         hexColor2.value = null;

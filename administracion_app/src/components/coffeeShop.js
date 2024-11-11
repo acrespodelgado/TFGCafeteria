@@ -39,7 +39,7 @@ export const addCoffeeShop = async (company, data) => {
       Horario: data.Horario,
       Telefono: data.Telefono,
       Menu: data.Menu,
-      Universidad: data.Universidad,
+      Universidad: data.Universidad.value,
       Pin: data.Pin,
       Url_Logo: data.Url_Logo,
     });

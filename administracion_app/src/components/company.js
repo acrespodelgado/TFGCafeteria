@@ -51,6 +51,26 @@ export const getCompanyData = async (company) => {
   }
 };
 
+export async function updateCompanyData(company, updatedData) {
+  try {
+    const q = query(collection(db, "Empresa"), where("Uid", "==", company));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const companyDoc = querySnapshot.docs[0];
+      const companyRef = doc(db, "Empresa", companyDoc.id);
+
+      await updateDoc(companyRef, updatedData);
+      return true;
+    } else {
+      throw new Error("Empresa no encontrada.");
+    }
+  } catch (error) {
+    console.error("Error al actualizar los datos de la empresa:", error);
+    return false;
+  }
+}
+
 export const updateCompanyColors = async (
   company,
   hexColor,
@@ -58,7 +78,7 @@ export const updateCompanyColors = async (
   hexColorText
 ) => {
   try {
-    const q = query(collection(db, "Empresa"), where("Nombre", "==", company));
+    const q = query(collection(db, "Empresa"), where("Uid", "==", company));
     const querySnapshot = await getDocs(q);
 
     if (!querySnapshot.empty) {
