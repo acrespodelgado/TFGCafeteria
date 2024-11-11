@@ -41,7 +41,7 @@ export const addWorker = async (name, dni, phone, company) => {
     });
     return docRef.id;
   } catch (error) {
-    console.error("Error al agregar el camarero: ", error);
+    throw new Error("Error al agregar el camarero", error);
   }
 };
 
@@ -60,10 +60,10 @@ export const updateWorker = async (dni, newData) => {
 
       await updateDoc(workerRef, newData);
     } else {
-      console.error("No se encontró el camarero con el DNI: ", dni);
+      throw new Error("No se encontró el camarero con el DNI: ", dni);
     }
   } catch (error) {
-    console.error("Error al actualizar los datos del camarero: ", error);
+    throw new Error("Error al actualizar los datos del camarero: ", error);
   }
 };
 
@@ -82,9 +82,9 @@ export const deleteWorker = async (dni) => {
 
       await deleteDoc(workerRef);
     } else {
-      console.error("No se encontró el camarero con el DNI: ", dni);
+      throw new Error("No se encontró el camarero con el DNI: ", dni);
     }
   } catch (error) {
-    console.error("Error al eliminar el camarero: ", error);
+    throw new Error("Error al eliminar el camarero", error);
   }
 };

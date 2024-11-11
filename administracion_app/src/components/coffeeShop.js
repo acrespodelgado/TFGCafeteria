@@ -45,7 +45,7 @@ export const addCoffeeShop = async (company, data) => {
     });
     return docRef.id;
   } catch (error) {
-    console.error("Error al agregar la cafeteria: ", error);
+    throw new Error("Error al agregar la cafeteria", error);
   }
 };
 
@@ -64,10 +64,10 @@ export const updateCoffeeShop = async (name, newData) => {
 
       await updateDoc(coffeeShopRef, newData);
     } else {
-      console.error("No se encontró la cafetería con nombre: ", name);
+      throw new Error("No se encontró la cafetería con nombre ", name);
     }
   } catch (error) {
-    console.error("Error al actualizar los datos de la cafeteria: ", error);
+    throw new Error("Error al actualizar los datos de la cafeteria", error);
   }
 };
 
@@ -86,9 +86,9 @@ export const deleteCoffeeShop = async (name) => {
 
       await deleteDoc(coffeeShopRef);
     } else {
-      console.error("No se encontró la cafetería con nombre: ", name);
+      throw new Error("No se encontró la cafetería con nombre ", name);
     }
   } catch (error) {
-    console.error("Error al eliminar la cafetería: ", error);
+    throw new Error("Error al eliminar la cafetería", error);
   }
 };

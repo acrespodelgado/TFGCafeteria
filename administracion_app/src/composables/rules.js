@@ -6,6 +6,7 @@ const emailRules = [
 
 const passwordRules = [
   (val) => !!val || "* Obligatorio",
+  (val) => val.length >= 6 || "Debe tener al menos 6 caracteres", // Verifica que la longitud sea de al menos 6 caracteres
   (val) => /[A-Z]/.test(val) || "Debe contener al menos 1 mayúscula", // Verifica al menos 1 letra mayúscula
   (val) => /[0-9]/.test(val) || "Debe contener al menos 1 número", // Verifica al menos 1 dígito
   (val) =>

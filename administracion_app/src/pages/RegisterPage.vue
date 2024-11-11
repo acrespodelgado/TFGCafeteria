@@ -66,6 +66,7 @@
               outlined
               :rules="phoneRules"
               lazy-rules
+              type="number"
             />
           </div>
           <div class="col-12 q-my-md">

@@ -15,8 +15,7 @@ export const fetchCompanies = async () => {
     const companies = companySnapshot.docs.map((doc) => doc.data().Nombre);
     return companies;
   } catch (error) {
-    console.error("Error al obtener las empresas: ", error.message);
-    throw error;
+    throw new Error("Error al obtener las empresas", error);
   }
 };
 
@@ -33,7 +32,7 @@ export const getCompanyByCoffeeShop = async (coffeeShop) => {
       return result.data().Empresa;
     }
   } catch (error) {
-    console.error("Error al obtener la empresa:", error);
+    throw new Error("Error al obtener la empresa", error);
   }
 };
 
@@ -47,7 +46,7 @@ export const getCompanyData = async (company) => {
       return result.data();
     }
   } catch (error) {
-    console.error("Error al obtener los datos de la empresa:", error);
+    throw new Error("Error al obtener los datos de la empresa", error);
   }
 };
 
@@ -66,8 +65,7 @@ export async function updateCompanyData(company, updatedData) {
       throw new Error("Empresa no encontrada.");
     }
   } catch (error) {
-    console.error("Error al actualizar los datos de la empresa:", error);
-    return false;
+    throw new Error("Error al actualizar los datos de la empresa", error);
   }
 }
 
@@ -97,7 +95,6 @@ export const updateCompanyColors = async (
       throw new Error("Empresa no encontrada.");
     }
   } catch (error) {
-    console.error("Error al actualizar los colores de la empresa:", error);
-    throw error;
+    throw new Error("Error al actualizar los colores de la empresa:", error);
   }
 };

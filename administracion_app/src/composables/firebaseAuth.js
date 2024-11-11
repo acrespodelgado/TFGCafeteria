@@ -6,10 +6,13 @@ import {
   createUserWithEmailAndPassword,
   updatePassword,
   updateEmail,
+  sendEmailVerification,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 
 const auth = getAuth();
+auth.useDeviceLanguage();
 
 // Función para cerrar sesión
 const logout = async (router) => {
@@ -18,8 +21,7 @@ const logout = async (router) => {
     console.log("Sesión cerrada con éxito.");
     router.push("/access");
   } catch (error) {
-    console.error("Error al cerrar sesión: ", error.message);
-    throw error;
+    throw new Error("Error al cerrar sesión", error);
   }
 };
 
@@ -50,11 +52,14 @@ const registerCompany = async (email, password, name, companyName, phone) => {
         Url: "",
       });
 
+      sendEmailVerification(auth.currentUser).then(() => {
+        console.log("Email de verificación enviado");
+      });
+
       return user;
     }
   } catch (error) {
-    console.error("Error al registrar el usuario: ", error.message);
-    throw error;
+    throw new Error("Error al registrar el usuario", error);
   }
 };
 
@@ -67,11 +72,19 @@ const login = async (email, password) => {
       password
     );
     const user = userCredential.user;
+
+    // Comprobar si el email está verificado
+    if (!user.emailVerified) {
+      await auth.signOut();
+      throw new Error(
+        "Compruebe el email y valide la cuenta antes de iniciar sesión."
+      );
+    }
+
     console.log("Inicio de sesión exitoso: ", user);
     return user;
   } catch (error) {
-    console.error("Error al iniciar sesión: ", error.message);
-    throw error;
+    throw new Error("Usuario o contraseña incorrectos", error);
   }
 };
 
@@ -90,7 +103,7 @@ const getCurrentUserData = async () => {
     const adminSnapshot = await getDocs(adminQuery);
 
     if (adminSnapshot.empty) {
-      throw new Error("No se encontraron datos de la empresa.");
+      throw new Error("No se encontraron datos de la empresa.", error);
     }
 
     let adminData = {};
@@ -100,11 +113,11 @@ const getCurrentUserData = async () => {
 
     return adminData;
   } catch (error) {
-    console.error("Error obteniendo datos de la empresa:", error);
-    throw error;
+    throw new Error("Error obteniendo datos de la empresa", error);
   }
 };
 
+// Actualizar contraseña
 const handleUpdatePassword = async (newPassword) => {
   const user = auth.currentUser;
 
@@ -113,10 +126,11 @@ const handleUpdatePassword = async (newPassword) => {
       return true;
     })
     .catch((error) => {
-      console.log("Se ha producido un error", error);
+      throw new Error("Se ha producido un error", error);
     });
 };
 
+// Actualizar email
 const handleUpdateEmail = async (newEmail) => {
   const user = auth.currentUser;
 
@@ -125,7 +139,17 @@ const handleUpdateEmail = async (newEmail) => {
       return true;
     })
     .catch((error) => {
-      console.log("Se ha producido un error", error);
+      throw new Error("Se ha producido un error", error);
+    });
+};
+
+const resetPassword = async (email) => {
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      return true;
+    })
+    .catch((error) => {
+      throw new Error(error.message);
     });
 };
 
@@ -137,4 +161,5 @@ export {
   getCurrentUserData,
   handleUpdatePassword,
   handleUpdateEmail,
+  resetPassword,
 };

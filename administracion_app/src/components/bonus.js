@@ -18,7 +18,7 @@ export const fetchBonusType = async () => {
     const bonusType = bonusSnapshot.docs.map((doc) => doc.data().Nombre);
     return bonusType;
   } catch (error) {
-    console.error("Error fetching bonuses: ", error);
+    throw new Error("Error encontrando bonuses", error);
   }
 };
 
@@ -29,7 +29,7 @@ export const addBonusType = async (nombre) => {
     const docRef = await addDoc(bonusRef, { Nombre: nombre });
     return docRef.id;
   } catch (error) {
-    console.error("Error al agregar el bono: ", error);
+    throw new Error("Error al agregar el bono", error);
   }
 };
 
@@ -48,10 +48,10 @@ export const updateBonusType = async (nombreAntiguo, nombreNuevo) => {
 
       await updateDoc(bonusRef, { Nombre: nombreNuevo });
     } else {
-      console.error("No se encontró el bono con el nombre: ", nombreAntiguo);
+      throw new Error("No se encontró el bono con el nombre ", nombreAntiguo);
     }
   } catch (error) {
-    console.error("Error al actualizar el bono: ", error);
+    throw new Error("Error al actualizar el bono", error);
   }
 };
 
@@ -70,9 +70,9 @@ export const deleteBonusType = async (nombre) => {
 
       await deleteDoc(bonusRef);
     } else {
-      console.error("No se encontró el bono con el nombre: ", nombre);
+      throw new Error("No se encontró el bono con el nombre ", nombre);
     }
   } catch (error) {
-    console.error("Error al eliminar el bono: ", error);
+    throw new Error("Error al eliminar el bono", error);
   }
 };
