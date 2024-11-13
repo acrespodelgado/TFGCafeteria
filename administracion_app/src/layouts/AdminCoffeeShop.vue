@@ -299,7 +299,10 @@ export default defineComponent({
           rows.value = coffeeShopData;
         }
       } catch (error) {
-        console.error("Error al cargar las cafeterias:", error);
+        $q.notify({
+          type: "negative",
+          message: "Error al cargar las cafeterias: " + error,
+        });
       }
     };
 

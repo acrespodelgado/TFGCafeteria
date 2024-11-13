@@ -179,7 +179,10 @@ export default defineComponent({
           rows.value = workersData;
         }
       } catch (error) {
-        console.error("Error al cargar los camareros:", error);
+        $q.notify({
+          type: "negative",
+          message: "Error al cargar los camareros: " + error,
+        });
       }
     };
 
@@ -325,8 +328,8 @@ export default defineComponent({
       newWorkerName,
       newWorkerDNI,
       newWorkerPhone,
-      handleAdd,
       closeDialog,
+      handleAdd,
       handleDelete,
       handleUpdate,
     };

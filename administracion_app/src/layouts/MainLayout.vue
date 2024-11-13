@@ -94,7 +94,6 @@ export default defineComponent({
               timeout: 1500,
             });
           } catch (error) {
-            console.error("Error al cerrar sesión:", error.message);
             Notify.create({
               type: "negative",
               message: "Error al cerrar sesión. Inténtalo de nuevo.",

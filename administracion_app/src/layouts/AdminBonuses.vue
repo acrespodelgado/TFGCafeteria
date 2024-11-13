@@ -32,7 +32,7 @@
               icon="delete"
               round
               dense
-              @click="deleteBonus(props.row.Nombre)"
+              @click="handleDelete(props.row.Nombre)"
             />
           </q-td>
         </q-tr>
@@ -108,7 +108,10 @@ export default defineComponent({
           Nombre: bonus,
         }));
       } catch (error) {
-        console.error("Error al cargar los tipos de Bonus:", error);
+        $q.notify({
+          type: "negative",
+          message: "Error al cargar los tipos de Bonus: " + error,
+        });
       }
     };
 
@@ -163,7 +166,7 @@ export default defineComponent({
     };
 
     // Eliminar bono
-    const deleteBonus = async (bonusName) => {
+    const handleDelete = async (bonusName) => {
       try {
         await deleteBonusType(bonusName);
         rows.value = rows.value.filter((row) => row.Nombre !== bonusName); // Elimina el bono de la lista local
@@ -191,7 +194,7 @@ export default defineComponent({
       addBonus,
       createBonus,
       closeDialog,
-      deleteBonus,
+      handleDelete,
       handleUpdate,
     };
   },
