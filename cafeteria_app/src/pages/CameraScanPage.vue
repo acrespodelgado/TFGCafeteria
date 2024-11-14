@@ -40,26 +40,25 @@ export default defineComponent({
 
       try {
         const uses = await actionOnWallet(decodedQr, action, bonusType);
-          if (action == "scan" && uses == null) {
-            $q.notify({
-              message: "No quedan usos disponibles.",
-              color: "negative",
-              timeout: 3000,
-            });
-          } else if ((action == "scan" && uses >= 0) || action == "recharge") {
-            $q.notify({
-              message: "Operación realizada con éxito",
-              color: "positive",
-              timeout: 5000,
-            });
-            router.push(`/confirmation/${action}/${bonusType}/${uses}`);
-          } else {
-            $q.notify({
+        if (action == "scan" && uses == null) {
+          $q.notify({
+            message: "No quedan usos disponibles.",
+            color: "negative",
+            timeout: 3000,
+          });
+        } else if ((action == "scan" && uses >= 0) || action == "recharge") {
+          $q.notify({
+            message: "Operación realizada con éxito",
+            color: "positive",
+            timeout: 5000,
+          });
+          router.push(`/confirmation/${action}/${bonusType}/${uses}`);
+        } else {
+          $q.notify({
             message: "No se encontró el tarjetero.",
             color: "negative",
             timeout: 3000,
           });
-          }
         }
       } catch (error) {
         $q.notify({
