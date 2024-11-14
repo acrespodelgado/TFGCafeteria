@@ -4,24 +4,26 @@ import { db } from "src/boot/firebase";
 
 const bonusType = ref([]);
 
+// Listar Tipos de Bonos
 export const useBonusType = () => {
   const fetchBonusType = async () => {
     try {
-      const bonusCol = collection(db, "Tipo_Bono");
-      const bonusSnapshot = await getDocs(bonusCol);
-      bonusType.value = bonusSnapshot.docs.map((doc) => doc.data());
+      const q = collection(db, "Tipo_Bono");
+      const querySnapshot = await getDocs(q);
+      bonusType.value = querySnapshot.docs.map((doc) => doc.data());
     } catch (error) {
-      console.error("Error fetching bonuses: ", error);
+      throw new Error("Error al obtener bonuses: " + error);
     }
   };
 
+  // Crear tipo de bono
   const addBonusType = async (name) => {
     try {
-      const bonusCol = collection(db, "Tipo_Bono");
-      await addDoc(bonusCol, { Nombre: name });
+      const q = collection(db, "Tipo_Bono");
+      await addDoc(q, { Nombre: name });
       await fetchBonusType();
     } catch (error) {
-      console.error("Error adding bonus: ", error);
+      throw new Error("Error al crear bono: " + error);
     }
   };
 

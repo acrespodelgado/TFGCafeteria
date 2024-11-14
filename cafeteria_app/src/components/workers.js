@@ -4,24 +4,26 @@ import { db } from "src/boot/firebase";
 
 const workers = ref([]);
 
+// Listar Camareros
 export const useWorkers = () => {
   const fetchWorkers = async () => {
     try {
-      const workersCol = collection(db, "Camarero");
-      const workerSnapshot = await getDocs(workersCol);
-      workers.value = workerSnapshot.docs.map((doc) => doc.data());
+      const q = collection(db, "Camarero");
+      const querySnapshot = await getDocs(q);
+      workers.value = querySnapshot.docs.map((doc) => doc.data());
     } catch (error) {
-      console.error("Error fetching workers: ", error);
+      throw new Error("Error al obtener camareros: " + error);
     }
   };
 
+  // Crear Camarero
   const addWorker = async (name, dni, tel) => {
     try {
-      const workersCol = collection(db, "Camarero");
-      await addDoc(workersCol, { Nombre: name, DNI: dni, Telefono: tel });
+      const q = collection(db, "Camarero");
+      await addDoc(q, { Nombre: name, DNI: dni, Telefono: tel });
       await fetchWorkers();
     } catch (error) {
-      console.error("Error adding worker: ", error);
+      throw new Error("Error al crear camarero: " + error);
     }
   };
 

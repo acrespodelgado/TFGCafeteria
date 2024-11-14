@@ -10,6 +10,7 @@ import {
 import { useSelectedWorker } from "src/composables/useSelectedWorker";
 import { useSelectedCoffeeShop } from "src/composables/useSelectedCoffeeShop";
 
+// Obtener Tarjetero
 async function fetchWallet(qrCode) {
   const { selectedCoffeeShop } = useSelectedCoffeeShop();
   const company = selectedCoffeeShop.value.Empresa;
@@ -20,46 +21,44 @@ async function fetchWallet(qrCode) {
       where("Direccion", "==", qrCode),
       where("Id_Empresa", "==", company)
     );
-    const walletSnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(q);
 
-    if (walletSnapshot.empty) {
-      console.log("No se encontraron coincidencias");
-      return null;
+    if (querySnapshot.empty) {
+      throw new Error("No se encontraron coincidencias: " + error);
     }
 
-    const doc = walletSnapshot.docs[0];
-    const walletData = { id: doc.id, ...doc.data() };
+    const doc = querySnapshot.docs[0];
+    const queryData = { id: doc.id, ...doc.data() };
 
-    return walletData;
+    return queryData;
   } catch (error) {
-    console.error("Error al buscar en Tarjetero:", error);
-    throw error;
+    throw new Error("Error al obtener tarjetero: " + error);
   }
 }
 
+// Realizar accion en tarjetero
 export async function actionOnWallet(qrCode, action, bonusType) {
   try {
-    const walletData = await fetchWallet(qrCode.value);
+    const qWalletData = await fetchWallet(qrCode.value);
 
-    if (!walletData) {
-      console.log("No se encontró el tarjetero");
-      return;
+    if (!qWalletData) {
+      throw new Error("No se encontró el tarjetero");
     }
-    const walletId = walletData.id;
+    const walletId = qWalletData.id;
 
     const q = query(
       collection(db, "Disponibilidad_Bono"),
       where("Id_Tarjetero", "==", walletId),
       where("Tipo_Bono", "==", bonusType)
     );
-    const disponibilitySnapshot = await getDocs(q);
+    const qDispoSnapshot = await getDocs(q);
 
-    if (disponibilitySnapshot.empty) {
+    if (qDispoSnapshot.empty) {
       console.log("No se encontró disponibilidad para este bono");
       return 0;
     }
 
-    const doc = disponibilitySnapshot.docs[0];
+    const doc = qDispoSnapshot.docs[0];
     const disponibility = doc.data();
     let newUses = disponibility.Usos;
 
@@ -84,37 +83,36 @@ export async function actionOnWallet(qrCode, action, bonusType) {
     console.log(`Acción ${action} realizada. Nuevos usos: ${newUses}`);
     return newUses;
   } catch (error) {
-    console.error("Error procesando la acción:", error);
-    throw error;
+    throw new Error("Error procesando la acción: " + error);
   }
 }
 
+// Registrar Transaccion
 async function registerTransaction(qrCode, action, bonusType) {
   try {
-    const walletData = await fetchWallet(qrCode.value);
     const { selectedWorker } = useSelectedWorker();
     const { selectedCoffeeShop } = useSelectedCoffeeShop();
+    const qWalletData = await fetchWallet(qrCode.value);
     const dateTime = new Date();
 
-    if (!walletData) {
-      console.log("No se encontró el tarjetero");
-      return;
+    if (!qWalletData) {
+      throw new Error("No se encontró el tarjetero");
     }
 
-    const walletIdStudent = walletData.Id_Alumno;
+    const walletIdStudent = qWalletData.Id_Alumno;
 
-    const q = query(
+    const qStud = query(
       collection(db, "Alumno"),
       where("Uid", "==", walletIdStudent)
     );
-    const studentSnapshot = await getDocs(q);
+    const qStudSnapshot = await getDocs(qStud);
 
-    const doc = studentSnapshot.docs[0];
-    const studentData = { id: doc.id, ...doc.data() };
+    const qStudDoc = qStudSnapshot.docs[0];
+    const qStudData = { id: qStudDoc.id, ...qStudDoc.data() };
 
     const transactionData = {
-      Alumno: studentData.Nombre + " " + studentData.Apellidos,
-      Uid_Alumno: studentData.Uid,
+      Alumno: qStudData.Nombre + " " + qStudData.Apellidos,
+      Uid_Alumno: qStudData.Uid,
       Camarero: selectedWorker.value.Nombre,
       Tipo_Bono: bonusType,
       Fecha: dateTime,
@@ -122,10 +120,9 @@ async function registerTransaction(qrCode, action, bonusType) {
       Tipo: action === "scan" ? "Venta" : "Recarga",
     };
 
-    const transactionCol = collection(db, "Transaccion");
-    await addDoc(transactionCol, transactionData);
+    const qTransCol = collection(db, "Transaccion");
+    await addDoc(qTransCol, transactionData);
   } catch (error) {
-    console.error("Error registrando la transacción:", error);
-    throw error;
+    throw new Error("Error registrando la transacción: " + error);
   }
 }

@@ -5,12 +5,13 @@ import { db } from "src/boot/firebase";
 const coffeeShops = ref([]);
 const groupedCoffeeShops = ref({});
 
+// Listar Cafeterías
 export const useCoffeeShop = () => {
   const fetchCoffeeShops = async () => {
     try {
-      const coffeeShopCol = collection(db, "Cafeteria");
-      const coffeeShopSnapshot = await getDocs(coffeeShopCol);
-      coffeeShops.value = coffeeShopSnapshot.docs.map((doc) => ({
+      const q = collection(db, "Cafeteria");
+      const querySnapshot = await getDocs(q);
+      coffeeShops.value = querySnapshot.docs.map((doc) => ({
         Name: doc.data().Nombre,
         Url: doc.data().Url_Logo,
         value: doc.id,
@@ -23,10 +24,11 @@ export const useCoffeeShop = () => {
 
       groupByCompany();
     } catch (error) {
-      console.error("Error fetching coffeeShops: ", error);
+      throw new Error("Error al obtener cafeterías: " + error);
     }
   };
 
+  // Agrupar por Empresa
   const groupByCompany = () => {
     groupedCoffeeShops.value = coffeeShops.value.reduce((acc, coffeeShop) => {
       const company = coffeeShop.Company;
