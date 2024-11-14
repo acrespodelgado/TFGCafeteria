@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md">
-    <q-btn label="Enviar notificación" color="primary" />
+  <div class="flex column">
+    <q-btn label="Enviar notificación" color="secondary" />
     <q-table
       flat
       bordered

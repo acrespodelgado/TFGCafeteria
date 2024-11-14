@@ -69,11 +69,12 @@ export async function updateCompanyData(company, updatedData) {
       const queryRef = doc(db, "Empresa", queryDoc.id);
 
       await updateDoc(queryRef, updatedData);
+      return true;
     } else {
       throw new Error("Empresa no encontrada.");
     }
   } catch (error) {
-    throw new Error("Error al actualizar los datos de la empresa", error);
+    throw new Error("Error al actualizar los datos de la empresa:" + error);
   }
 }
 

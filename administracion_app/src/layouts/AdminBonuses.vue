@@ -1,6 +1,10 @@
 <template>
-  <div class="q-pa-md">
-    <q-btn label="Agregar Tipo de Bono" color="primary" @click="createBonus" />
+  <div class="flex column">
+    <q-btn
+      label="Agregar Tipo de Bono"
+      color="secondary"
+      @click="createBonus"
+    />
     <q-table
       flat
       bordered

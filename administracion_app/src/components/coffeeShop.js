@@ -48,6 +48,13 @@ export const fetchCoffeeShopsByCompany = async (company) => {
 export const addCoffeeShop = async (company, data) => {
   try {
     const q = collection(db, "Cafeteria");
+    const qCheck = query(q, where("Nombre", "==", data.Nombre));
+    const queryCheckSnapshot = await getDocs(qCheck);
+
+    if (!queryCheckSnapshot.empty) {
+      throw new Error("Ya existe una cafetería con este nombre.");
+    }
+
     const queryRef = await addDoc(q, {
       Empresa: company,
       Nombre: data.Nombre,
@@ -60,7 +67,7 @@ export const addCoffeeShop = async (company, data) => {
     });
     return queryRef.id;
   } catch (error) {
-    throw new Error("Error al agregar la cafeteria", error);
+    throw new Error(error.message);
   }
 };
 
@@ -79,7 +86,7 @@ export const updateCoffeeShop = async (name, newData) => {
       throw new Error(`No se encontró la cafetería con nombre ${name}`);
     }
   } catch (error) {
-    throw new Error("Error al actualizar los datos de la cafeteria", error);
+    throw new Error(error.message);
   }
 };
 
@@ -98,6 +105,6 @@ export const deleteCoffeeShop = async (name) => {
       throw new Error(`No se encontró la cafetería con nombre ${name}`);
     }
   } catch (error) {
-    throw new Error("Error al eliminar la cafetería", error);
+    throw new Error(error.message);
   }
 };

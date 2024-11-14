@@ -89,7 +89,7 @@ const register = async (
     //logout();
     return user;
   } catch (error) {
-    console.error("Error al registrar el usuario: ", error.message);
+    console.error(error.message);
     throw error;
   }
 };
@@ -112,8 +112,20 @@ const login = async (email, password) => {
     console.log("Inicio de sesión exitoso: ", user);
     return user;
   } catch (error) {
-    console.error("Error al iniciar sesión: ", error.message);
-    throw error;
+    let errorMessage = "";
+    switch (error.code) {
+      case "auth/wrong-password":
+        errorMessage =
+          "Usuario o contraseña incorrectos. Por favor, inténtelo de nuevo.";
+        break;
+      case "auth/user-not-found":
+        errorMessage = "No se encontró una cuenta con este correo electrónico.";
+        break;
+      default:
+        errorMessage = error.message;
+        break;
+    }
+    throw new Error(errorMessage);
   }
 };
 
@@ -142,7 +154,7 @@ const getCurrentUserData = async () => {
 
     return studentData;
   } catch (error) {
-    console.error("Error obteniendo datos del usuario:", error);
+    console.error(error.message);
     throw error;
   }
 };

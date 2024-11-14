@@ -75,17 +75,17 @@ export default defineComponent({
         caption: "Información sobre las cafeterías",
         icon: "analytics",
         link: "statistics",
-      },
+      } /*
       ...(userEmail.value === authorizedEmail
-        ? [
-            {
-              title: "Administración general",
-              caption: "Panel de administración general",
-              icon: "settings",
-              link: "settings",
-            },
+        ? [*/,
+      {
+        title: "Administración general",
+        caption: "Panel de administración general",
+        icon: "settings",
+        link: "settings",
+      } /*
           ]
-        : []),
+        : []),*/,
       {
         title: "Cerrar sesión",
         caption: "",

@@ -258,7 +258,10 @@ export default defineComponent({
         newWorkerPhone.value = "";
         closeDialog();
       } catch (error) {
-        $q.notify({ type: "negative", message: "Error al crear el camarero" });
+        $q.notify({
+          type: "negative",
+          message: "Error al crear el camarero: " + error,
+        });
       }
     };
 
@@ -278,7 +281,7 @@ export default defineComponent({
         $q.notify({
           type: "negative",
           message:
-            "El valor proporcionado no cumple con las reglas de validación",
+            "El valor proporcionado no cumple con las reglas de validación.",
         });
         return;
       }
@@ -299,7 +302,7 @@ export default defineComponent({
       } catch (error) {
         $q.notify({
           type: "negative",
-          message: "Error al actualizar el camarero",
+          message: "Error al actualizar el camarero: " + error,
         });
       }
     };
@@ -316,7 +319,7 @@ export default defineComponent({
       } catch (error) {
         $q.notify({
           type: "negative",
-          message: "Error al eliminar el camarero",
+          message: "Error al eliminar el camarero: " + error,
         });
       }
     };

@@ -1,5 +1,5 @@
 <template>
-  <h1>Administrar datos</h1>
+  <h1>Administrar globalmente la aplicación</h1>
   <h2 class="q-pt-none">Seleccione su operación</h2>
   <q-page class="flex q-pa-xl column">
     <div class="row">
@@ -64,7 +64,7 @@
     </q-dialog>
 
     <q-dialog v-model="adminStudents">
-      <q-card>
+      <q-card class="adminDialog">
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">Gestionar Alumnos</div>
           <q-space />

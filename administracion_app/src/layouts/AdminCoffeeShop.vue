@@ -358,7 +358,7 @@ export default defineComponent({
       } catch (error) {
         $q.notify({
           type: "negative",
-          message: "Error al actualizar la cafetería",
+          message: "Error al actualizar la cafetería: " + error,
         });
       }
     };
@@ -432,7 +432,7 @@ export default defineComponent({
       } catch (error) {
         $q.notify({
           type: "negative",
-          message: "Error al añadir la cafetería",
+          message: "Error al añadir cafetería: " + error,
         });
       }
     };
@@ -451,7 +451,7 @@ export default defineComponent({
       } catch (error) {
         $q.notify({
           type: "negative",
-          message: "Error al eliminar la cafetería",
+          message: "Error al eliminar la cafetería: " + error,
         });
       }
     };
