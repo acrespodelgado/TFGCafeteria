@@ -4,24 +4,34 @@
       class="q-pa-md text-center"
       v-if="selectedCoffeeShop != null && selectedCoffeeShop.value"
     >
-      <h1 class="text-center">{{ selectedCoffeeShop.Nombre }}</h1>
-      <h2>
-        Teléfono:
-        {{
-          selectedCoffeeShop.Telefono
-            ? selectedCoffeeShop.Telefono
-            : "Por definir"
-        }}
-      </h2>
-      <h2>
-        Horario:
-        {{
-          selectedCoffeeShop.Horario
-            ? selectedCoffeeShop.Horario
-            : "Por definir"
-        }}
-      </h2>
-      <q-card-section>
+      <div class="circlePrimary q-mx-auto">
+        <h1>{{ selectedCoffeeShop.Nombre }}</h1>
+        <h3 class="q-my-xs">
+          Teléfono:
+          {{
+            selectedCoffeeShop.Telefono
+              ? selectedCoffeeShop.Telefono
+              : "Por definir"
+          }}
+        </h3>
+        <h3 class="q-my-xs">
+          Horario:
+          {{
+            selectedCoffeeShop.Horario
+              ? selectedCoffeeShop.Horario
+              : "Por definir"
+          }}
+        </h3>
+        <h3 class="q-my-xs">
+          Universidad:
+          {{
+            selectedCoffeeShop.Universidad
+              ? selectedCoffeeShop.Universidad
+              : "Por definir"
+          }}
+        </h3>
+      </div>
+      <q-card-section v-if="selectedCoffeeShop.Url">
         <transition
           appear
           enter-active-class="animated fadeIn"
@@ -35,8 +45,8 @@
         </transition>
       </q-card-section>
       <q-btn
-        color="primary"
-        class="button"
+        color="secondary"
+        class="button q-my-md"
         label="Panel de Gestión"
         href="https://localhost/administrar-cafeteria"
         target="_blank"

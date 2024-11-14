@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import { useBonusType } from "src/components/bonusType";
 import { useRouter, useRoute } from "vue-router";
 import { useRedirectIfNoWorker } from "src/composables/redirect";
@@ -50,10 +50,10 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
-    const action = route.query.action;
+    const action = ref(route.query.action);
     const { bonusType, fetchBonusType } = useBonusType();
     const { redirectIfNoWorker } = useRedirectIfNoWorker();
-    const { selectedWorker } = useSelectedWorker(); // Obtiene el trabajador seleccionado
+    const { selectedWorker } = useSelectedWorker();
 
     if (!redirectIfNoWorker()) {
       return; // Redirijo para obligar a elegir camarero
@@ -66,9 +66,17 @@ export default defineComponent({
     const navigateToCamera = (type) => {
       router.push({
         name: "cameraScan",
-        params: { bonusType: type, action: action },
+        params: { bonusType: type, action: action.value },
       });
     };
+
+    // Watch para observar los cambios en la URL (route.query.action)
+    watch(
+      () => route.query.action,
+      (newAction) => {
+        action.value = newAction;
+      }
+    );
 
     return {
       bonusType,

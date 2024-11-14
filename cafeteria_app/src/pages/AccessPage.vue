@@ -65,7 +65,7 @@ export default defineComponent({
     async function checkPin(name, pin) {
       const q = query(
         collection(db, "Cafeteria"),
-        where("Pin", "==", pin),
+        where("Pin", "==", String(pin)),
         where("Nombre", "==", name)
       );
       const querySnapshot = await getDocs(q);

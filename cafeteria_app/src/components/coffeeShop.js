@@ -18,6 +18,7 @@ export const useCoffeeShop = () => {
         Empresa: doc.data().Empresa,
         Telefono: doc.data().Telefono,
         Horario: doc.data().Horario,
+        Universidad: doc.data().Universidad,
       }));
     } catch (error) {
       throw new Error("Error al obtener cafeterías: " + error);
