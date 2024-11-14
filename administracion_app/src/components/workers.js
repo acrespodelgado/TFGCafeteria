@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { db } from "src/boot/firebase";
 
+// Listar camareros
 export const fetchWorkers = async (company) => {
   try {
     const q = query(
@@ -17,12 +18,13 @@ export const fetchWorkers = async (company) => {
       where("Empresa", "==", company)
     );
     const querySnapshot = await getDocs(q);
+    const result = [];
 
     if (!querySnapshot.empty) {
-      return querySnapshot.docs.map((doc) => doc.data());
-    } else {
-      return [];
+      result = querySnapshot.docs.map((doc) => doc.data());
     }
+
+    return result;
   } catch (error) {
     console.error("Error al obtener los datos de los camareros:", error);
     return [];
@@ -32,14 +34,14 @@ export const fetchWorkers = async (company) => {
 // Agregar un nuevo camarero
 export const addWorker = async (name, dni, phone, company) => {
   try {
-    const workerRef = collection(db, "Camarero");
-    const docRef = await addDoc(workerRef, {
+    const q = collection(db, "Camarero");
+    const queryRef = await addDoc(q, {
       Nombre: name,
       DNI: dni,
       Telefono: phone,
       Empresa: company,
     });
-    return docRef.id;
+    return queryRef.id;
   } catch (error) {
     throw new Error("Error al agregar el camarero", error);
   }
@@ -48,17 +50,14 @@ export const addWorker = async (name, dni, phone, company) => {
 // Actualizar los datos de un camarero
 export const updateWorker = async (dni, newData) => {
   try {
-    const workerQuery = query(
-      collection(db, "Camarero"),
-      where("DNI", "==", dni)
-    );
-    const workerSnapshot = await getDocs(workerQuery);
+    const q = query(collection(db, "Camarero"), where("DNI", "==", dni));
+    const querySnapshot = await getDocs(q);
 
-    if (!workerSnapshot.empty) {
-      const workerDoc = workerSnapshot.docs[0];
-      const workerRef = doc(db, "Camarero", workerDoc.id);
+    if (!querySnapshot.empty) {
+      const queryDoc = querySnapshot.docs[0];
+      const queryRef = doc(db, "Camarero", queryDoc.id);
 
-      await updateDoc(workerRef, newData);
+      await updateDoc(queryRef, newData);
     } else {
       throw new Error(`No se encontró el camarero con el DNI: ${dni}`);
     }
@@ -70,17 +69,14 @@ export const updateWorker = async (dni, newData) => {
 // Eliminar un camarero
 export const deleteWorker = async (dni) => {
   try {
-    const workerQuery = query(
-      collection(db, "Camarero"),
-      where("DNI", "==", dni)
-    );
-    const workerSnapshot = await getDocs(workerQuery);
+    const q = query(collection(db, "Camarero"), where("DNI", "==", dni));
+    const querySnapshot = await getDocs(queryQuery);
 
-    if (!workerSnapshot.empty) {
-      const workerDoc = workerSnapshot.docs[0];
-      const workerRef = doc(db, "Camarero", workerDoc.id);
+    if (!querySnapshot.empty) {
+      const queryDoc = querySnapshot.docs[0];
+      const queryRef = doc(db, "Camarero", queryDoc.id);
 
-      await deleteDoc(workerRef);
+      await deleteDoc(queryRef);
     } else {
       throw new Error(`No se encontró el camarero con el DNI: ${dni}`);
     }

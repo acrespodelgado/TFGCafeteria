@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { db } from "src/boot/firebase";
 
+// Listar Cafeterías de una Empresa
 export const fetchCoffeeShopsByCompany = async (company) => {
   try {
     const q = query(
@@ -17,12 +18,13 @@ export const fetchCoffeeShopsByCompany = async (company) => {
       where("Empresa", "==", company)
     );
     const querySnapshot = await getDocs(q);
+    const result = [];
 
     if (!querySnapshot.empty) {
-      return querySnapshot.docs.map((doc) => doc.data());
-    } else {
-      return [];
+      result = querySnapshot.docs.map((doc) => doc.data());
     }
+
+    return result;
   } catch (error) {
     console.error("Error al obtener los datos de las cafeterias:", error);
     return [];
@@ -32,8 +34,8 @@ export const fetchCoffeeShopsByCompany = async (company) => {
 // Agregar una nueva cafeteria
 export const addCoffeeShop = async (company, data) => {
   try {
-    const coffeeShopRef = collection(db, "Cafeteria");
-    const docRef = await addDoc(coffeeShopRef, {
+    const q = collection(db, "Cafeteria");
+    const queryRef = await addDoc(q, {
       Empresa: company,
       Nombre: data.Nombre,
       Horario: data.Horario,
@@ -43,7 +45,7 @@ export const addCoffeeShop = async (company, data) => {
       Pin: data.Pin,
       Url_Logo: data.Url_Logo,
     });
-    return docRef.id;
+    return queryRef.id;
   } catch (error) {
     throw new Error("Error al agregar la cafeteria", error);
   }
@@ -52,17 +54,14 @@ export const addCoffeeShop = async (company, data) => {
 // Actualizar los datos de una cafeteria
 export const updateCoffeeShop = async (name, newData) => {
   try {
-    const coffeeShopQuery = query(
-      collection(db, "Cafeteria"),
-      where("Nombre", "==", name)
-    );
-    const coffeeShopSnapshot = await getDocs(coffeeShopQuery);
+    const q = query(collection(db, "Cafeteria"), where("Nombre", "==", name));
+    const querySnapshot = await getDocs(q);
 
-    if (!coffeeShopSnapshot.empty) {
-      const coffeeShopDoc = coffeeShopSnapshot.docs[0];
-      const coffeeShopRef = doc(db, "Cafeteria", coffeeShopDoc.id);
+    if (!querySnapshot.empty) {
+      const queryDoc = querySnapshot.docs[0];
+      const queryRef = doc(db, "Cafeteria", queryDoc.id);
 
-      await updateDoc(coffeeShopRef, newData);
+      await updateDoc(queryRef, newData);
     } else {
       throw new Error(`No se encontró la cafetería con nombre ${name}`);
     }
@@ -74,17 +73,14 @@ export const updateCoffeeShop = async (name, newData) => {
 // Eliminar una cafeteria
 export const deleteCoffeeShop = async (name) => {
   try {
-    const coffeeShopQuery = query(
-      collection(db, "Cafeteria"),
-      where("Nombre", "==", name)
-    );
-    const coffeeShopSnapshot = await getDocs(coffeeShopQuery);
+    const q = query(collection(db, "Cafeteria"), where("Nombre", "==", name));
+    const querySnapshot = await getDocs(q);
 
-    if (!coffeeShopSnapshot.empty) {
-      const coffeeShopDoc = coffeeShopSnapshot.docs[0];
-      const coffeeShopRef = doc(db, "Cafeteria", coffeeShopDoc.id);
+    if (!querySnapshot.empty) {
+      const queryDoc = querySnapshot.docs[0];
+      const queryRef = doc(db, "Cafeteria", queryDoc.id);
 
-      await deleteDoc(coffeeShopRef);
+      await deleteDoc(queryRef);
     } else {
       throw new Error(`No se encontró la cafetería con nombre ${name}`);
     }

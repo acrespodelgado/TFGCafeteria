@@ -10,13 +10,13 @@ import {
 } from "firebase/firestore";
 import { db } from "src/boot/firebase";
 
-// Obtener tipos de bonos
+// Listar tipos de bonos
 export const fetchBonusType = async () => {
   try {
-    const bonusQuery = collection(db, "Tipo_Bono");
-    const bonusSnapshot = await getDocs(bonusQuery);
-    const bonusType = bonusSnapshot.docs.map((doc) => doc.data().Nombre);
-    return bonusType;
+    const q = collection(db, "Tipo_Bono");
+    const querySnapshot = await getDocs(q);
+    const result = querySnapshot.docs.map((doc) => doc.data().Nombre);
+    return result;
   } catch (error) {
     throw new Error("Error encontrando bonuses", error);
   }
@@ -25,9 +25,9 @@ export const fetchBonusType = async () => {
 // Agregar un nuevo tipo de bono
 export const addBonusType = async (name) => {
   try {
-    const bonusRef = collection(db, "Tipo_Bono");
-    const docRef = await addDoc(bonusRef, { Nombre: name });
-    return docRef.id;
+    const q = collection(db, "Tipo_Bono");
+    const queryRef = await addDoc(q, { Nombre: name });
+    return queryRef.id;
   } catch (error) {
     throw new Error("Error al agregar el bono", error);
   }
@@ -36,17 +36,17 @@ export const addBonusType = async (name) => {
 // Actualizar el nombre de un bono
 export const updateBonusType = async (oldName, newName) => {
   try {
-    const bonusQuery = query(
+    const q = query(
       collection(db, "Tipo_Bono"),
       where("Nombre", "==", oldName)
     );
-    const bonusSnapshot = await getDocs(bonusQuery);
+    const querySnapshot = await getDocs(q);
 
-    if (!bonusSnapshot.empty) {
-      const bonusDoc = bonusSnapshot.docs[0];
-      const bonusRef = doc(db, "Tipo_Bono", bonusDoc.id);
+    if (!querySnapshot.empty) {
+      const queryDoc = querySnapshot.docs[0];
+      const queryRef = doc(db, "Tipo_Bono", queryDoc.id);
 
-      await updateDoc(bonusRef, { Nombre: newName });
+      await updateDoc(queryRef, { Nombre: newName });
     } else {
       throw new Error(`No se encontró el bono con el nombre ${oldName}`);
     }
@@ -58,17 +58,14 @@ export const updateBonusType = async (oldName, newName) => {
 // Eliminar un tipo de bono
 export const deleteBonusType = async (name) => {
   try {
-    const bonusQuery = query(
-      collection(db, "Tipo_Bono"),
-      where("Nombre", "==", name)
-    );
-    const bonusSnapshot = await getDocs(bonusQuery);
+    const q = query(collection(db, "Tipo_Bono"), where("Nombre", "==", name));
+    const querySnapshot = await getDocs(q);
 
-    if (!bonusSnapshot.empty) {
-      const bonusDoc = bonusSnapshot.docs[0];
-      const bonusRef = doc(db, "Tipo_Bono", bonusDoc.id);
+    if (!querySnapshot.empty) {
+      const queryDoc = querySnapshot.docs[0];
+      const queryRef = doc(db, "Tipo_Bono", queryDoc.id);
 
-      await deleteDoc(bonusRef);
+      await deleteDoc(queryRef);
     } else {
       throw new Error(`No se encontró el bono con el nombre ${name}`);
     }

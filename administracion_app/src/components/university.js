@@ -1,3 +1,4 @@
+// Listar Universidades
 export const fetchUniversities = async () => {
   try {
     const response = await fetch("/assets/listado_grados.txt");
