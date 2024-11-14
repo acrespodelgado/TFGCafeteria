@@ -6,7 +6,6 @@ import {
   doc,
   deleteDoc,
   updateDoc,
-  addDoc,
 } from "firebase/firestore";
 import { db } from "src/boot/firebase";
 
@@ -17,7 +16,18 @@ export const fetchStudents = async () => {
     const result = [];
 
     if (!querySnapshot.empty) {
-      result = querySnapshot.docs.map((doc) => doc.data());
+      result.push(
+        ...querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            Nombre: data.Nombre,
+            Apellidos: data.Apellidos,
+            DNI: data.DNI,
+            Telefono: data.Telefono,
+            Universidad: data.Universidad,
+          };
+        })
+      );
     }
 
     return result;

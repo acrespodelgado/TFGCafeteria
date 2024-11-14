@@ -21,6 +21,15 @@
           padding="xl md"
         />
       </div>
+      <div class="col-12 col-md-6 q-my-md text-center">
+        <q-btn
+          label="Gestionar Alumnos"
+          @click="adminStudents = true"
+          color="primary"
+          size="xl"
+          padding="xl md"
+        />
+      </div>
     </div>
 
     <q-dialog v-model="adminBonuses">
@@ -50,12 +59,27 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
+    <q-dialog v-model="adminStudents">
+      <q-card>
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">Gestionar Alumnos</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+
+        <q-card-section>
+          <AdminStudents />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import AdminBonuses from "src/layouts/AdminBonuses.vue";
 import AdminCompanies from "src/layouts/AdminCompanies.vue";
+import AdminStudents from "src/layouts/AdminStudents.vue";
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
@@ -63,12 +87,14 @@ export default defineComponent({
   components: {
     AdminBonuses,
     AdminCompanies,
+    AdminStudents,
   },
 
   setup() {
     return {
       adminBonuses: ref(false),
       adminCompanies: ref(false),
+      adminStudents: ref(false),
     };
   },
 });

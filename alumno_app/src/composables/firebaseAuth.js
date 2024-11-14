@@ -59,7 +59,7 @@ const register = async (
       Uid: user.uid,
       Nombre: name,
       Apellidos: surname,
-      Dni: dni,
+      DNI: dni,
       Telefono: phone,
       Universidad: university,
     });
