@@ -1,6 +1,11 @@
 <template>
-  <div class="q-pa-md">
-    <q-btn label="Agregar Camarero" color="primary" @click="createWorker" />
+  <div class="q-pa-md column">
+    <q-btn
+      @click="createWorker"
+      color="secondary"
+      label="Agregar Camarero"
+      class="q-pa-sm"
+    />
     <q-table
       flat
       bordered
@@ -9,7 +14,6 @@
       :columns="columns"
       row-key="DNI"
       binary-state-sort
-      hide-pagination
       virtual-scroll
       no-data-label="No hay camareros disponibles"
       no-results-label="No hay camareros disponibles para el filtro"

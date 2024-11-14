@@ -1,10 +1,11 @@
 <template>
   <h1>Consulta estadísticas generales de nuestras cafeterías</h1>
   <h2 class="q-pt-none">Listado de Métricas</h2>
-  <q-page>
-    <div class="q-pa-sm text-center">
+  <q-page class="q-pa-xl column">
+    <div class="text-center flex flex-inline">
       <!-- Filtros -->
       <q-input
+        class="q-mr-md"
         filled
         v-model="startDate"
         label="Fecha de inicio"
@@ -13,6 +14,7 @@
         @update:model-value="filterData"
       />
       <q-input
+        class="q-mr-md"
         filled
         v-model="endDate"
         label="Fecha de fin"
@@ -21,6 +23,8 @@
         @update:model-value="filterData"
       />
       <q-select
+        style="min-width: 200px"
+        class="q-mr-md"
         filled
         v-model="selectedWorker"
         :options="workerOptions"
@@ -33,7 +37,7 @@
 
     <q-btn
       label="Exportar Ventas a CSV"
-      color="primary"
+      color="secondary"
       class="q-mt-md"
       @click="exportToCSV(filteredSells, 'ventas.csv')"
     />
@@ -62,11 +66,9 @@
       </template>
     </q-table>
 
-    <div class="q-my-xl"></div>
-
     <q-btn
       label="Exportar Recargas a CSV"
-      color="primary"
+      color="secondary"
       class="q-mt-md"
       @click="exportToCSV(filteredRecharges, 'recargas.csv')"
     />

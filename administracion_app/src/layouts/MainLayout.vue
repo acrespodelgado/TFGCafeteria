@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted, computed } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
-import { logout } from "src/composables/firebaseAuth";
+import { logout, auth } from "src/composables/firebaseAuth";
 import { useRouter } from "vue-router";
 import { Notify } from "quasar";
 
@@ -54,8 +54,10 @@ export default defineComponent({
   setup() {
     const leftDrawerOpen = ref(false);
     const router = useRouter();
+    const userEmail = ref(null);
+    const authorizedEmail = "adrian.crespodelgado@alum.uca.es";
 
-    const linksList = [
+    const linksList = computed(() => [
       {
         title: "Home",
         caption: "",
@@ -74,12 +76,16 @@ export default defineComponent({
         icon: "analytics",
         link: "statistics",
       },
-      {
-        title: "Administración general",
-        caption: "Panel de administración general",
-        icon: "settings",
-        link: "settings",
-      },
+      ...(userEmail.value === authorizedEmail
+        ? [
+            {
+              title: "Administración general",
+              caption: "Panel de administración general",
+              icon: "settings",
+              link: "settings",
+            },
+          ]
+        : []),
       {
         title: "Cerrar sesión",
         caption: "",
@@ -102,7 +108,24 @@ export default defineComponent({
           }
         },
       },
-    ];
+    ]);
+
+    // Función para obtener el email del usuario autenticado
+    const fetchUserEmail = () => {
+      const user = auth.currentUser;
+      if (user) {
+        userEmail.value = user.email;
+        if (userEmail.value === authorizedEmail) {
+          router.go(); // Fuerza la recarga de la página cuando el usuario tiene el email autorizado
+        }
+      } else {
+        router.push({ name: "access" });
+      }
+    };
+
+    onMounted(() => {
+      fetchUserEmail();
+    });
 
     return {
       essentialLinks: linksList,

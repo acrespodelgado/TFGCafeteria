@@ -1,10 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-btn
-      label="Enviar notificación"
-      color="primary"
-      @click="sendNotification"
-    />
+    <q-btn label="Enviar notificación" color="primary" />
     <q-table
       flat
       bordered

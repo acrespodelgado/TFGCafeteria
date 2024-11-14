@@ -28,7 +28,7 @@
             </template>
           </q-input>
 
-          <q-toggle v-model="remember" label="Recordarme" />
+          <q-toggle v-model="remember" label="Recordarme" color="secondary" />
           <q-btn @click="handleResetPassword">Restablecer contraseña</q-btn>
           <div class="q-gutter-md column q-mx-xs">
             <q-btn

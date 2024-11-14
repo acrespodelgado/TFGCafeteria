@@ -1,7 +1,7 @@
 <template>
-  <div class="q-pa-md">
-    <form @submit.prevent.stop="onSubmit" class="q-pa-md text-center">
-      <div class="q-gutter-md q-my-md">
+  <div class="q-pa-md column">
+    <form @submit.prevent.stop="onSubmit" class="text-center">
+      <div class="q-my-xs">
         <q-input
           v-model="hexColor"
           label="Color Hexadecimal Principal"
@@ -16,23 +16,33 @@
           class="q-mt-lg"
           placeholder="#FFFFFF"
         ></q-input>
-        <div>
-          <label>Color de texto</label>
-          <q-radio v-model="hexColorText" val="#FFF" label="Blanco" />
-          <q-radio v-model="hexColorText" val="#000" label="Negro" />
+        <div class="text-left q-my-md">
+          <span class="h5-text">Color de texto</span>
+          <q-radio
+            class="q-ml-md"
+            v-model="hexColorText"
+            val="#FFF"
+            label="Blanco"
+          />
+          <q-radio
+            class="q-ml-md"
+            v-model="hexColorText"
+            val="#000"
+            label="Negro"
+          />
         </div>
 
         <q-btn
           label="Actualizar Colores"
           type="submit"
           color="primary"
-          class="q-my-md"
+          class="q-m-sm"
         />
         <q-btn
           label="Restablecer Colores"
           @click="resetColors"
           color="secondary"
-          class="q-my-md"
+          class="q-ma-sm"
         />
       </div>
     </form>

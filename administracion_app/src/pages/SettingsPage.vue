@@ -1,31 +1,34 @@
 <template>
   <h1>Administrar datos</h1>
   <h2 class="q-pt-none">Seleccione su operación</h2>
-  <q-page class="q-pa-xl column justify-center">
+  <q-page class="flex q-pa-xl column">
     <div class="row">
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
+          class="admin-button"
           label="Modificar tipos de Bono"
           @click="adminBonuses = true"
-          color="primary"
+          color="secondary"
           size="xl"
           padding="xl md"
         />
       </div>
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
+          class="admin-button"
           label="Gestionar Empresas"
           @click="adminCompanies = true"
-          color="primary"
+          color="secondary"
           size="xl"
           padding="xl md"
         />
       </div>
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
+          class="admin-button"
           label="Gestionar Alumnos"
           @click="adminStudents = true"
-          color="primary"
+          color="secondary"
           size="xl"
           padding="xl md"
         />

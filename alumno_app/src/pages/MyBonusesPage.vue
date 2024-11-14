@@ -30,7 +30,7 @@
         </div>
 
         <q-dialog v-model="toolbar" class="bonusDialog">
-          <div v-if="bonuses" class="q-mb-md">
+          <div v-if="bonuses && bonuses.length" class="q-mb-md">
             <q-card>
               <q-toolbar>
                 <q-space />
@@ -75,6 +75,9 @@
               </q-card-section>
             </q-card>
           </div>
+          <div v-else>
+            <h4>Sin Tarjetero Disponible</h4>
+          </div>
         </q-dialog>
       </div>
     </div>
@@ -118,8 +121,8 @@ export default defineComponent({
         const result = await fetchBonusesCoffeeShopData(
           selectedCoffeeShop.value
         );
-        coffeeShopData.value = result.coffeeShopData;
-        bonuses.value = result.bonuses;
+        coffeeShopData.value = result.qCoffeeData;
+        bonuses.value = result.result;
       } catch (error) {
         $q.notify({
           icon: "error",

@@ -21,7 +21,16 @@ export const fetchWorkers = async (company) => {
     const result = [];
 
     if (!querySnapshot.empty) {
-      result = querySnapshot.docs.map((doc) => doc.data());
+      result.push(
+        ...querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            Nombre: data.Nombre,
+            DNI: data.DNI,
+            Telefono: data.Telefono,
+          };
+        })
+      );
     }
 
     return result;

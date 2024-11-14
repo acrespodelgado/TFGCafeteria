@@ -21,7 +21,20 @@ export const fetchCoffeeShopsByCompany = async (company) => {
     const result = [];
 
     if (!querySnapshot.empty) {
-      result = querySnapshot.docs.map((doc) => doc.data());
+      result.push(
+        ...querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            Nombre: data.Nombre,
+            Horario: data.Horario,
+            Telefono: data.Telefono,
+            Menu: data.Menu,
+            Universidad: data.Universidad,
+            Pin: data.Pin,
+            Url_Logo: data.Url_Logo,
+          };
+        })
+      );
     }
 
     return result;

@@ -1,61 +1,61 @@
 <template>
   <h1>Administrar datos</h1>
   <h2 class="q-pt-none">Seleccione su operación</h2>
-  <q-page class="flex flex-center q-pa-xl column justify-end">
+  <q-page class="flex q-pa-xl column">
     <div class="row">
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
-          class="full-width"
+          class="admin-button"
           label="Modificar datos de acceso"
           @click="modifyAccessData = true"
-          color="primary"
+          color="secondary"
           size="xl"
           padding="xl md"
         />
       </div>
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
-          class="full-width"
+          class="admin-button"
           label="Modificar datos de empresa"
           @click="modifyCompanyData = true"
-          color="primary"
+          color="secondary"
           size="xl"
           padding="xl md"
         />
       </div>
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
-          class="full-width"
+          class="admin-button"
           label="Administrar mis cafeterías"
           @click="adminCoffeeShop = true"
-          color="primary"
+          color="secondary"
           size="xl"
           padding="xl md"
         />
       </div>
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
-          class="full-width"
+          class="admin-button"
           label="Administrar mis camareros"
           @click="adminWorkers = true"
-          color="primary"
+          color="secondary"
           size="xl"
           padding="xl md"
         />
       </div>
       <div class="col-12 col-md-6 q-my-md text-center">
         <q-btn
-          class="full-width"
+          class="admin-button"
           label="Modificar colores"
           @click="changeColours = true"
-          color="primary"
+          color="secondary"
           size="xl"
           padding="xl md"
         />
       </div>
     </div>
 
-    <q-dialog v-model="modifyAccessData">
+    <q-dialog v-model="modifyAccessData" persistent>
       <q-card>
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">Modificar datos de acceso</div>
@@ -69,7 +69,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="modifyCompanyData">
+    <q-dialog v-model="modifyCompanyData" persistent>
       <q-card>
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">Modificar datos de la empresa</div>
@@ -83,8 +83,8 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="adminCoffeeShop">
-      <q-card>
+    <q-dialog v-model="adminCoffeeShop" persistent>
+      <q-card class="adminDialog">
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">Administrar cafeterías</div>
           <q-space />
@@ -97,8 +97,8 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="adminWorkers">
-      <q-card>
+    <q-dialog v-model="adminWorkers" persistent>
+      <q-card class="adminDialog">
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">Administrar trabajadores</div>
           <q-space />
@@ -111,8 +111,8 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="changeColours">
-      <q-card>
+    <q-dialog v-model="changeColours" persistent>
+      <q-card class="adminDialog">
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">Modificar colores de la aplicación</div>
           <q-space />

@@ -1,9 +1,10 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md column">
     <q-btn
       @click="createCoffeeShopDialog"
-      color="primary"
+      color="secondary"
       label="Añadir Cafetería"
+      class="q-pa-sm"
     />
     <q-table
       flat
@@ -16,7 +17,6 @@
       virtual-scroll
       no-data-label="No hay cafeterías disponibles"
       no-results-label="No hay cafeterías disponibles para el filtro"
-      hide-pagination
     >
       <template v-slot:body="props">
         <q-tr :props="props">
@@ -71,7 +71,7 @@
             </q-popup-edit>
           </q-td>
           <q-td key="Menu" :props="props">
-            {{ props.row.Menu }}
+            {{ props.row.Menu ? props.row.Menu : "Por definir" }}
             <q-popup-edit v-model="props.row.Menu" v-slot="scope">
               <q-input
                 v-model="scope.value"
@@ -121,7 +121,7 @@
             </q-popup-edit>
           </q-td>
           <q-td key="Url_Logo" :props="props">
-            {{ props.row.Url_Logo }}
+            {{ props.row.Url_Logo ? props.row.Menu : "Por definir" }}
             <q-popup-edit v-model="props.row.Url_Logo" v-slot="scope">
               <q-input
                 v-model="scope.value"

@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
+  <div class="flex flex-center">
     <form @submit.prevent.stop="onSubmit" class="q-my-md q-p-0">
       <div class="row">
         <div class="col-12 q-my-md">
@@ -50,7 +50,7 @@
         <q-btn label="Modificar" type="submit" color="primary" />
       </div>
     </form>
-  </q-page>
+  </div>
 </template>
 <script>
 import { defineComponent, ref } from "vue";
