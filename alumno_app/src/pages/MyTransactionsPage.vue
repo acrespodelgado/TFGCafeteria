@@ -11,7 +11,6 @@
           :columns="columns"
           row-key="id"
           flat
-          hide-bottom
           virtual-scroll
         >
           <template v-slot:body-cell-tipo_transaccion="props">

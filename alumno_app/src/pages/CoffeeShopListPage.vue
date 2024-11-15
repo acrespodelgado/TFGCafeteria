@@ -49,7 +49,6 @@
           flat
           bordered
           separator="vertical"
-          hide-bottom
           virtual-scroll
         >
           <template v-slot:body-cell-menu="props">
