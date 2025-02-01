@@ -76,6 +76,7 @@ const registerCompany = async (email, password, name, companyName, phone) => {
         });
 
         createdWalletIds.push(walletDocRef.id); // Guardar el ID del tarjetero creado
+        logout();
       });
 
       // Llamar a fetchBonusType para obtener todos los tipos de bono

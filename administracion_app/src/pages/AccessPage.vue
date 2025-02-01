@@ -109,17 +109,28 @@ export default defineComponent({
         // Aplicar colores personalizados
         applyCustomColor(hexColor, hexColor2);
 
-        // Verificar si el usuario es administrador y redirigir
+        // Verificar si el usuario está autenticado antes de proceder
         const auth = getAuth();
-        const userEmail = auth.currentUser.email;
-        const authorizedEmail = "adrian.crespodelgado@alum.uca.es"; // Email de administrador
 
-        if (userEmail === authorizedEmail) {
-          // Redirigir a la página de configuración si es admin
-          router.push("/settings");
+        if (!auth.currentUser) {
+          router.push("/access"); // Redirige a la página de acceso si no está autenticado
+          Notify.create({
+            type: "negative",
+            message: "Debe iniciar sesión primero.",
+            timeout: 1500,
+          });
         } else {
-          // Redirigir al panel de administración si no es admin
-          router.push("/adminPanel");
+          // Si está autenticado, proceder con la verificación del email
+          const userEmail = auth.currentUser.email;
+          const authorizedEmail = "adrian.crespodelgado@alum.uca.es"; // Email de administrador
+
+          if (userEmail === authorizedEmail) {
+            // Redirigir a la página de configuración si es admin
+            router.push("/settings");
+          } else {
+            // Redirigir al panel de administración si no es admin
+            router.push("/adminPanel");
+          }
         }
       } catch (error) {
         $q.notify({ type: "negative", message: error.message });

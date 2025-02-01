@@ -156,7 +156,7 @@ export default defineComponent({
     // Función para obtener el email del usuario autenticado
     const fetchUserEmail = () => {
       const user = auth.currentUser;
-      if (user) {
+      if (user && user.emailVerified) {
         userEmail.value = user.email;
         updateLinksForAuthorizedUser();
         // Redirigir a la página adecuada según el tipo de usuario
