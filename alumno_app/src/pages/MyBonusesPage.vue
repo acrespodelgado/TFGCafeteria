@@ -116,8 +116,9 @@ export default defineComponent({
     const coffeeShopData = ref(null);
     const bonuses = ref([]);
     const currentTime = ref(new Date().toLocaleTimeString());
-
+    console.log(selectedCoffeeShop);
     if (!selectedCoffeeShop.value) {
+      console.log("No hay");
       router.push("/chooseCoffeeShop");
     }
 

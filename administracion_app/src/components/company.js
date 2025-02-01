@@ -161,7 +161,7 @@ export const deleteCompany = async (name) => {
       // 3. Eliminar Tarjeteros y Disponibilidad_Bono
       const qWallet = query(
         collection(db, "Tarjetero"),
-        where("Empresa", "==", name)
+        where("Id_Empresa", "==", name)
       );
       const qWalletSnapshot = await getDocs(qWallet);
 
@@ -170,8 +170,8 @@ export const deleteCompany = async (name) => {
       );
 
       const qBonus = query(
-        collection(db, "Tarjetero"),
-        where("Empresa", "==", name)
+        collection(db, "Disponibilidad_Bono"),
+        where("Id_Empresa", "==", name)
       );
       const qBonusSnapshot = await getDocs(qBonus);
 

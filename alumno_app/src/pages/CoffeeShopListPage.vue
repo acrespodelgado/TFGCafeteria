@@ -2,7 +2,19 @@
   <q-page>
     <h1>Consulta datos generales de nuestras cafeterías</h1>
     <h2 class="q-pt-none">Listado de Cafeterías</h2>
-    <div class="q-pa-sm text-center coffeeShopList">
+    <!-- Mostrar mensaje si no hay cafeterías -->
+
+    <div
+      v-if="Object.keys(groupedCoffeeShops).length === 0"
+      class="flex flex-center"
+    >
+      <div class="text-center circlePrimary q-my-lg">
+        <h3 class="q-my-xs">No hay cafeterías disponibles.</h3>
+      </div>
+    </div>
+
+    <!-- Mostrar las tablas solo si hay cafeterías -->
+    <div v-else class="q-pa-sm text-center coffeeShopList">
       <div
         v-for="(coffeeShops, company) in groupedCoffeeShops"
         :key="company"

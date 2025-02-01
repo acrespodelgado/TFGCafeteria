@@ -9,6 +9,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
+import { fetchBonusType } from "src/components/bonus";
 import CryptoJS from "crypto-js";
 
 const auth = getAuth();
@@ -59,6 +60,7 @@ const registerCompany = async (email, password, name, companyName, phone) => {
       const studentsSnapshot = await getDocs(studentsRef);
 
       // Para cada alumno, crear una entrada en 'Tarjetero'
+      const createdWalletIds = [];
       studentsSnapshot.forEach(async (studentDoc) => {
         const student = studentDoc.data();
         const studentUid = student.Uid; // UID del alumno
@@ -67,12 +69,28 @@ const registerCompany = async (email, password, name, companyName, phone) => {
         const wallet = CryptoJS.SHA256(studentUid).toString(CryptoJS.enc.Hex);
 
         // Crear el registro en 'Tarjetero'
-        await addDoc(collection(db, "Tarjetero"), {
-          Id_Tarjetero: companyName,
+        const walletDocRef = await addDoc(collection(db, "Tarjetero"), {
+          Id_Empresa: companyName,
           Id_Alumno: studentUid,
           Direccion: wallet,
         });
+
+        createdWalletIds.push(walletDocRef.id); // Guardar el ID del tarjetero creado
       });
+
+      // Llamar a fetchBonusType para obtener todos los tipos de bono
+      const bonusTypes = await fetchBonusType();
+
+      // Para cada tipo de bono, crear un registro en 'Disponibilidad_Bono'
+      for (const walletId of createdWalletIds) {
+        for (const bonusType of bonusTypes) {
+          await addDoc(collection(db, "Disponibilidad_Bono"), {
+            Id_Tarjetero: walletId,
+            Tipo_Bono: bonusType, // Asumiendo que fetchBonusType devuelve el tipo de bono
+            Usos: 0, // Inicializamos los usos en 0
+          });
+        }
+      }
 
       return user;
     }
@@ -90,6 +108,10 @@ const login = async (email, password) => {
       password
     );
     const user = userCredential.user;
+
+    if (email === "adrian.crespodelgado@alum.uca.es") {
+      return user; // Retornamos el usuario sin comprobar la empresa
+    }
 
     const companyQuery = query(
       collection(db, "Empresa"),
@@ -122,6 +144,10 @@ const getCurrentUserData = async () => {
     const user = auth.currentUser;
     if (!user) {
       throw new Error("No hay un usuario autenticado.");
+    }
+
+    if (user.email === "adrian.crespodelgado@alum.uca.es") {
+      return {};
     }
 
     const adminQuery = query(

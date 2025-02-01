@@ -2,50 +2,56 @@
   <q-page v-if="!isLoading">
     <h1>Lugar a utilizar el tarjetero</h1>
     <h2 class="q-pt-none">Elige tu cafetería</h2>
-    <div class="flex flex-center q-px-xl">
-      <q-carousel
-        v-model="currentCoffeeShop"
-        vertical
-        swipeable
-        animated
-        arrows
-        class="q-my-lg full-width"
-        control-color="secondary"
-        transition-prev="scale"
-        transition-next="scale"
-        :control-type="controlType"
-      >
-        <q-carousel-slide
-          v-for="coffeeShop in coffeeShops"
-          :key="coffeeShop.id"
-          :name="coffeeShop.Name"
-          class="flex flex-center"
+    <div class="flex flex-center column q-px-xl">
+      <!-- Mostrar mensaje si no hay cafeterías -->
+      <div v-if="!currentCoffeeShop" class="text-center circlePrimary q-my-lg">
+        <h3 class="q-my-xs">No hay cafeterías disponibles.</h3>
+      </div>
+      <div v-else>
+        <q-carousel
+          v-model="currentCoffeeShop"
+          vertical
+          swipeable
+          animated
+          arrows
+          class="q-my-lg full-width"
+          control-color="secondary"
+          transition-prev="scale"
+          transition-next="scale"
+          :control-type="controlType"
         >
-          <div class="text-center circlePrimary">
-            <img
-              v-if="coffeeShop.Url"
-              :alt="coffeeShop.Name"
-              :src="coffeeShop.Url"
-              width="100px"
-            />
-            <img
-              v-else
-              alt="CoffeeShop icon"
-              src="../assets/local_cafe_48.png"
-              width="100px"
-            />
-            <h3 class="q-my-xs">
-              {{ coffeeShop.Name }}
-            </h3>
-            <h4 class="q-my-xs">
-              Universidad
-              {{
-                coffeeShop.University ? coffeeShop.University : "por definir"
-              }}
-            </h4>
-          </div>
-        </q-carousel-slide>
-      </q-carousel>
+          <q-carousel-slide
+            v-for="coffeeShop in coffeeShops"
+            :key="coffeeShop.id"
+            :name="coffeeShop.Name"
+            class="flex flex-center"
+          >
+            <div class="text-center circlePrimary">
+              <img
+                v-if="coffeeShop.Url"
+                :alt="coffeeShop.Name"
+                :src="coffeeShop.Url"
+                width="100px"
+              />
+              <img
+                v-else
+                alt="CoffeeShop icon"
+                src="../assets/local_cafe_48.png"
+                width="100px"
+              />
+              <h3 class="q-my-xs">
+                {{ coffeeShop.Name }}
+              </h3>
+              <h4 class="q-my-xs">
+                Universidad
+                {{
+                  coffeeShop.University ? coffeeShop.University : "por definir"
+                }}
+              </h4>
+            </div>
+          </q-carousel-slide>
+        </q-carousel>
+      </div>
 
       <div class="q-gutter-md column">
         <q-btn

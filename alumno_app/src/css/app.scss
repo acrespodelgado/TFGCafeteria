@@ -265,7 +265,7 @@ form {
 
 .currentTime {
   background: none;
-  color: $light;
+  color: $dark;
   box-shadow: none;
   border: 0px;
 }
@@ -309,11 +309,5 @@ form {
   .coffeeShopList {
     width: 90%;
     margin: auto;
-  }
-}
-
-@media (max-width: 768px) {
-  .currentTime {
-    color: $dark;
   }
 }
