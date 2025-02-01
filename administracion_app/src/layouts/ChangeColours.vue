@@ -16,7 +16,7 @@
           class="q-mt-lg"
           placeholder="#FFFFFF"
         ></q-input>
-        <div class="text-left q-my-md">
+        <div class="text-left q-my-md hidden">
           <span class="h5-text">Color de texto</span>
           <q-radio
             class="q-ml-md"

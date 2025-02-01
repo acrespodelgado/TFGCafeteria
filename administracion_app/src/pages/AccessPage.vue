@@ -56,6 +56,7 @@ import {
 } from "src/composables/firebaseAuth";
 import { useRouter } from "vue-router";
 import { emailRules } from "src/composables/rules";
+import { getAuth } from "firebase/auth";
 
 export default defineComponent({
   name: "AccessPage",
@@ -98,12 +99,28 @@ export default defineComponent({
           sessionStorage.removeItem("password");
         }
 
+        // Obtener los datos del usuario
         const data = await getCurrentUserData();
         const hexColor = data.Color;
         const hexColor2 = data.Color_2;
+
         $q.notify({ type: "positive", message: "Inicio de sesión exitoso" });
+
+        // Aplicar colores personalizados
         applyCustomColor(hexColor, hexColor2);
-        router.push("/adminPanel");
+
+        // Verificar si el usuario es administrador y redirigir
+        const auth = getAuth();
+        const userEmail = auth.currentUser.email;
+        const authorizedEmail = "adrian.crespodelgado@alum.uca.es"; // Email de administrador
+
+        if (userEmail === authorizedEmail) {
+          // Redirigir a la página de configuración si es admin
+          router.push("/settings");
+        } else {
+          // Redirigir al panel de administración si no es admin
+          router.push("/adminPanel");
+        }
       } catch (error) {
         $q.notify({ type: "negative", message: error.message });
       }

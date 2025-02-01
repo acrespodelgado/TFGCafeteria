@@ -5,29 +5,34 @@
     <div class="flex flex-center q-pa-xl">
       <form @submit.prevent.stop="onSubmit" class="q-pa-md text-center">
         <div class="q-gutter-md q-my-md">
-          <q-input
-            v-model="email"
-            label="Email"
-            outlined
-            :rules="emailRules"
-            class="q-my-lg"
-          />
-          <q-input
-            v-model="password"
-            label="Contraseña"
-            :type="isPwd ? 'password' : 'text'"
-            outlined
-            class="q-mt-lg"
-          >
-            <template v-slot:append>
-              <q-icon
-                :name="isPwd ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isPwd = !isPwd"
-              />
-            </template>
-          </q-input>
-
+          <div id="email">
+            <q-input
+              v-model="email"
+              label="Email"
+              outlined
+              :rules="emailRules"
+              class="q-my-lg"
+              input-id="email"
+            />
+          </div>
+          <div id="password">
+            <q-input
+              v-model="password"
+              label="Contraseña"
+              :type="isPwd ? 'password' : 'text'"
+              outlined
+              class="q-mt-lg"
+              input-id="password"
+            >
+              <template v-slot:append>
+                <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+                />
+              </template>
+            </q-input>
+          </div>
           <q-toggle v-model="remember" label="Recordarme" color="secondary" />
           <q-btn @click="handleResetPassword">Restablecer contraseña</q-btn>
           <div class="q-gutter-md column q-mx-xs">
@@ -38,7 +43,13 @@
               outline
               rounded
             />
-            <q-btn label="Acceder" type="submit" color="primary" rounded />
+            <q-btn
+              label="Acceder"
+              type="submit"
+              color="primary"
+              rounded
+              id="login-button"
+            />
           </div>
         </div>
       </form>

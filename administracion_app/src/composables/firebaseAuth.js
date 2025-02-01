@@ -6,10 +6,10 @@ import {
   createUserWithEmailAndPassword,
   updatePassword,
   updateEmail,
-  sendEmailVerification,
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
+import CryptoJS from "crypto-js";
 
 const auth = getAuth();
 auth.useDeviceLanguage();
@@ -36,6 +36,7 @@ const registerCompany = async (email, password, name, companyName, phone) => {
     if (!querySnapshot.empty) {
       throw new Error("Ya existe una empresa con ese nombre.");
     } else {
+      // Crear el usuario con email y password
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -43,6 +44,7 @@ const registerCompany = async (email, password, name, companyName, phone) => {
       );
       const user = userCredential.user;
 
+      // Registrar la empresa en la colección 'Empresa'
       await addDoc(collection(db, "Empresa"), {
         Uid: user.uid,
         Propietario: name,
@@ -52,10 +54,30 @@ const registerCompany = async (email, password, name, companyName, phone) => {
         Validate: false,
       });
 
+      // Ahora obtener todos los alumnos desde la colección 'Alumno'
+      const studentsRef = collection(db, "Alumno");
+      const studentsSnapshot = await getDocs(studentsRef);
+
+      // Para cada alumno, crear una entrada en 'Tarjetero'
+      studentsSnapshot.forEach(async (studentDoc) => {
+        const student = studentDoc.data();
+        const studentUid = student.Uid; // UID del alumno
+
+        // Crear la dirección asociada con el alumno
+        const wallet = CryptoJS.SHA256(studentUid).toString(CryptoJS.enc.Hex);
+
+        // Crear el registro en 'Tarjetero'
+        await addDoc(collection(db, "Tarjetero"), {
+          Id_Tarjetero: companyName,
+          Id_Alumno: studentUid,
+          Direccion: wallet,
+        });
+      });
+
       return user;
     }
   } catch (error) {
-    throw new Error("Error al registrar el usuario", error);
+    throw new Error(error);
   }
 };
 

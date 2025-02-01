@@ -1,12 +1,14 @@
-import { db } from "src/boot/firebase";
 import { query, collection, where, getDocs } from "firebase/firestore";
+import { db } from "src/boot/firebase"; // Asegúrate de que la instancia de Firestore esté importada correctamente
+import { getCompanyNameByUid } from "./company";
 
-// Listar ventas
-export const fetchSells = async () => {
+export const fetchSells = async (companyUid) => {
+  const companyName = await getCompanyNameByUid(companyUid);
   try {
     const q = query(
       collection(db, "Transaccion"),
-      where("Tipo", "==", "Venta")
+      where("Tipo", "==", "Venta"),
+      where("Empresa", "==", companyName)
     );
     const querySnapshot = await getDocs(q);
     const result = querySnapshot.docs.map((doc) => doc.data());
@@ -16,12 +18,13 @@ export const fetchSells = async () => {
   }
 };
 
-// Listar recargas
-export const fetchRecharges = async () => {
+export const fetchRecharges = async (companyUid) => {
+  const companyName = await getCompanyNameByUid(companyUid);
   try {
     const q = query(
       collection(db, "Transaccion"),
-      where("Tipo", "==", "Recarga")
+      where("Tipo", "==", "Recarga"),
+      where("Empresa", "==", companyName)
     );
     const querySnapshot = await getDocs(q);
     const result = querySnapshot.docs.map((doc) => doc.data());

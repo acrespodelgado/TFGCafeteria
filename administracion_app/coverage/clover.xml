@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1738286680537" clover="3.2.0">
+  <project timestamp="1738286680537" name="All files">
+    <metrics statements="33" coveredstatements="33" conditionals="4" coveredconditionals="4" methods="5" coveredmethods="5" elements="42" coveredelements="42" complexity="0" loc="33" ncloc="33" packages="1" files="1" classes="1"/>
+    <file name="bonus.js" path="E:\Documents\GitHub\TFGCafeteria\administracion_app\src\test\bonus.js">
+      <metrics statements="33" coveredstatements="33" conditionals="4" coveredconditionals="4" methods="5" coveredmethods="5"/>
+      <line num="14" count="1" type="stmt"/>
+      <line num="15" count="2" type="stmt"/>
+      <line num="16" count="2" type="stmt"/>
+      <line num="17" count="2" type="stmt"/>
+      <line num="18" count="2" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+      <line num="21" count="1" type="stmt"/>
+      <line num="26" count="1" type="stmt"/>
+      <line num="27" count="2" type="stmt"/>
+      <line num="28" count="2" type="stmt"/>
+      <line num="29" count="2" type="stmt"/>
+      <line num="30" count="1" type="stmt"/>
+      <line num="32" count="1" type="stmt"/>
+      <line num="38" count="1" type="stmt"/>
+      <line num="39" count="3" type="stmt"/>
+      <line num="40" count="3" type="stmt"/>
+      <line num="44" count="3" type="stmt"/>
+      <line num="46" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="47" count="2" type="stmt"/>
+      <line num="48" count="2" type="stmt"/>
+      <line num="50" count="2" type="stmt"/>
+      <line num="52" count="1" type="stmt"/>
+      <line num="55" count="2" type="stmt"/>
+      <line num="60" count="1" type="stmt"/>
+      <line num="61" count="3" type="stmt"/>
+      <line num="62" count="3" type="stmt"/>
+      <line num="63" count="3" type="stmt"/>
+      <line num="65" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="66" count="2" type="stmt"/>
+      <line num="67" count="2" type="stmt"/>
+      <line num="69" count="2" type="stmt"/>
+      <line num="71" count="1" type="stmt"/>
+      <line num="74" count="2" type="stmt"/>
+    </file>
+  </project>
+</coverage>

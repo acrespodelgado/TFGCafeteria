@@ -1,3 +1,5 @@
+import { firebaseAuth } from "src/boot/firebase"; // Asegúrate de tener la importación correcta para Firebase Auth
+
 const routes = [
   {
     path: "/",
@@ -29,6 +31,15 @@ const routes = [
         name: "settings",
         component: () => import("pages/SettingsPage.vue"),
         meta: { requiresAuth: true },
+        beforeEnter: (to, from, next) => {
+          const user = firebaseAuth.currentUser;
+          if (user && user.email === "adrian.crespodelgado@alum.uca.es") {
+            next(); // Permite el acceso a la ruta
+          } else {
+            next({ name: "adminPanel" }); // Redirige si se es admin
+          }
+          a;
+        },
       },
       {
         path: "statistics",
@@ -39,8 +50,6 @@ const routes = [
     ],
   },
 
-  // Always leave this as last one,
-  // but you can also remove it
   {
     path: "/:catchAll(.*)*",
     component: () => import("pages/ErrorNotFound.vue"),

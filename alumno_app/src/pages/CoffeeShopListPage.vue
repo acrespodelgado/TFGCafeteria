@@ -43,7 +43,12 @@
               field: 'Schedule',
               format: (val) => val || 'Por definir', // Valor por defecto
             },
-            { name: 'menu', label: 'Menú', align: 'left', field: 'Menu' },
+            {
+              name: 'menu',
+              label: 'Menú',
+              align: 'left',
+              field: 'Menu',
+            },
           ]"
           row-key="value"
           flat
@@ -62,7 +67,11 @@
                   label="Ver menú"
                 />
               </span>
-              <span v-else>Por definir</span>
+              <span v-else
+                ><q-btn target="_blank" href="https://bit.ly/MenuSaludableUCA"
+                  >VER MENÚ</q-btn
+                >
+              </span>
             </q-td>
           </template>
         </q-table>

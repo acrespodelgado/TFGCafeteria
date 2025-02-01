@@ -10,7 +10,6 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
-
         <q-toolbar-title> App Administración </q-toolbar-title>
         <q-space />
         <q-avatar>
@@ -57,7 +56,8 @@ export default defineComponent({
     const userEmail = ref(null);
     const authorizedEmail = "adrian.crespodelgado@alum.uca.es";
 
-    const linksList = computed(() => [
+    // Lista de enlaces comunes que todos los usuarios pueden ver
+    const commonLinks = [
       {
         title: "Home",
         caption: "",
@@ -75,17 +75,7 @@ export default defineComponent({
         caption: "Información sobre las cafeterías",
         icon: "analytics",
         link: "statistics",
-      } /*
-      ...(userEmail.value === authorizedEmail
-        ? [*/,
-      {
-        title: "Administración general",
-        caption: "Panel de administración general",
-        icon: "settings",
-        link: "settings",
-      } /*
-          ]
-        : []),*/,
+      },
       {
         title: "Cerrar sesión",
         caption: "",
@@ -108,23 +98,84 @@ export default defineComponent({
           }
         },
       },
-    ]);
+    ];
+
+    // Enlaces adicionales para administradores (solo visibles si es el usuario autorizado)
+    const adminLinks = [
+      {
+        title: "Administración general",
+        caption: "Panel de administración general",
+        icon: "settings",
+        link: "settings",
+      },
+    ];
+
+    // Computamos los enlaces visibles dependiendo de si el usuario es administrador
+    const linksList = ref([...commonLinks]); // Empieza solo con los enlaces comunes
+
+    // Función para actualizar los enlaces según el tipo de usuario
+    const updateLinksForAuthorizedUser = () => {
+      if (userEmail.value === authorizedEmail) {
+        // Si el usuario tiene el correo autorizado, solo mostramos los enlaces de administración y cerrar sesión
+        linksList.value = [
+          {
+            title: "Administración general",
+            caption: "Panel de administración general",
+            icon: "settings",
+            link: "settings",
+          },
+          {
+            title: "Cerrar sesión",
+            caption: "",
+            icon: "logout",
+            link: "",
+            onClick: async () => {
+              try {
+                await logout(router);
+                Notify.create({
+                  type: "positive",
+                  message: "Sesión cerrada con éxito.",
+                  timeout: 1500,
+                });
+              } catch (error) {
+                Notify.create({
+                  type: "negative",
+                  message: "Error al cerrar sesión. Inténtalo de nuevo.",
+                  timeout: 1500,
+                });
+              }
+            },
+          },
+        ];
+      } else {
+        // Si el usuario no es admin, mostramos los enlaces comunes
+        linksList.value = [...commonLinks];
+      }
+    };
 
     // Función para obtener el email del usuario autenticado
     const fetchUserEmail = () => {
       const user = auth.currentUser;
       if (user) {
         userEmail.value = user.email;
+        updateLinksForAuthorizedUser();
+        // Redirigir a la página adecuada según el tipo de usuario
         if (userEmail.value === authorizedEmail) {
-          router.go(); // Fuerza la recarga de la página cuando el usuario tiene el email autorizado
+          // Si es el admin, redirigimos a Administracion
+          router.push({ name: "settings" });
+        } else {
+          // Si no es admin, redirigimos a Home
+          router.push({ name: "home" });
         }
       } else {
+        // Si no está autenticado, redirigimos a la página de acceso
         router.push({ name: "access" });
       }
     };
 
+    // Observamos el estado de autenticación
     onMounted(() => {
-      fetchUserEmail();
+      auth.onAuthStateChanged(fetchUserEmail);
     });
 
     return {

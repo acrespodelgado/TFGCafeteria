@@ -90,21 +90,45 @@ export const updateCoffeeShop = async (name, newData) => {
   }
 };
 
-// Eliminar una cafeteria
+// Eliminar una cafetería y sus transacciones asociadas
 export const deleteCoffeeShop = async (name) => {
   try {
-    const q = query(collection(db, "Cafeteria"), where("Nombre", "==", name));
-    const querySnapshot = await getDocs(q);
+    const coffeeShopQuery = query(
+      collection(db, "Cafeteria"),
+      where("Nombre", "==", name)
+    );
+    const coffeeShopSnapshot = await getDocs(coffeeShopQuery);
 
-    if (!querySnapshot.empty) {
-      const queryDoc = querySnapshot.docs[0];
-      const queryRef = doc(db, "Cafeteria", queryDoc.id);
+    if (!coffeeShopSnapshot.empty) {
+      // Eliminar la cafetería
+      const coffeeShopDoc = coffeeShopSnapshot.docs[0];
+      const coffeeShopRef = doc(db, "Cafeteria", coffeeShopDoc.id);
+      await deleteDoc(coffeeShopRef);
 
-      await deleteDoc(queryRef);
+      console.log(`Cafetería '${name}' eliminada correctamente.`);
+
+      // Buscar y eliminar transacciones asociadas
+      const transactionsQuery = query(
+        collection(db, "Transaccion"),
+        where("cafeteria", "==", name)
+      );
+      const transactionsSnapshot = await getDocs(transactionsQuery);
+
+      const deletePromises = transactionsSnapshot.docs.map((transactionDoc) =>
+        deleteDoc(doc(db, "Transaccion", transactionDoc.id))
+      );
+
+      await Promise.all(deletePromises);
+
+      console.log(
+        `Transacciones de la cafetería '${name}' eliminadas correctamente.`
+      );
     } else {
       throw new Error(`No se encontró la cafetería con nombre ${name}`);
     }
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(
+      `Error al eliminar la cafetería y sus transacciones: ${error.message}`
+    );
   }
 };

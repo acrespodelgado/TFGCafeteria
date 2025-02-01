@@ -263,6 +263,13 @@ form {
 
 /* -- Bonuses -- */
 
+.currentTime {
+  background: none;
+  color: $light;
+  box-shadow: none;
+  border: 0px;
+}
+
 .bonusDialog {
   .q-card {
     .q-toolbar {
@@ -302,5 +309,11 @@ form {
   .coffeeShopList {
     width: 90%;
     margin: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .currentTime {
+    color: $dark;
   }
 }

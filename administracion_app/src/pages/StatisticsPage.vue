@@ -106,6 +106,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { fetchSells, fetchRecharges } from "src/components/transaction";
 import { useQuasar } from "quasar";
+import { getAuth } from "firebase/auth";
 import BackButton from "src/layouts/BackButton.vue";
 
 export default defineComponent({
@@ -174,11 +175,17 @@ export default defineComponent({
       },
     ];
 
-    // Función para cargar las transacciones de Firebase
     const loadTransactions = async () => {
       try {
-        sells.value = await fetchSells();
-        recharges.value = await fetchRecharges();
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        const sellsData = (await fetchSells(user.uid)) || [];
+        const rechargesData = (await fetchRecharges(user.uid)) || [];
+
+        sells.value = Array.isArray(sellsData) ? sellsData : [];
+        recharges.value = Array.isArray(rechargesData) ? rechargesData : [];
+
         updateWorkerOptions();
         filterData();
       } catch (error) {
@@ -186,50 +193,46 @@ export default defineComponent({
           type: "negative",
           message: "Error al cargar las transacciones: " + error,
         });
+
+        sells.value = [];
+        recharges.value = [];
       }
     };
-
     const filterData = () => {
       let start = startDate.value ? new Date(startDate.value) : null;
       let end = endDate.value ? new Date(endDate.value) : null;
 
-      // Si solo se selecciona fecha de inicio, ajusta la fecha de fin para incluir todo el día
-      if (start && !end) {
-        end = new Date();
-      }
-
-      // Si se selecciona fecha de fin, ajusta el final del día
       if (end) {
         end.setHours(23, 59, 59, 999);
       }
 
-      // Filtrar Ventas
-      filteredSells.value = sells.value.filter((sell) => {
-        const sellDate = new Date(sell.Fecha.seconds * 1000);
+      // Validar que sells.value sea un array antes de filtrar
+      filteredSells.value = Array.isArray(sells.value)
+        ? sells.value.filter((sell) => {
+            const sellDate = new Date(sell.Fecha.seconds * 1000);
+            return (
+              (!start || sellDate >= start) &&
+              (!end || sellDate <= end) &&
+              (!selectedWorker.value || sell.Camarero === selectedWorker.value)
+            );
+          })
+        : [];
 
-        return (
-          (!start || sellDate >= start) &&
-          (!end || sellDate <= end) &&
-          (!selectedWorker.value || sell.Camarero === selectedWorker.value)
-        );
-      });
-
-      // Calcular el total de ventas
       totalSells.value = filteredSells.value.length;
 
-      // Filtrar Recargas
-      filteredRecharges.value = recharges.value.filter((recharge) => {
-        const rechargeDate = new Date(recharge.Fecha.seconds * 1000);
+      // Validar que recharges.value sea un array antes de filtrar
+      filteredRecharges.value = Array.isArray(recharges.value)
+        ? recharges.value.filter((recharge) => {
+            const rechargeDate = new Date(recharge.Fecha.seconds * 1000);
+            return (
+              (!start || rechargeDate >= start) &&
+              (!end || rechargeDate <= end) &&
+              (!selectedWorker.value ||
+                recharge.Camarero === selectedWorker.value)
+            );
+          })
+        : [];
 
-        return (
-          (!start || rechargeDate >= start) &&
-          (!end || rechargeDate <= end) &&
-          (selectedWorker.value === null ||
-            recharge.Camarero === selectedWorker.value)
-        );
-      });
-
-      // Calcular el total de recargas
       totalRecharges.value = filteredRecharges.value.length;
     };
 

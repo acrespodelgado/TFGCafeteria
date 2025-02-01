@@ -4,7 +4,12 @@
     <h2 v-if="coffeeShopData" class="q-pt-none">
       Bonos {{ coffeeShopData.Empresa }}
     </h2>
-    <div class="flex flex-center q-pa-xl">
+    <div class="flex flex-center column q-pa-xl">
+      <q-card class="q-pa-md currentTime">
+        <q-card-section class="text-h5">
+          {{ currentTime }}
+        </q-card-section>
+      </q-card>
       <div v-if="coffeeShopData" class="text-center q-my-lg">
         <qrcode-vue
           v-if="selectedWallet"
@@ -110,6 +115,7 @@ export default defineComponent({
     const { selectedWallet } = useSelectedWallet();
     const coffeeShopData = ref(null);
     const bonuses = ref([]);
+    const currentTime = ref(new Date().toLocaleTimeString());
 
     if (!selectedCoffeeShop.value) {
       router.push("/chooseCoffeeShop");
@@ -141,7 +147,12 @@ export default defineComponent({
       });
     };
 
+    const updateTime = () => {
+      currentTime.value = new Date().toLocaleTimeString();
+    };
+
     onMounted(() => {
+      setInterval(updateTime, 1000);
       fetchBonuses();
       monitorTransactions(notifyNewTransactions);
     });
@@ -151,6 +162,7 @@ export default defineComponent({
     };
 
     return {
+      currentTime,
       selectedCoffeeShop,
       selectedWallet,
       coffeeShopData,

@@ -115,6 +115,7 @@ async function registerTransaction(qrCode, action, bonusType) {
       Tipo_Bono: bonusType,
       Fecha: dateTime,
       Cafeteria: selectedCoffeeShop.value.Nombre,
+      Empresa: selectedCoffeeShop.value.Empresa,
       Tipo: action === "scan" ? "Venta" : "Recarga",
     };
 

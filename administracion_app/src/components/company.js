@@ -25,6 +25,23 @@ export const fetchCompanies = async () => {
   }
 };
 
+// Obtener el nombre de la empresa a través del UID de la empresa
+export const getCompanyNameByUid = async (companyUid) => {
+  try {
+    const q = query(collection(db, "Empresa"), where("Uid", "==", companyUid));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const result = querySnapshot.docs[0].data().Nombre; // Obtenemos el nombre de la empresa
+      return result;
+    } else {
+      throw new Error("Empresa no encontrada");
+    }
+  } catch (error) {
+    throw new Error("Error al obtener el nombre de la empresa", error);
+  }
+};
+
 // Obtener Empresa a través de Cafetería
 export const getCompanyByCoffeeShop = async (coffeeShop) => {
   try {
