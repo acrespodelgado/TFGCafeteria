@@ -49,7 +49,10 @@
       title="Ventas"
       :filter="filter"
       :rows-per-page-options="[5, 10, 15]"
-      :sort-method="sortMethod"
+      :sort-method="
+        (rows, sortBy, descending) =>
+          rows.sort((a, b) => sortMethod(a, b, sortBy, descending))
+      "
       :sort-by="['Fecha']"
       no-data-label="No hay resultados para ventas"
       no-results-label="No hay resultados de ventas para el filtro"
@@ -81,7 +84,10 @@
       title="Recargas"
       :filter="filter"
       :rows-per-page-options="[5, 10, 15]"
-      :sort-method="sortMethod"
+      :sort-method="
+        (rows, sortBy, descending) =>
+          rows.sort((a, b) => sortMethod(a, b, sortBy, descending))
+      "
       :sort-by="['Fecha']"
       no-data-label="No hay resultados para recargas"
       no-results-label="No hay resultados de recargas para el filtro"
@@ -237,12 +243,22 @@ export default defineComponent({
     };
 
     const sortMethod = (a, b, sortBy) => {
+      if (!sortBy) return 0; // Si sortBy es null, no hacer nada
+
       if (sortBy === "Fecha") {
-        const dateA = new Date(a.Fecha.seconds * 1000);
-        const dateB = new Date(b.Fecha.seconds * 1000);
+        const dateA = a.Fecha?.seconds
+          ? new Date(a.Fecha.seconds * 1000)
+          : new Date(0);
+        const dateB = b.Fecha?.seconds
+          ? new Date(b.Fecha.seconds * 1000)
+          : new Date(0);
         return dateA - dateB;
       }
-      return a[sortBy] > b[sortBy] ? 1 : -1;
+
+      const valueA = a[sortBy] || "";
+      const valueB = b[sortBy] || "";
+
+      return valueA > valueB ? 1 : valueA < valueB ? -1 : 0;
     };
 
     const updateWorkerOptions = () => {
