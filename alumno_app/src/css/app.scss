@@ -311,3 +311,9 @@ form {
     margin: auto;
   }
 }
+
+@media (max-width: 768px) {
+  .q-page-container {
+    background-position-y: -250px;
+  }
+}

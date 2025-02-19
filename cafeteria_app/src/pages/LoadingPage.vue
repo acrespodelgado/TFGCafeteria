@@ -48,7 +48,7 @@
         color="secondary"
         class="button q-my-md"
         label="Panel de Gestión"
-        href="https://localhost/administrar-cafeteria"
+        href="http://ec2-user@ec2-13-60-156-198.eu-north-1.compute.amazonaws.com:9001"
         target="_blank"
         rounded
       />

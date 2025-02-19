@@ -241,3 +241,9 @@ form {
   max-width: 90vw !important;
   max-height: 90vh !important;
 }
+
+@media (max-width: 768px) {
+  .q-page-container {
+    background-position-y: -250px;
+  }
+}
