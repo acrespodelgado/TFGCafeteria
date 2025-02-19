@@ -3,218 +3,235 @@
 /* -- Global -- */
 
 body {
-  font-family: "Lato", sans-serif;
+    font-family: "Lato", sans-serif;
 }
+
 
 /* -- Menú -- */
 
 .q-drawer {
-  background: $secondary;
-  .q-list {
-    .q-item,
-    .q-item__label {
-      color: $text;
+    background: $secondary;
+    .q-list {
+        .q-item,
+        .q-item__label {
+            color: $text;
+        }
     }
-  }
 }
+
 
 /* -- Textos -- */
 
 h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1.5rem;
-  letter-spacing: 0;
-  text-transform: uppercase;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+    letter-spacing: 0;
+    text-transform: uppercase;
 }
 
 h2 {
-  font-size: 1.25rem;
+    font-size: 1.25rem;
 }
 
 h3 {
-  font-size: 1.15rem;
+    font-size: 1.15rem;
 }
+
 
 /* -- Form -- */
 
 form {
-  .q-field__control {
-    border: 2px solid $secondary-trans;
-    border-radius: 16px !important;
-    background: $secondary-trans;
-  }
-  .q-field--highlighted {
     .q-field__control {
-      border: 2px solid $primary;
-      &:before,
-      &:after {
-        content: none;
-      }
-      &.text-negative {
-        border: 2px solid #c10015;
-      }
+        border: 2px solid $secondary-trans;
+        border-radius: 16px !important;
+        background: $secondary-trans;
     }
-  }
-  .q-field--outlined {
-    .q-field__control {
-      &:before {
-        border: 0px !important;
-      }
+    .q-field--highlighted {
+        .q-field__control {
+            border: 2px solid $primary;
+            &:before,
+            &:after {
+                content: none;
+            }
+            &.text-negative {
+                border: 2px solid #c10015;
+            }
+        }
     }
-  }
-  .q-icon {
-    color: $primary;
-  }
+    .q-field--outlined {
+        .q-field__control {
+            &:before {
+                border: 0px !important;
+            }
+        }
+    }
+    .q-icon {
+        color: $primary;
+    }
 }
 
 .q-select__dialog {
-  max-width: 400px !important;
-  .q-select--single {
-    background: $secondary;
-  }
-  .q-field__label,
-  .q-field__control-container span,
-  .q-icon {
-    color: $text;
-  }
+    max-width: 400px !important;
+    .q-select--single {
+        background: $secondary;
+    }
+    .q-field__label,
+    .q-field__control-container span,
+    .q-icon {
+        color: $text;
+    }
 }
+
 
 /* -- Error -- */
 
 .q-field--error {
-  .q-field__bottom {
-    padding-top: 3px;
-  }
+    .q-field__bottom {
+        padding-top: 3px;
+    }
 }
+
 
 /* -- Botones -- */
 
 .q-btn {
-  transition: all 0.2s ease-in;
-  box-shadow: none !important;
-  &.bg-primary {
-    border: 2px solid $primary;
-    &:hover {
-      background: $secondary;
-      border: 2px solid $secondary;
-      transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in;
+    box-shadow: none !important;
+    &.bg-primary {
+        border: 2px solid $primary;
+        &:hover {
+            background: $secondary;
+            border: 2px solid $secondary;
+            transition: all 0.2s ease-in-out;
+        }
     }
-  }
-  &.bg-secondary {
-    border: 2px solid $secondary;
-    &:hover {
-      background: $primary;
-      border: 2px solid $primary;
-      transition: all 0.2s ease-in-out;
+    &.bg-secondary {
+        border: 2px solid $secondary;
+        &:hover {
+            background: $primary;
+            border: 2px solid $primary;
+            transition: all 0.2s ease-in-out;
+        }
     }
-  }
-  &:before {
-    box-shadow: none;
-  }
+    &:before {
+        box-shadow: none;
+    }
 }
 
 .button {
-  padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1.5rem;
 }
 
 .big-button {
-  height: 6rem;
-  width: 100%;
-  margin: 1rem 0.5rem;
+    height: 6rem;
+    width: 100%;
+    margin: 1rem 0.5rem;
 }
 
 .back-button {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  padding: 1rem;
-  //color: $secondary;
-  //border: 2px solid $secondary;
-  transition: all 0.2s ease-in;
-  &:hover {
-    //border: 2px solid $primary;
-    background: $primary;
-    transition: all 0.2s ease-in-out;
-    color: $text;
-  }
-  .q-btn {
-    &:before {
-      box-shadow: none !important;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 1rem;
+    //color: $secondary;
+    //border: 2px solid $secondary;
+    transition: all 0.2s ease-in;
+    &:hover {
+        //border: 2px solid $primary;
+        background: $primary;
+        transition: all 0.2s ease-in-out;
+        color: $text;
     }
-  }
+    .q-btn {
+        &:before {
+            box-shadow: none !important;
+        }
+    }
 }
 
 .circlePrimary {
-  background: $primary;
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  h1 {
-    color: $text;
-    font-weight: 600;
-    font-size: 1.15rem;
-  }
-  h3 {
-    color: $text;
-    font-size: 1rem;
-    padding: 0 1rem;
-    line-height: 1.1rem;
-  }
+    background: $primary;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h1 {
+        color: $text;
+        font-weight: 600;
+        font-size: 1.15rem;
+    }
+    h3 {
+        color: $text;
+        font-size: 1rem;
+        padding: 0 1rem;
+        line-height: 1.1rem;
+    }
 }
+
 
 /* -- BonusType -- */
 
 .q-btn-icon-right {
-  .q-icon {
-    font-size: 2rem;
-  }
+    .q-icon {
+        font-size: 2rem;
+    }
 }
+
 
 /* -- Camareros -- */
 
 #workers {
-  button {
-    padding: 1rem;
-    margin: 1rem;
-  }
+    button {
+        padding: 1rem;
+        margin: 1rem;
+    }
 }
+
 
 /* -- Escaner cámara -- */
 
 .cameraScan {
-  h1 {
-    margin-bottom: 5px;
-  }
-  h2 {
-    margin-top: 0px;
-    text-transform: uppercase;
-  }
-  h3 {
-    margin-top: 0px;
-  }
-  .scanContainer {
-    margin: 3rem 0 1.5rem 0;
-    min-height: 350px;
-    max-height: 450px;
-  }
+    h1 {
+        margin-bottom: 5px;
+    }
+    h2 {
+        margin-top: 0px;
+        text-transform: uppercase;
+    }
+    h3 {
+        margin-top: 0px;
+    }
+    .scanContainer {
+        margin: 3rem 0 1.5rem 0;
+        min-height: 350px;
+        max-height: 450px;
+    }
 }
 
 @media (max-width: 959px) {
-  .q-btn-icon-right {
-    height: auto;
-    padding: 1rem;
-    .q-btn__content {
-      display: flex;
-      flex-direction: column;
-      .q-icon {
-        font-size: 1.7rem;
-        margin: 10px 0;
-      }
+    .q-btn-icon-right {
+        height: auto;
+        padding: 1rem;
+        .q-btn__content {
+            display: flex;
+            flex-direction: column;
+            .q-icon {
+                font-size: 1.7rem;
+                margin: 10px 0;
+            }
+        }
     }
-  }
+}
+
+@media (min-width: 960px) {
+    .cameraScan {
+        .scanContainer {
+            max-width: 300px;
+            margin: auto;
+        }
+    }
 }
