@@ -7,7 +7,7 @@ import { getFirestore } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyClHRYDx7r-cdCwRpn9IZe0w6Wr-c1UGvI",
+  apiKey: "",
   authDomain: "app-cafeteria-9ab95.firebaseapp.com",
   projectId: "app-cafeteria-9ab95",
   storageBucket: "app-cafeteria-9ab95.appspot.com",
